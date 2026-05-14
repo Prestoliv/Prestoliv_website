@@ -16,10 +16,10 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 
-import bento3d from "@/assets/bento-3d.jpg";
-import bentoDashboard from "@/assets/bento-dashboard.jpg";
+import bento3d from "@/assets/1a.jpg";
+import bentoDashboard from "@/assets/2a.webp";
 import bentoAccountability from "@/assets/bento-accountability.jpg";
-import bentoTimeline from "@/assets/bento-timeline.jpg";
+import bentoTimeline from "@/assets/3p.png";
 
 type Item = {
   title: string;

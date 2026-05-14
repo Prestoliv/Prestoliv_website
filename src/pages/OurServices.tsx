@@ -1,9 +1,9 @@
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
-import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 import { motion } from "framer-motion";
+
 import {
   Home,
   Building2,
@@ -11,9 +11,11 @@ import {
   Layers,
   ArrowRight,
   CheckCircle2,
+  Calculator,
+  ExternalLink,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 import residentialImg from "@/assets/3.jpg";
 import commercialImg from "@/assets/2.jpg";
@@ -68,6 +70,68 @@ const FeatureList = ({ items }: { items: string[] }) => (
         </p>
       </div>
     ))}
+  </div>
+);
+
+const ServiceActions = ({
+  detailsHref,
+}: {
+  detailsHref: string;
+}) => (
+  <div className="mt-8 flex flex-wrap items-center gap-3">
+    {/* View Details */}
+    <Link
+      to={detailsHref}
+      className="
+        group
+        inline-flex
+        items-center
+        gap-2
+        rounded-3xl
+        border
+        border-border
+        bg-background
+        px-5
+        py-3
+        text-sm
+        font-medium
+        text-foreground
+        transition-all
+        duration-200
+        hover:border-brand/30
+        hover:bg-brand/[0.04]
+      "
+    >
+      View Detailed Page
+
+      <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </Link>
+
+    {/* Calculate Cost */}
+    <Link
+      to={`/calculator`}
+      className="
+        group
+        inline-flex
+        items-center
+        gap-2
+        rounded-3xl
+        bg-brand
+        px-5
+        py-3
+        text-sm
+        font-medium
+        text-brand-foreground
+        transition-all
+        duration-200
+        hover:bg-brand/90
+      "
+    >
+      
+      Calculate Cost
+
+      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+    </Link>
   </div>
 );
 
@@ -169,15 +233,7 @@ const OurServices = () => (
 
             <FeatureList items={residentialFeatures} />
 
-            <ConsultationDialog>
-              <Button
-                size="lg"
-                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
-              >
-                Get a Quote
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </ConsultationDialog>
+            <ServiceActions detailsHref="/services/residential" />
           </motion.div>
 
           <VisualCard
@@ -224,15 +280,7 @@ const OurServices = () => (
 
             <FeatureList items={commercialFeatures} />
 
-            <ConsultationDialog>
-              <Button
-                size="lg"
-                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
-              >
-                Plan Your Build
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </ConsultationDialog>
+            <ServiceActions detailsHref="/services/commercial" />
           </motion.div>
         </div>
       </div>
@@ -263,15 +311,7 @@ const OurServices = () => (
 
             <FeatureList items={interiorFeatures} />
 
-            <ConsultationDialog>
-              <Button
-                size="lg"
-                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
-              >
-                Start Your Project
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </ConsultationDialog>
+            <ServiceActions detailsHref="/services/interiors" />
           </motion.div>
 
           <VisualCard
@@ -327,16 +367,30 @@ const OurServices = () => (
           ))}
         </div>
 
-        <div className="mt-14 text-center">
-          <ConsultationDialog>
-            <Button
-              size="lg"
-              className="rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
-            >
-              Talk to Our Team
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </ConsultationDialog>
+        <div className="mt-14 flex justify-center">
+          <Link
+            to="/services/specialized"
+            className="
+              group
+              inline-flex
+              items-center
+              gap-2
+              rounded-3xl
+              bg-brand
+              px-6
+              py-3.5
+              text-sm
+              font-medium
+              text-brand-foreground
+              transition-all
+              duration-200
+              hover:bg-brand/90
+            "
+          >
+            Explore Specialized Services
+
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+          </Link>
         </div>
       </div>
     </section>

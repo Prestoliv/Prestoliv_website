@@ -80,7 +80,7 @@ export const Hero = () => {
           <ConsultationDialog>
             <Button
               size="lg"
-              className="rounded-[5px] bg-white text-foreground hover:bg-white/90 shadow-soft group px-7 py-3"
+              className="rounded-3xl bg-white text-foreground hover:bg-white/90 shadow-soft group px-7 py-3"
             >
               Get started
               <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />

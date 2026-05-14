@@ -2,6 +2,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { Link } from "react-router-dom";
+
 
 import { motion } from "framer-motion";
 import { Paintbrush, ArrowRight, CheckCircle2 } from "lucide-react";
@@ -146,12 +148,14 @@ const InteriorsPage = () => (
               </Button>
             </ConsultationDialog>
 
-              <Button
-                size="lg"
-                className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
-              >
-                Calculate Cost
-              </Button>
+              <Link to="/calculator">
+                <Button
+                  size="lg"
+                  className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
+                >
+                  Calculate Cost
+                </Button>
+              </Link>
             </div>
           </motion.div>
 
