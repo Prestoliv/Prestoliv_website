@@ -135,15 +135,24 @@ const InteriorsPage = () => (
 
             <FeatureList items={interiorFeatures} />
 
+            <div className="flex flex-row gap-4">
             <ConsultationDialog>
               <Button
                 size="lg"
                 className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
               >
-                Start Your Project
+                Get a Quote
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </ConsultationDialog>
+
+              <Button
+                size="lg"
+                className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
+              >
+                Calculate Cost
+              </Button>
+            </div>
           </motion.div>
 
           <VisualCard

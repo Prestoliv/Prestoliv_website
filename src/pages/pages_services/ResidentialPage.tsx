@@ -2,6 +2,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { Link } from "react-router-dom";
+
 
 import { motion } from "framer-motion";
 import { Home, ArrowRight, CheckCircle2 } from "lucide-react";
@@ -136,6 +138,7 @@ const ResidentialPage = () => (
 
             <FeatureList items={residentialFeatures} />
 
+            <div className="flex flex-row gap-4">
             <ConsultationDialog>
               <Button
                 size="lg"
@@ -145,6 +148,16 @@ const ResidentialPage = () => (
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </ConsultationDialog>
+
+              <Link to="/calculator">
+                <Button
+                  size="lg"
+                  className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
+                >
+                  Calculate Cost
+                </Button>
+              </Link>
+            </div>
           </motion.div>
 
           <VisualCard

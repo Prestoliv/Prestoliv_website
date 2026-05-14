@@ -6,6 +6,7 @@ import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { motion } from "framer-motion";
 import { Building2, ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 import residentialImg from "@/assets/3.jpg";
 import commercialImg from "@/assets/2.jpg";
@@ -143,15 +144,26 @@ const CommercialPage = () => (
 
             <FeatureList items={commercialFeatures} />
 
+            <div className="flex flex-row gap-4">
             <ConsultationDialog>
               <Button
                 size="lg"
                 className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
               >
-                Plan Your Build
+                Get a Quote
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </ConsultationDialog>
+
+              <Link to="/calculator">
+                <Button
+                  size="lg"
+                  className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
+                >
+                  Calculate Cost
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>
