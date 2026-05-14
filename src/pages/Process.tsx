@@ -321,47 +321,10 @@ const Process = () => (
                 </div>
               </section>
             ))}
-
-            {/* Final CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="relative overflow-hidden rounded-[32px] border border-border/60 bg-card/70 p-12 text-center backdrop-blur-xl shadow-soft"
-            >
-              <div className="absolute inset-0 -z-10">
-                <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 blur-3xl" />
-              </div>
-
-              <p className="text-xs uppercase tracking-[0.25em] text-brand">
-                Ready To Build?
-              </p>
-
-              <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-5xl">
-                A better building experience starts before construction does.
-              </h2>
-
-              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-                Walk through your future home in 3D. Track every milestone in
-                real time. One team. One dashboard. Zero chaos.
-              </p>
-
-              <ConsultationDialog>
-                <Button
-                  size="lg"
-                  className="mt-10 rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 group"
-                >
-                  Book a Consultation
-
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </ConsultationDialog>
-            </motion.div>
           </div>
         </div>
       </div>
     </section>
-
     <CtaFooter />
   </main>
 );
