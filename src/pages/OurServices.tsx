@@ -1,214 +1,342 @@
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+
 import { motion } from "framer-motion";
-import { Home, Building2, Paintbrush, Layers, ArrowRight } from "lucide-react";
+import {
+  Home,
+  Building2,
+  Paintbrush,
+  Layers,
+  ArrowRight,
+  CheckCircle2,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
+import residentialImg from "@/assets/3.jpg";
+import commercialImg from "@/assets/2.jpg";
+import interiorsImg from "@/assets/1.jpg";
+
 const residentialFeatures = [
-  "Architectural design tailored to how you live. We start with how your family actually moves through a day. Vastu inputs incorporated if requested, without compromising livability.",
-  "VR walkthrough before a brick is laid. Walk through your home in 3D. Catch what paper drawings can't show. Free with every design package.",
-  "Fixed-price construction contracts. The number you sign is the number at handover. Material spikes are our risk. Scope changes are quoted in writing.",
-  "Approvals and loans handled. Building plan sanctions, NOCs, and partner-bank loan coordination. You sign documents. We chase signatures.",
-  "End-to-end execution under one roof. Foundation to fittings, modular to interiors. One contract. One project manager. One number to call.",
-  "10-year structural warranty. Plus 5-to-10-year waterproofing cover and a real person on the phone when something needs attention.",
+  "Architectural design tailored to how your family actually lives.",
+  "VR walkthrough before construction begins.",
+  "Fixed-price construction contracts with no surprise escalation.",
+  "Approvals, NOCs, and loan coordination handled end to end.",
+  "One in-house team from foundation to interiors.",
+  "10-year structural warranty with long-term support.",
 ];
 
 const commercialFeatures = [
-  "Designs built around your business. Retail layouts that maximize footfall. Office spaces that scale with headcount. Restaurant kitchens that pass FSSAI on the first attempt.",
-  "Fast-track approvals and compliance. Fire NOC, GHMC clearances, electrical inspections, signage permissions, processed in parallel with construction.",
-  "Aggressive but honest timelines. We tell you what's possible. We don't promise what isn't. Once set, the date is contractual, with a delay penalty.",
-  "MEP-heavy capability built in. HVAC, heavy electrical loads, kitchen plumbing, IT cabling, fire systems, planned from day one, not bolted on later.",
-  "Fit-out coordination, end to end. Branding, furniture, signage, IT, security, coordinated alongside civil work. You walk in ready to open.",
-  "Real-time tracking for every stakeholder. Limited-access dashboard views for ops heads, franchise teams, investors. Everyone sees. Nobody has to ask.",
+  "Retail, office, clinic, and restaurant builds designed around operations.",
+  "Fast-track approvals and compliance handled in parallel.",
+  "Contractual timelines with delay accountability.",
+  "MEP-heavy execution capability built in from day one.",
+  "Fit-outs, branding, furniture, and IT coordinated together.",
+  "Live dashboard visibility for all stakeholders.",
 ];
 
 const interiorFeatures = [
-  "Free consultation and design concept. A designer visits, takes your brief, returns in seven working days with mood boards and a preliminary estimate. No design fee buried in the fine print.",
-  "3D visualization before we order. Every room rendered with the actual finishes you've picked, laminate, tile, paint, lighting. You approve. Then we procure.",
-  "Modular kitchens and wardrobes. In-house modular team. Built to your dimensions, not pulled from a catalog. Hettich and Hafele hardware standard.",
-  "Renovation without vacating. For occupied homes, we work in zones. Dust barriers, daily cleanup, defined hours. We treat your space the way we'd want ours treated.",
-  "Procurement at trade prices. Sourced through our material-partner network. Bulk-buying savings flow directly into your bill, not ours.",
-  "Project management that holds. Dedicated interiors PM. Daily updates. Milestone-linked payments. A fixed handover date, and someone whose job is making sure it lands.",
+  "3D visualization before procurement begins.",
+  "Custom modular kitchens and wardrobes.",
+  "Renovation workflows for occupied homes.",
+  "Trade-price procurement through partner vendors.",
+  "Dedicated project manager and milestone-linked updates.",
+  "Transparent timelines with committed handover dates.",
 ];
 
 const specializedFeatures = [
-  "Architectural design and 3D visualization. Drawings, renderings, and VR walkthroughs as a standalone package. Take it to any builder.",
-  "Project management for in-flight builds. Already started with another builder? We can step in to manage milestones, audit quality, and bring dashboard discipline to your project.",
-  "Vastu consultation, integrated into design. Vastu inputs woven into the design phase, without compromising sunlight, flow, or modern functionality.",
-  "Renovation feasibility and structural audits. Before you buy or extend: structural assessment, load calcs, cost-to-renovate vs. cost-to-rebuild analysis.",
-  "Construction loan facilitation. Documentation support, faster sanctions, milestone-linked disbursement, through our partner banks.",
+  "Architectural design and VR walkthroughs.",
+  "Project management for already-started builds.",
+  "Integrated vastu consultation.",
+  "Structural audits and renovation feasibility.",
+  "Construction loan facilitation and documentation.",
+  "Independent quality and milestone tracking.",
 ];
 
+const FeatureList = ({ items }: { items: string[] }) => (
+  <div className="mt-8 space-y-4">
+    {items.map((feature, i) => (
+      <div key={i} className="flex items-start gap-3">
+        <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+          <CheckCircle2 className="h-4 w-4" />
+        </div>
+
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          {feature}
+        </p>
+      </div>
+    ))}
+  </div>
+);
+
+const VisualCard = ({
+  image,
+  title,
+  tag,
+  progress,
+  status,
+}: {
+  image: string;
+  title: string;
+  tag: string;
+  progress: string;
+  status: string;
+}) => (
+  <motion.div
+    initial={{ opacity: 0, x: 20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    whileHover={{ y: -4 }}
+    transition={{ duration: 0.5 }}
+    className="relative"
+  >
+    <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-soft">
+      {/* Main Image */}
+      <img
+        src={image}
+        alt={title}
+        className="aspect-[4/5] w-full object-cover transition-transform duration-700 hover:scale-105"
+      />
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+      {/* Bottom Card */}
+      <div className="absolute bottom-5 left-5 max-w-[240px] rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur-xl">
+        <p className="text-xs uppercase tracking-[0.2em] text-white/70">
+          {tag}
+        </p>
+
+        <h3 className="mt-2 text-xl font-semibold">{title}</h3>
+
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/20">
+            <div
+              className="h-full rounded-full bg-white"
+              style={{ width: progress }}
+            />
+          </div>
+
+          <span className="text-sm font-medium">{progress}</span>
+        </div>
+      </div>
+
+      {/* Status */}
+      <div className="absolute right-5 top-5 rounded-2xl border border-border/50 bg-background/80 px-4 py-3 backdrop-blur-xl shadow-soft">
+        <p className="text-xs text-muted-foreground">Status</p>
+
+        <p className="mt-1 text-lg font-semibold">{status}</p>
+      </div>
+    </div>
+  </motion.div>
+);
+
 const OurServices = () => (
-  <main className="min-h-screen bg-background text-foreground">
+  <main className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
+
     <PageHero
       eyebrow="Our Services"
       title="Built around your project. Backed by our process."
       subtitle="Three core services. One Prestoliv team. From the first sketch to the keys in your hand."
     />
 
-    {/* Residential Construction */}
+    {/* Residential */}
     <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-16 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <div className="size-16 rounded-md bg-brand-soft text-brand flex items-center justify-center mb-6">
-              <Home className="size-8" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+              <Home className="h-8 w-8" />
             </div>
-            <h2 className="font-display text-3xl font-bold tracking-tight">Residential Construction</h2>
-            <p className="mt-4 text-muted-foreground leading-relaxed">
-              Independent homes, villas, duplexes, and renovations, designed around how your family lives, not how a template assumes you do. Fixed-price contracts, VR previews, and one in-house team owning every step from foundation to finish.
+
+            <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
+              Residential Construction
+            </h2>
+
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              Independent homes, villas, duplexes, and renovations designed
+              around how your family actually lives. Fixed-price execution,
+              VR-first design, and one accountable team from foundation to
+              finish.
             </p>
-            <div className="mt-8 space-y-4">
-              {residentialFeatures.map((feature, i) => (
-                <div key={i} className="flex gap-3">
-                  <div className="size-6 rounded-full bg-brand-soft text-brand flex items-center justify-center shrink-0 mt-0.5">
-                    <div className="size-2 rounded-full bg-brand" />
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{feature}</p>
-                </div>
-              ))}
-            </div>
-            <Button size="lg" className="mt-8 rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft group">
-              Get a Quote
-              <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+
+            <FeatureList items={residentialFeatures} />
+
+            <ConsultationDialog>
+              <Button
+                size="lg"
+                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
+              >
+                Get a Quote
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </ConsultationDialog>
           </motion.div>
+
+          <VisualCard
+            image={residentialImg}
+            title="Villa Construction"
+            tag="Live Project"
+            progress="72%"
+            status="On Schedule"
+          />
+        </div>
+      </div>
+    </section>
+
+    {/* Commercial */}
+    <section className="border-y border-border bg-surface py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-16 md:grid-cols-2">
+          <VisualCard
+            image={commercialImg}
+            title="Commercial Build"
+            tag="Execution Dashboard"
+            progress="64%"
+            status="Approvals Cleared"
+          />
+
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="aspect-square rounded-md hairline bg-surface flex items-center justify-center"
           >
-            <Home className="size-32 text-muted-foreground/20" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+              <Building2 className="h-8 w-8" />
+            </div>
+
+            <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
+              Commercial Construction
+            </h2>
+
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              Offices, retail spaces, clinics, and restaurants engineered
+              around operations and launch timelines. Commercial delays cost
+              revenue, so our systems track risk before it reaches site.
+            </p>
+
+            <FeatureList items={commercialFeatures} />
+
+            <ConsultationDialog>
+              <Button
+                size="lg"
+                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
+              >
+                Plan Your Build
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </ConsultationDialog>
           </motion.div>
         </div>
       </div>
     </section>
 
-    {/* Commercial Construction */}
-    <section className="py-24 bg-surface border-y border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="order-2 md:order-1 aspect-square rounded-md hairline bg-background flex items-center justify-center"
-          >
-            <Building2 className="size-32 text-muted-foreground/20" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="order-1 md:order-2"
-          >
-            <div className="size-16 rounded-md bg-brand-soft text-brand flex items-center justify-center mb-6">
-              <Building2 className="size-8" />
-            </div>
-            <h2 className="font-display text-3xl font-bold tracking-tight">Commercial Construction</h2>
-            <p className="mt-4 text-muted-foreground leading-relaxed">
-              Offices, retail, showrooms, clinics, restaurants. Commercial timelines aren't aspirational — every week of delay is revenue you don't earn back. We engineer your finish date backward from your launch date and write it into the contract.
-            </p>
-            <div className="mt-8 space-y-4">
-              {commercialFeatures.map((feature, i) => (
-                <div key={i} className="flex gap-3">
-                  <div className="size-6 rounded-full bg-brand-soft text-brand flex items-center justify-center shrink-0 mt-0.5">
-                    <div className="size-2 rounded-full bg-brand" />
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{feature}</p>
-                </div>
-              ))}
-            </div>
-            <Button size="lg" className="mt-8 rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft group">
-              Plan Your Build
-              <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-
-    {/* Interior Design */}
+    {/* Interiors */}
     <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid items-center gap-16 md:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <div className="size-16 rounded-md bg-brand-soft text-brand flex items-center justify-center mb-6">
-              <Paintbrush className="size-8" />
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+              <Paintbrush className="h-8 w-8" />
             </div>
-            <h2 className="font-display text-3xl font-bold tracking-tight">Interior Design</h2>
-            <p className="mt-4 text-muted-foreground leading-relaxed">
-              Full home interiors, single-room renovations, kitchen and bath remodels. Most interior projects fail because no one owns them. We do, from concept render to handover, including procurement and the people who install it.
+
+            <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
+              Interior Design
+            </h2>
+
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              Full-home interiors, kitchen remodels, wardrobes, and renovations
+              managed from concept to handover. One team owns the design,
+              procurement, and execution process.
             </p>
-            <div className="mt-8 space-y-4">
-              {interiorFeatures.map((feature, i) => (
-                <div key={i} className="flex gap-3">
-                  <div className="size-6 rounded-full bg-brand-soft text-brand flex items-center justify-center shrink-0 mt-0.5">
-                    <div className="size-2 rounded-full bg-brand" />
-                  </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{feature}</p>
-                </div>
-              ))}
-            </div>
-            <Button size="lg" className="mt-8 rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft group">
-              Start Your Project
-              <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+
+            <FeatureList items={interiorFeatures} />
+
+            <ConsultationDialog>
+              <Button
+                size="lg"
+                className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
+              >
+                Start Your Project
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </ConsultationDialog>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="aspect-square rounded-md hairline bg-surface flex items-center justify-center"
-          >
-            <Paintbrush className="size-32 text-muted-foreground/20" />
-          </motion.div>
+
+          <VisualCard
+            image={interiorsImg}
+            title="Luxury Interiors"
+            tag="Design Preview"
+            progress="89%"
+            status="Materials Approved"
+          />
         </div>
       </div>
     </section>
 
-    {/* Specialized Services */}
-    <section className="py-24 bg-surface border-y border-border">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="max-w-2xl mb-12">
-          <span className="text-xs font-semibold tracking-widest uppercase text-brand">Specialized Services</span>
-          <h2 className="mt-3 font-display text-4xl font-bold tracking-tight">Focused engagements for clients who need a specific Prestoliv capability without a full build contract.</h2>
-          <p className="mt-4 text-muted-foreground">Same in-house team. Same standards.</p>
+    {/* Specialized */}
+    <section className="border-y border-border bg-surface py-24">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center rounded-full border border-border/60 bg-background/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand backdrop-blur">
+            Specialized Services
+          </div>
+
+          <h2 className="mt-6 font-display text-5xl font-bold tracking-tight leading-tight">
+            Focused services for clients who need a specific Prestoliv
+            capability.
+          </h2>
+
+          <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+            Same systems. Same in-house expertise. Same accountability.
+          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {specializedFeatures.map((feature, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
-              className="rounded-md hairline bg-card p-6 shadow-soft"
+              transition={{ duration: 0.5, delay: i * 0.06 }}
+              whileHover={{ y: -4 }}
+              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-7 backdrop-blur shadow-soft"
             >
-              <div className="size-10 rounded-md bg-brand-soft text-brand flex items-center justify-center">
-                <Layers className="size-5" />
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-b from-brand/[0.08] to-transparent" />
+
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+                <Layers className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{feature}</p>
+
+              <p className="relative mt-5 text-sm leading-relaxed text-muted-foreground">
+                {feature}
+              </p>
             </motion.div>
           ))}
         </div>
-        <div className="mt-12 text-center">
-          <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft group">
-            Talk to Our Team
-            <ArrowRight className="ml-2 size-4 transition-transform group-hover:translate-x-1" />
-          </Button>
+
+        <div className="mt-14 text-center">
+          <ConsultationDialog>
+            <Button
+              size="lg"
+              className="rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
+            >
+              Talk to Our Team
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </ConsultationDialog>
         </div>
       </div>
     </section>

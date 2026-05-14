@@ -19,39 +19,43 @@ type Item = {
 const items: Item[] = [
   {
     title: "Virtual-First Design",
-    blurb: "A 3D model isn't a brochure, it's a draft of your real life.",
+    blurb:
+      "Your 3D home design isn't a brochure, it's a draft of your real life.",
     icon: Box,
     image: bento3d,
     className: "md:col-span-2 md:row-span-1",
     details:
-      "Walk the corridor. Sit at the kitchen island. Notice the door that opens into a sightline you don't want. Fix it now, when fixing it costs nothing. Most clients catch eight to twelve things they would have lived with for thirty years.",
+      "Walk the corridor. Stand in the kitchen. Notice the bad sightline before the wall exists. Fix it now, when fixing it costs nothing. Your 3D design isn't a sales render, it's a chance to experience your future home before construction begins.",
   },
   {
     title: "Live Project Tracking",
-    blurb: "Site engineer takes 200 photos a week. You see the relevant ones, captioned, by 7 PM.",
+    blurb:
+      "Your site engineer shoots 200 photos a week. You get the ones that matter.",
     icon: Activity,
     image: bentoDashboard,
     className: "md:col-span-1",
     details:
-      "Payments, approvals, and material confirmations sit one tap away. Your dashboard does what a daily call to the foreman never could. Site photos from today. Work completed yesterday. What's happening tomorrow. The exact rupee balance of your build.",
+      "Every evening by 7 PM, your dashboard updates with curated site photos, completed work, approvals, payments, and material progress. No chasing contractors for updates. No wondering what happened on site today. Everything important, one tap away.",
   },
   {
     title: "Full-Stack Accountability",
-    blurb: "Architects, structural engineers, MEP, project managers, finishers, interiors, all Prestoliv.",
+    blurb:
+      "Architects, structural engineers, MEP, project managers, finishers, interiors — all Prestoliv.",
     icon: ShieldCheck,
     image: bentoAccountability,
     className: "md:col-span-1",
     details:
-      "When something goes right, one team takes credit. When something goes wrong, the same team fixes it. No subcontractor circus, no missing-vendor mystery. One signed contract, one team accountable for the outcome, the budget and the date.",
+      "One turnkey team owns the entire project from design to delivery. No vendor blame games. No disappearing subcontractors. When something works, one team takes responsibility. When something breaks, the same team fixes it.",
   },
   {
     title: "Data-Driven Timelines",
-    blurb: "We don't promise dates. We commit to them, in writing, with a delay penalty in the contract.",
+    blurb:
+      "We don't promise dates, we commit to them, in writing.",
     icon: LineChart,
     image: bentoTimeline,
     className: "md:col-span-2",
     details:
-      "Behind that commitment is a scheduling system that watches every dependency in your project and surfaces risk weeks before it shows up on site. We're not aiming for on-time, we're paying if we miss.",
+      "Our scheduling system tracks every dependency across your project and flags delays weeks before they become site problems. Timelines aren't guesswork, they're monitored daily, backed by accountability, and written directly into your contract.",
   },
 ];
 

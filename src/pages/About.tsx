@@ -4,6 +4,8 @@ import { PageHero } from "@/components/site/PageHero";
 import { motion } from "framer-motion";
 import { Eye, Clock, Lock, FileCheck, Users, Shield, Smartphone, Calendar, Building, CheckCircle, Wrench } from "lucide-react";
 import team from "@/assets/team.jpg";
+import p1 from "@/assets/p1.jpeg";
+import p2 from "@/assets/p2.png";
 import { Button } from "@/components/ui/button";
 
 const commitments = [
@@ -23,8 +25,8 @@ const howWeWork = [
 ];
 
 const teamMembers = [
-  { name: "Udayan Reddy", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/udayanreddy/" },
-  { name: "Rao Balaji", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/raobalaji/" },
+  { name: "Udayan Reddy", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/udayanreddy/", image: p1 },
+  { name: "Rao Balaji", role: "Co-Founder", linkedin: "https://www.linkedin.com/in/raobalaji/", image: p2 },
 ];
 
 const About = () => (
@@ -36,26 +38,122 @@ const About = () => (
       subtitle="Construction in India runs on three broken promises: the timeline slips, the budget grows, the updates stop. Prestoliv was built to end all three. VR design before we break ground. A live dashboard while we build. A price that holds, written into the contract."
     />
 
-    {/* Our Story Section */}
-    <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="aspect-[4/3] rounded-md overflow-hidden hairline shadow-soft"
-        >
-          <img src={team} alt="The Prestoliv team" className="w-full h-full object-cover" loading="lazy" />
-        </motion.div>
-        <div>
-          <span className="text-xs font-semibold tracking-widest uppercase text-brand">Our Story</span>
-          <h2 className="mt-3 font-display text-4xl font-bold tracking-tight">Rebuilding the building experience.</h2>
-          <p className="mt-5 text-muted-foreground leading-relaxed">
-            Construction in India runs on three broken promises: the timeline slips, the budget grows, the updates stop. Prestoliv was built to end all three. VR design before we break ground. A live dashboard while we build. A price that holds, written into the contract.
+{/* Our Story Section */}
+<section className="relative overflow-hidden py-28">
+  {/* Background Glow */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute left-1/3 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+  </div>
+
+  <div className="mx-auto max-w-7xl px-6">
+    <div className="grid items-center gap-20 lg:grid-cols-2">
+      
+      {/* LEFT VISUALS */}
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative"
+      >
+        {/* Main Image */}
+        <div className="overflow-hidden rounded-[32px] border border-border/60 shadow-2xl">
+          <img
+            src={team}
+            alt="Prestoliv Team"
+            className="aspect-[4/5] w-full object-cover"
+            loading="lazy"
+          />
+        </div>
+
+        {/* Floating Metric Card */}
+        <div className="absolute -right-6 top-10 w-[220px] rounded-3xl border border-white/20 bg-background/80 p-5 backdrop-blur-xl shadow-2xl">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            Dashboard Visibility
+          </p>
+
+          <div className="mt-4 space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <span>Site Photos</span>
+              <span className="font-semibold">Daily</span>
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <span>Budget Tracking</span>
+              <span className="font-semibold">Live</span>
+            </div>
+
+            <div className="flex items-center justify-between text-sm">
+              <span>Approvals</span>
+              <span className="font-semibold">Tracked</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* RIGHT CONTENT */}
+      <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Kicker */}
+        <div className="inline-flex items-center rounded-full border border-border/60 bg-card/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand backdrop-blur">
+          Our Story
+        </div>
+
+        {/* Headline */}
+        <h2 className="mt-6 font-display text-5xl font-bold tracking-tight leading-[1.05] sm:text-6xl">
+          We started because we'd been let down too.
+        </h2>
+
+        {/* Body */}
+        <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted-foreground">
+          <p>
+            Prestoliv didn't begin in a boardroom. It began with the same
+            frustration our clients know — site visits that revealed nothing,
+            budgets that quietly grew, and a handover date that kept moving.
+          </p>
+
+          <p>
+            We saw an industry where the person paying for the home had the
+            least visibility into it.
+          </p>
+
+          <p>
+            So we rebuilt the model from the ground up: design proven in 3D
+            before a brick is laid, every rupee and milestone visible on a
+            live dashboard, and a completion date we put in writing.
+          </p>
+
+          <p className="text-foreground font-medium">
+            Not a contractor's promise — a system that keeps it.
           </p>
         </div>
-      </div>
-    </section>
+
+        {/* Bottom Pills */}
+        <div className="mt-10 flex flex-wrap gap-3">
+          <div className="rounded-full border border-border/60 bg-card/60 px-5 py-3 text-sm backdrop-blur">
+            VR-First Design
+          </div>
+
+          <div className="rounded-full border border-border/60 bg-card/60 px-5 py-3 text-sm backdrop-blur">
+            Live Dashboard
+          </div>
+
+          <div className="rounded-full border border-border/60 bg-card/60 px-5 py-3 text-sm backdrop-blur">
+            Fixed Timelines
+          </div>
+
+          <div className="rounded-full border border-border/60 bg-card/60 px-5 py-3 text-sm backdrop-blur">
+            Full Accountability
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
     {/* About Us - Four Commitments */}
     <section className="py-24 bg-surface border-y border-border">
@@ -91,32 +189,115 @@ const About = () => (
     </section>
 
     {/* Meet the Team */}
-    <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold tracking-widest uppercase text-brand">Meet the team behind your build</span>
-          <h2 className="mt-3 font-display text-4xl font-bold tracking-tight">Led by Industry Visionaries</h2>
+    <section className="relative overflow-hidden py-28">
+      {/* Background Glow */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute right-1/4 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6">
+        
+        {/* Header */}
+        <div className="max-w-3xl">
+          <div className="inline-flex items-center rounded-full border border-border/60 bg-card/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand backdrop-blur">
+            Meet the team behind your build
+          </div>
+
+          <h2 className="mt-6 font-display text-5xl font-bold tracking-tight leading-[1.05] sm:text-6xl">
+            Led by Industry Visionaries
+          </h2>
+
+          <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
+            Prestoliv combines architecture, engineering, construction, and
+            interiors under one accountable team — so the people designing your
+            home are aligned with the people building it.
+          </p>
         </div>
-        <div className="mt-12 grid sm:grid-cols-2 gap-6">
+
+        {/* Team Grid */}
+        <div className="mt-16 grid gap-8 sm:grid-cols-2">
           {teamMembers.map((member, i) => (
             <motion.a
               key={member.name}
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group rounded-md hairline bg-card p-6 shadow-soft hover:shadow-card transition-all duration-500 ease-smooth"
+              transition={{
+                duration: 0.5,
+                delay: i * 0.08,
+              }}
+              whileHover={{ y: -6 }}
+              className="
+                group
+                relative
+                overflow-hidden
+                rounded-[32px]
+                border
+                border-border/60
+                bg-card/60
+                backdrop-blur-xl
+                shadow-soft
+                transition-all
+                duration-500
+                hover:shadow-2xl
+              "
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-display text-xl font-semibold">{member.name}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
+              {/* Hover Glow */}
+              <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-b from-brand/[0.08] to-transparent" />
+
+              {/* Image */}
+              <div className="relative overflow-hidden">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="aspect-[4/4.5] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+                {/* Floating Badge */}
+                <div className="absolute left-5 top-5 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-white backdrop-blur-xl">
+                  Prestoliv Leadership
                 </div>
-                <div className="size-10 rounded-md bg-brand-soft text-brand flex items-center justify-center group-hover:bg-brand group-hover:text-brand-foreground transition-colors">
-                  <Users className="size-5" />
+
+                {/* Bottom Content */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className="font-display text-3xl font-bold text-white">
+                        {member.name}
+                      </h3>
+
+                      <p className="mt-2 text-sm text-white/70">
+                        {member.role}
+                      </p>
+                    </div>
+
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-white backdrop-blur-xl transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">
+                      <Users className="h-6 w-6" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Meta */}
+              <div className="flex items-center justify-between border-t border-border/50 px-6 py-5">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Role
+                  </p>
+
+                  <p className="mt-1 font-medium">
+                    {member.role}
+                  </p>
+                </div>
+
+                <div className="rounded-full border border-border/60 bg-background/60 px-4 py-2 text-sm backdrop-blur">
+                  View Profile
                 </div>
               </div>
             </motion.a>

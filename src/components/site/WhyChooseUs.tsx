@@ -57,12 +57,6 @@ export const WhyChooseUs = () => {
             );
           })}
         </div>
-
-        <div className="mt-12 text-center">
-          <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft">
-            Get in touch
-          </Button>
-        </div>
       </div>
     </section>
   );

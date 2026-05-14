@@ -7,15 +7,31 @@ const faqs = [
   },
   {
     q: "Does Prestoliv handle government approvals and financing?",
-    a: "Yes. We file building plan sanctions, secure NOCs, and coordinate clearances with municipal authorities. For financing, we work with leading banks to secure your construction loan and align disbursement with construction milestones — so you only draw what you've used. You sign where needed. We handle every queue in between.",
+    a: "Yes. We manage the full approval journey — plan sanction, commencement certificate, and statutory clearances — and coordinate with banks for home loan disbursement. You get one team tracking every document, so you're not running between offices chasing paperwork.",
   },
   {
     q: "How do you ensure the project stays on schedule?",
-    a: "Two ways. First, the contract — your finish date is written in, with a delay penalty attached. Second, the system behind it: AI scheduling that watches every dependency in your project and flags risks weeks before they hit. We act early. We don't explain late.",
+    a: "Every Prestoliv project runs on a data-driven timeline with each dependency mapped in advance. Our scheduling system flags slippage risk weeks before it reaches site, and your completion date is committed in writing, with a delay penalty built into the contract.",
   },
   {
     q: "What happens if material costs increase mid-project?",
-    a: "Nothing, to your bill. Fixed-price contracts mean we absorb commodity volatility. Steel doubles, cement spikes, sand gets scarce: that's our problem to solve, not yours. The only thing that changes your number is you changing the scope, and that's quoted, written, and approved before a single rupee moves.",
+    a: "Your contract locks pricing upfront, so mid-project market fluctuations don't land on you as surprise bills. Any genuine, client-approved change is itemised and visible on your dashboard before it's actioned — no hidden cost creep.",
+  },
+  {
+    q: "Who is responsible if something goes wrong during construction?",
+    a: "Prestoliv is. Architects, structural engineers, MEP, project managers, finishers, and interior teams all sit under one roof. There's no subcontractor blame game — one accountable team builds your home, and the same team fixes anything that isn't right.",
+  },
+  {
+    q: "Can I make design changes after construction has started?",
+    a: "Yes, within practical limits. Because your home starts as a detailed 3D model, most changes are caught before site work begins, when they cost nothing. Any change made later is documented with cost, timeline impact, and sign-off, so you always decide with full clarity.",
+  },
+  {
+    q: "How is Prestoliv different from hiring a contractor or architect separately?",
+    a: "A traditional build splits design, engineering, execution, and interiors across vendors who rarely coordinate. Prestoliv unifies all of it on one platform with one timeline, one point of accountability, and one dashboard — turnkey home construction without the coordination chaos.",
+  },
+  {
+    q: "What types of projects does Prestoliv take on?",
+    a: "Prestoliv builds individual homes, villas, and residential projects end to end — from design and approvals through structure, finishing, and interiors. Whether it's a new build on your plot or a full turnkey home, you get the same transparent process and committed timeline.",
   },
 ];
 

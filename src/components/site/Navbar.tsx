@@ -4,6 +4,8 @@ import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import logo from "@/assets/logo.svg";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/lib/supabase";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 
 const links = [
   { label: "Our Services", href: "/services" },
@@ -14,6 +16,40 @@ const links = [
 export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  
+  useEffect(() => {
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleGoogleLogin = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`
+      }
+    });
+    if (error) {
+      console.error('Error logging in:', error.message);
+    }
+  };
+
+  const handleDashboardClick = () => {
+    if (user) {
+      window.open(`https://prestoliv-dashboard.vercel.app/at/profile?uid=${user.id}`, '_blank');
+    }
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -41,15 +77,21 @@ export const Navbar = () => {
         <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-foreground/80">
           {links.map((l) => (
             <li key={l.href}>
-              <Link to={l.href} className="relative hover:text-foreground transition-colors after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-brand after:transition-all hover:after:w-full">
+              <Link to={l.href} className="relative hover:text-foreground transition-colors after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-px after:w-0 after:bg-brand after:transition-all hover:after:w-full" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                 {l.label}
               </Link>
             </li>
           ))}
         </ul>
         <div className="hidden md:flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="rounded-md">Login</Button>
-          <Button size="sm" className="rounded-md bg-foreground text-background hover:bg-foreground/90">Book a Consultation</Button>
+          {user ? (
+            <Button variant="ghost" size="sm" className="rounded-md" onClick={handleDashboardClick}>View Dashboard</Button>
+          ) : (
+            <Button variant="ghost" size="sm" className="rounded-md" onClick={handleGoogleLogin}>Login</Button>
+          )}
+          <ConsultationDialog>
+            <Button size="sm" className="rounded-md bg-foreground text-background hover:bg-foreground/90">Book a Consultation</Button>
+          </ConsultationDialog>
         </div>
         <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded-md hover:bg-muted" aria-label="Menu">
           {open ? <X size={18} /> : <Menu size={18} />}
@@ -58,11 +100,13 @@ export const Navbar = () => {
       {open && (
         <div className="absolute top-20 inset-x-4 md:hidden bg-white border border-border rounded-[10px] shadow-card p-4 space-y-2">
           {links.map((l) => (
-            <Link key={l.href} to={l.href} onClick={() => setOpen(false)} className="block py-2 text-sm font-medium">
+            <Link key={l.href} to={l.href} onClick={() => { setOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="block py-2 text-sm font-medium">
               {l.label}
             </Link>
           ))}
-          <Button className="w-full rounded-md bg-foreground text-background hover:bg-foreground/90">Book a Consultation</Button>
+          <ConsultationDialog>
+            <Button className="w-full rounded-md bg-foreground text-background hover:bg-foreground/90">Book a Consultation</Button>
+          </ConsultationDialog>
         </div>
       )}
     </motion.header>

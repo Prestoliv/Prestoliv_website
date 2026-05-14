@@ -1,20 +1,23 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
 import logo from "@/assets/logo.svg";
 
 const cols = [
   {
     title: "Product",
-    links: ["Services", "Process", "Projects", "Pricing"],
+    links: [
+      { label: "Services", href: "/services" },
+      { label: "Process", href: "/process" },
+    ],
   },
   {
     title: "Company",
-    links: ["About us", "Blog", "Careers", "Contact"],
-  },
-  {
-    title: "Resources",
-    links: ["Documentation", "Case Studies", "FAQ", "Support"],
+    links: [
+      { label: "About us", href: "/about" },
+    ],
   },
 ];
 
@@ -37,16 +40,18 @@ export const CtaFooter = () => (
           Tell us about your project. We'll come back with a feasibility plan, a guaranteed timeline and a locked, itemized price.
         </p>
         <div className="mt-8 flex justify-center">
-          <Button size="lg" className="rounded-md bg-foreground text-background hover:bg-foreground/90 group">
-            Start Your Project
-            <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
-          </Button>
+          <ConsultationDialog>
+            <Button size="lg" className="rounded-md bg-foreground text-background hover:bg-foreground/90 group">
+              Start Your Project
+              <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
+            </Button>
+          </ConsultationDialog>
         </div>
       </div>
     </section>
 
     <footer className="bg-foreground text-background/90">
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-5 gap-10">
+      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
         <div className="col-span-2">
           <img src={logo} alt="Prestoliv" className="h-7 w-auto brightness-0 invert" />
           <p className="mt-4 text-sm text-background/60 max-w-xs">
@@ -62,8 +67,14 @@ export const CtaFooter = () => (
             <div className="text-xs font-semibold uppercase tracking-widest text-background/50">{c.title}</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               {c.links.map((l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-brand transition-colors">{l}</a>
+                <li key={l.href}>
+                  <Link 
+                    to={l.href} 
+                    className="hover:text-brand transition-colors"
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  >
+                    {l.label}
+                  </Link>
                 </li>
               ))}
             </ul>

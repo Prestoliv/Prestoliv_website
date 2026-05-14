@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import Process from "./pages/Process.tsx";
 import OurServices from "./pages/OurServices.tsx";
 import About from "./pages/About.tsx";
+import AuthCallback from "./pages/AuthCallback.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
         <Route path="/process" element={<Process />} />
         <Route path="/services" element={<OurServices />} />
         <Route path="/about" element={<About />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

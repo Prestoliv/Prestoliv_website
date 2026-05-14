@@ -1,12 +1,37 @@
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+
 import { motion } from "framer-motion";
-import { MessageSquare, PencilRuler, Box, Sun, Layers, FileCheck, Map, Hammer, Wrench, KeyRound, ShieldCheck } from "lucide-react";
+
+import {
+  MessageSquare,
+  PencilRuler,
+  Box,
+  Sun,
+  Layers,
+  FileCheck,
+  Map,
+  Hammer,
+  Wrench,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+
+// Replace with your actual images
+import processHero from "@/assets/1p.png";
+import process2 from "@/assets/2p.jpg";
+import process3 from "@/assets/3p.png";
 
 const phases = [
   {
     title: "Phase 1 — Design It Right",
+    image: processHero,
+    headline: "Design Everything Before You Build Anything.",
+    progress: "32%",
     steps: [
       {
         n: "01",
@@ -30,111 +55,313 @@ const phases = [
   },
   {
     title: "Phase 2 — Lock It Down",
+    image: process2,
+    headline: "Every Detail Finalized Before Execution Begins.",
+    progress: "64%",
     steps: [
       {
         n: "",
         icon: Sun,
         title: "Lighting Analysis",
-        desc: "Real solar data, not guesswork. We orient every window for the sunlight you'll actually live with — across all four seasons.",
+        desc: "Real solar data, not guesswork. We orient every window for the sunlight you'll actually live with.",
         isSubCard: true,
       },
       {
         n: "",
         icon: Layers,
         title: "Material Testing",
-        desc: "Tap to swap. Tile, paint, laminate, cabinetry, tested in your 3D model before a single rupee leaves your account.",
+        desc: "Tile, paint, laminate, cabinetry — tested in your 3D model before a single rupee leaves your account.",
         isSubCard: true,
       },
       {
         n: "04",
         icon: FileCheck,
         title: "Budgeting & Contracts",
-        desc: "Every line item priced. Every price locked. The quote you sign is the bill you pay, commodity volatility is on us.",
+        desc: "Every line item priced. Every price locked. Commodity volatility is on us.",
       },
       {
         n: "05",
         icon: Map,
         title: "Govt. Permissions",
-        desc: "Sanctions, NOCs, clearances. We file. We follow up. We close every loop. You won't visit a single government office.",
+        desc: "Sanctions, NOCs, clearances. We file. We follow up. You won't visit a single government office.",
       },
       {
         n: "06",
         icon: Hammer,
         title: "Site Preparation",
-        desc: "Soil tested. Utilities staged. Boundaries marked. By groundbreaking, nothing about your site is still a question.",
+        desc: "Soil tested. Utilities staged. Boundaries marked. By groundbreaking, nothing is still a question.",
       },
     ],
   },
   {
     title: "Phase 3 — Build It True",
+    image: process3,
+    headline: "Execution With Real Accountability.",
+    progress: "92%",
     steps: [
       {
         n: "07",
         icon: Wrench,
         title: "Structural Execution",
-        desc: "Foundation to roof, audited at every pour. Site photos and progress logs land in your dashboard by 7 PM each working day.",
+        desc: "Foundation to roof, audited at every pour. Site photos and updates land in your dashboard daily.",
       },
       {
         n: "08",
         icon: Hammer,
         title: "Finishing & Interiors",
-        desc: "Modular kitchens, wardrobes, woodwork, smart fittings. All in-house. No vendor blame games. No coordination headaches.",
+        desc: "Modular kitchens, wardrobes, woodwork, smart fittings. All in-house. No coordination chaos.",
       },
       {
         n: "09",
         icon: ShieldCheck,
         title: "Quality Audit & Handover",
-        desc: "A 150-point inspection before we call it done. Then keys, warranties, documentation, and a number that actually picks up after you move in.",
+        desc: "A 150-point inspection before we call it done. Then keys, warranties, documentation, and support.",
       },
     ],
   },
 ];
 
 const Process = () => (
-  <main className="min-h-screen bg-background text-foreground">
+  <main className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
+
     <PageHero
       eyebrow="Our Process"
       title="From vision to reality, pixel by pixel."
       subtitle="Nine steps. Zero guesswork. Every decision is made in 3D before a brick is laid."
     />
-    <section className="py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        {phases.map((phase, phaseIndex) => (
-          <div key={phase.title} className="mb-24 last:mb-0">
-            <h2 className="font-display text-2xl font-bold tracking-tight mb-12">{phase.title}</h2>
-            <div className="relative">
-              <div className="absolute left-6 sm:left-8 top-2 bottom-2 w-px bg-border" aria-hidden />
-              <ul className="space-y-10">
-                {phase.steps.map((step, i) => {
-                  const Icon = step.icon;
-                  const globalIndex = phases.slice(0, phaseIndex).reduce((acc, p) => acc + p.steps.length, 0) + i;
-                  return (
-                    <motion.li
-                      key={step.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-60px" }}
-                      transition={{ duration: 0.5, delay: globalIndex * 0.05 }}
-                      className={`relative ${step.isSubCard ? 'pl-12 sm:pl-16 ml-8 sm:ml-12' : 'pl-20 sm:pl-24'}`}
-                    >
-                      <div className={`absolute left-0 top-0 ${step.isSubCard ? 'size-8 sm:size-10' : 'size-12 sm:size-16'} rounded-md bg-brand-soft text-brand flex items-center justify-center shadow-soft`}>
-                        <Icon className={`${step.isSubCard ? 'size-4 sm:size-5' : 'size-5 sm:size-6'}`} />
-                      </div>
-                      <div className="flex items-baseline gap-3">
-                        {step.n && <span className="font-mono text-xs text-muted-foreground">{step.n}</span>}
-                        <h3 className={`font-display ${step.isSubCard ? 'text-lg' : 'text-2xl'} font-semibold`}>{step.title}</h3>
-                      </div>
-                      <p className="mt-3 text-muted-foreground leading-relaxed max-w-2xl">{step.desc}</p>
-                    </motion.li>
-                  );
-                })}
-              </ul>
+
+    <section className="relative py-24">
+      {/* Background Glow */}
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute left-1/3 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
+      </div>
+
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid gap-16 lg:grid-cols-[260px_1fr]">
+          {/* Sticky Sidebar */}
+          <div className="hidden lg:block">
+            <div className="sticky top-28 rounded-3xl border border-border/60 bg-card/70 p-6 backdrop-blur-xl shadow-soft">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Build Journey
+              </p>
+
+              <div className="mt-8 space-y-6">
+                <div className="flex items-center gap-3">
+                  <div className="h-3 w-3 rounded-full bg-brand" />
+                  <span className="font-medium">Design</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="h-3 w-3 rounded-full bg-brand/70" />
+                  <span className="font-medium">Approvals</span>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="h-3 w-3 rounded-full bg-brand/40" />
+                  <span className="font-medium">Construction</span>
+                </div>
+
+                <div className="pt-6 border-t border-border">
+                  <p className="text-sm text-muted-foreground">
+                    Every phase tracked through the Prestoliv dashboard.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        ))}
+
+          {/* Main Content */}
+          <div>
+            {phases.map((phase, phaseIndex) => (
+              <section
+                key={phase.title}
+                className="mb-32 last:mb-0"
+              >
+                {/* Hero Visual */}
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="relative overflow-hidden rounded-[32px] border border-border/60 bg-card shadow-soft"
+                >
+                  <img
+                    src={phase.image}
+                    alt={phase.title}
+                    className="h-[500px] w-full object-cover"
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Left Content */}
+                  <div className="absolute bottom-8 left-8 max-w-2xl text-white">
+                    <p className="text-xs uppercase tracking-[0.25em] text-white/70">
+                      {phase.title}
+                    </p>
+
+                    <h2 className="mt-4 text-4xl font-bold leading-tight sm:text-5xl">
+                      {phase.headline}
+                    </h2>
+                  </div>
+
+                  {/* Floating Progress Card */}
+                  <div className="absolute right-8 top-8 w-[260px] rounded-3xl border border-white/20 bg-white/10 p-5 text-white backdrop-blur-xl">
+                    <p className="text-sm text-white/70">
+                      Current Progress
+                    </p>
+
+                    <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/20">
+                      <div
+                        className="h-full rounded-full bg-white"
+                        style={{ width: phase.progress }}
+                      />
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-sm">
+                        Active Phase
+                      </span>
+
+                      <span className="font-semibold">
+                        {phase.progress}
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Timeline */}
+                <div className="relative mt-16">
+                  <div className="absolute left-6 top-2 bottom-2 hidden w-px bg-border md:block" />
+
+                  <div className="space-y-8">
+                    {phase.steps.map((step, i) => {
+                      const Icon = step.icon;
+
+                      return (
+                        <motion.div
+                          key={step.title}
+                          initial={{ opacity: 0, y: 24 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true, margin: "-60px" }}
+                          transition={{
+                            duration: 0.5,
+                            delay: i * 0.06,
+                          }}
+                          className={`
+                            group
+                            relative
+                            overflow-hidden
+                            rounded-3xl
+                            border
+                            border-border/60
+                            bg-card/60
+                            backdrop-blur
+                            p-8
+                            shadow-soft
+                            transition-all
+                            duration-500
+                            hover:-translate-y-1
+                            hover:shadow-2xl
+                            ${step.isSubCard ? "ml-8 md:ml-16" : ""}
+                          `}
+                        >
+                          {/* Glow */}
+                          <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-b from-brand/[0.08] to-transparent" />
+
+                          <div className="relative flex flex-col gap-6 md:flex-row md:items-start">
+                            {/* Icon */}
+                            <div className="flex items-center gap-5">
+                              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-brand/10 text-brand">
+                                <Icon className="h-7 w-7" />
+                              </div>
+
+                              {step.n && (
+                                <div className="hidden md:block">
+                                  <p className="font-mono text-sm text-muted-foreground">
+                                    STEP
+                                  </p>
+
+                                  <p className="text-3xl font-bold">
+                                    {step.n}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Content */}
+                            <div className="flex-1">
+                              <h3 className="font-display text-2xl font-semibold tracking-tight">
+                                {step.title}
+                              </h3>
+
+                              <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">
+                                {step.desc}
+                              </p>
+
+                              {/* Mini UI */}
+                              <div className="mt-6 flex flex-wrap gap-3">
+                                <div className="rounded-full border border-border/60 bg-background/60 px-4 py-2 text-sm backdrop-blur">
+                                  Daily Tracking
+                                </div>
+
+                                <div className="rounded-full border border-border/60 bg-background/60 px-4 py-2 text-sm backdrop-blur">
+                                  Dashboard Sync
+                                </div>
+
+                                <div className="rounded-full border border-border/60 bg-background/60 px-4 py-2 text-sm backdrop-blur">
+                                  Live Updates
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+            ))}
+
+            {/* Final CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative overflow-hidden rounded-[32px] border border-border/60 bg-card/70 p-12 text-center backdrop-blur-xl shadow-soft"
+            >
+              <div className="absolute inset-0 -z-10">
+                <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 blur-3xl" />
+              </div>
+
+              <p className="text-xs uppercase tracking-[0.25em] text-brand">
+                Ready To Build?
+              </p>
+
+              <h2 className="mx-auto mt-5 max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                A better building experience starts before construction does.
+              </h2>
+
+              <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                Walk through your future home in 3D. Track every milestone in
+                real time. One team. One dashboard. Zero chaos.
+              </p>
+
+              <ConsultationDialog>
+                <Button
+                  size="lg"
+                  className="mt-10 rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 group"
+                >
+                  Book a Consultation
+
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </ConsultationDialog>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
+
     <CtaFooter />
   </main>
 );
