@@ -7,9 +7,11 @@ import logo from "@/assets/logo.svg";
 
 const cols = [
   {
-    title: "Product",
+    title: "Services",
     links: [
-      { label: "Services", href: "/services" },
+      { label: "Residential Construction", href: "/services/residential" },
+      { label: "Commercial Construction", href: "/services/commercial" },
+      { label: "Interior Design", href: "/services/interiors" },
       { label: "Process", href: "/process" },
     ],
   },

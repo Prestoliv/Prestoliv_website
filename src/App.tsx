@@ -9,6 +9,9 @@ import Process from "./pages/Process.tsx";
 import OurServices from "./pages/OurServices.tsx";
 import About from "./pages/About.tsx";
 import AuthCallback from "./pages/AuthCallback.tsx";
+import CommercialPage from "./pages/pages_services/CommercialPage.tsx";
+import ResidentialPage from "./pages/pages_services/ResidentialPage.tsx";
+import InteriorsPage from "./pages/pages_services/InteriorsPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +25,9 @@ const App = () => (
           <Route path="/" element={<Index />} />
         <Route path="/process" element={<Process />} />
         <Route path="/services" element={<OurServices />} />
+        <Route path="/services/commercial" element={<CommercialPage />} />
+        <Route path="/services/residential" element={<ResidentialPage />} />
+        <Route path="/services/interiors" element={<InteriorsPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
