@@ -115,7 +115,7 @@ export const Navbar = () => {
       className="fixed top-4 inset-x-0 z-50 flex justify-center px-4"
     >
       <nav
-        className={`w-full max-w-6xl flex items-center justify-between gap-6 px-4 sm:px-6 h-16 rounded-3xl transition-all duration-500 ${
+        className={`w-full max-w-6xl flex items-center justify-between gap-6 px-4 sm:px-6 h-16 rounded-[10px] transition-all duration-500 ${
           scrolled
             ? "bg-white/85 backdrop-blur-2xl border border-border shadow-[0_10px_50px_rgba(0,0,0,0.08)]"
             : "bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_40px_rgba(0,0,0,0.05)]"
@@ -150,7 +150,7 @@ export const Navbar = () => {
                   gap-1.5
                   h-11
                   px-5
-                  rounded-3xl
+                  rounded-[10px]
                   text-sm
                   font-medium
                   text-foreground/80
@@ -186,7 +186,7 @@ export const Navbar = () => {
                   group-hover:pointer-events-auto
                 "
               >
-                <div className="w-[540px] rounded-3xl border border-border bg-white/95 backdrop-blur-2xl shadow-[0_25px_100px_rgba(0,0,0,0.12)] p-3">
+                <div className="w-[540px] rounded-[10px] border border-border bg-white/95 backdrop-blur-2xl shadow-[0_25px_100px_rgba(0,0,0,0.12)] p-3">
                   <div className="grid grid-cols-1 gap-1.5">
                     {services.map((service) => {
                       return (
@@ -204,7 +204,7 @@ export const Navbar = () => {
                             flex
                             items-center
                             gap-4
-                            rounded-3xl
+                            rounded-[10px]
                             p-3.5
                             transition-all
                             duration-200
@@ -247,7 +247,7 @@ export const Navbar = () => {
                   </div>
 
                   {/* Footer */}
-                  <div className="mt-3 flex items-center justify-between rounded-3xl border border-border/60 bg-muted/30 px-4 py-3">
+                  <div className="mt-3 flex items-center justify-between rounded-[10px] border border-border/60 bg-muted/30 px-4 py-3">
                     <p className="text-xs text-muted-foreground">
                       Not sure where to start?
                     </p>
@@ -278,7 +278,7 @@ export const Navbar = () => {
                   items-center
                   h-11
                   px-5
-                  rounded-3xl
+                  rounded-[10px]
                   text-sm
                   font-medium
                   text-foreground/80
@@ -301,7 +301,7 @@ export const Navbar = () => {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-3xl"
+              className="rounded-[10px]"
               onClick={handleDashboardClick}
             >
               View Dashboard
@@ -310,7 +310,7 @@ export const Navbar = () => {
             <Button
               variant="outline"
               size="sm"
-              className="rounded-3xl"
+              className="rounded-[10px]"
               onClick={handleGoogleLogin}
             >
               Login
@@ -318,7 +318,7 @@ export const Navbar = () => {
           )}
 
           <ConsultationDialog>
-            <Button className="rounded-3xl bg-brand text-background hover:bg-brand/90">
+            <Button className="rounded-[10px] bg-brand text-background hover:bg-brand/90">
               Book a Consultation
             </Button>
           </ConsultationDialog>
@@ -357,7 +357,7 @@ export const Navbar = () => {
               duration: 0.22,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="absolute top-20 inset-x-4 md:hidden bg-white border border-border rounded-3xl shadow-[0_20px_80px_rgba(0,0,0,0.12)] overflow-hidden"
+            className="absolute top-20 inset-x-4 md:hidden bg-white border border-border rounded-[10px] shadow-[0_20px_80px_rgba(0,0,0,0.12)] overflow-hidden"
           >
             {/* Services */}
             <div className="border-b border-border/60">
@@ -405,7 +405,7 @@ export const Navbar = () => {
                               behavior: "smooth",
                             });
                           }}
-                          className="group flex items-center gap-3 rounded-3xl px-3 py-3 hover:bg-muted/40 transition-colors"
+                          className="group flex items-center gap-3 rounded-[10px] px-3 py-3 hover:bg-muted/40 transition-colors"
                         >
                           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-2xl border border-border/60">
                             <img
@@ -454,7 +454,7 @@ export const Navbar = () => {
                       behavior: "smooth",
                     });
                   }}
-                  className="flex items-center h-11 px-4 rounded-3xl text-sm font-medium text-foreground/80 hover:bg-muted/40 transition-colors"
+                  className="flex items-center h-11 px-4 rounded-[10px] text-sm font-medium text-foreground/80 hover:bg-muted/40 transition-colors"
                 >
                   {l.label}
                 </Link>
@@ -466,7 +466,7 @@ export const Navbar = () => {
               {user ? (
                 <Button
                   variant="outline"
-                  className="w-full rounded-3xl"
+                  className="w-full rounded-[10px]"
                   onClick={() => {
                     handleDashboardClick();
                     setOpen(false);
@@ -477,7 +477,7 @@ export const Navbar = () => {
               ) : (
                 <Button
                   variant="outline"
-                  className="w-full rounded-3xl"
+                  className="w-full rounded-[10px]"
                   onClick={() => {
                     handleGoogleLogin();
                     setOpen(false);
@@ -488,7 +488,7 @@ export const Navbar = () => {
               )}
 
               <ConsultationDialog>
-                <Button className="w-full rounded-3xl bg-brand text-background hover:bg-brand/90">
+                <Button className="w-full rounded-[10px] bg-brand text-background hover:bg-brand/90">
                   Book a Consultation
                 </Button>
               </ConsultationDialog>
