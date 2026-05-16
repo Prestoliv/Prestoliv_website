@@ -23,6 +23,7 @@ import interiorsImg from "@/assets/1.jpg";
 
 const links = [
   { label: "Our Process", href: "/process" },
+  { label: "Calculator", href: "/calculator" },
   { label: "About Us", href: "/about" },
 ];
 

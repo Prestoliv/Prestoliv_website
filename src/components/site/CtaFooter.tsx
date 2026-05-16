@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Instagram, Linkedin, Facebook, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
@@ -23,6 +23,18 @@ const cols = [
   },
 ];
 
+const socials = [
+  { icon: Instagram, href: "https://www.instagram.com/prestoliv_official/", label: "Instagram" },
+  { icon: Linkedin, href: "https://www.linkedin.com/company/prestoliv/", label: "LinkedIn" },
+  { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61573836098768", label: "Facebook" },
+];
+
+const contacts = [
+  { icon: Phone, label: "+91 70028 76998", href: "tel:+917002876998" },
+  { icon: Mail, label: "hello@prestoliv.com", href: "mailto:hello@prestoliv.com" },
+  { icon: MapPin, label: "Prestoliv Proptech Private Limited is:Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
+];
+
 export const CtaFooter = () => (
   <>
     <section className="relative overflow-hidden py-28 bg-gradient-hero">
@@ -43,7 +55,7 @@ export const CtaFooter = () => (
         </p>
         <div className="mt-8 flex justify-center">
           <ConsultationDialog>
-            <Button size="lg" className="rounded-3xl bg-brand text-background hover:bg-brand/90 group">
+            <Button size="lg" className="rounded-[10px] bg-brand text-background hover:bg-brand/90 group">
               Start Your Project
               <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
             </Button>
@@ -53,7 +65,9 @@ export const CtaFooter = () => (
     </section>
 
     <footer className="bg-foreground text-background/90">
-      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-5 gap-10">
+
+        {/* Brand col */}
         <div className="col-span-2">
           <img src={logo} alt="Prestoliv" className="h-7 w-auto brightness-0 invert" />
           <p className="mt-4 text-sm text-background/60 max-w-xs">
@@ -63,17 +77,37 @@ export const CtaFooter = () => (
             <span className="size-2 rounded-full bg-brand animate-pulse" />
             All systems operational
           </div>
+
+          {/* Social Icons */}
+          <div className="mt-6 flex items-center gap-3">
+            {socials.map(({ icon: Icon, href, label }) => {
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="flex items-center justify-center size-8 rounded-md border border-background/10 text-background/50 hover:text-brand hover:border-brand/40 transition-colors"
+                >
+                  <Icon className="size-4" />
+                </a>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Services & Company cols */}
         {cols.map((c) => (
           <div key={c.title}>
             <div className="text-xs font-semibold uppercase tracking-widest text-background/50">{c.title}</div>
             <ul className="mt-4 space-y-2.5 text-sm">
               {c.links.map((l) => (
                 <li key={l.href}>
-                  <Link 
-                    to={l.href} 
+                  <Link
+                    to={l.href}
                     className="hover:text-brand transition-colors"
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   >
                     {l.label}
                   </Link>
@@ -82,7 +116,29 @@ export const CtaFooter = () => (
             </ul>
           </div>
         ))}
+
+        {/* Contact Us col */}
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-widest text-background/50">Contact Us</div>
+          <ul className="mt-4 space-y-3">
+            {contacts.map(({ icon: Icon, label, href }) => {
+              return (
+                <li key={label}>
+                  <a
+                    href={href}
+                    className="flex items-start gap-2.5 text-sm text-background/60 hover:text-brand transition-colors group"
+                  >
+                    <Icon className="size-4 mt-0.5 shrink-0 text-background/40 group-hover:text-brand transition-colors" />
+                    <span>{label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+
       </div>
+
       <div className="border-t border-background/10">
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between text-xs text-background/50">
           <span>© {new Date().getFullYear()} Prestoliv. All rights reserved.</span>

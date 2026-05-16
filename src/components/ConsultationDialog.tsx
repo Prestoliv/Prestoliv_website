@@ -11,7 +11,8 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     name: "",
     phone: "",
     email: "",
-    service: ""
+    city: "",
+    service: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,7 +20,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     console.log("Form submitted:", formData);
     // Handle form submission here (e.g., send to backend or Supabase)
     setOpen(false);
-    setFormData({ name: "", phone: "", email: "", service: "" });
+    setFormData({ name: "", phone: "", email: "", city: "", service: "" });
   };
 
   return (
@@ -32,6 +33,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
           <DialogTitle className="text-2xl font-bold">Book a Consultation</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+
           <div className="space-y-2">
             <Label htmlFor="name">Name *</Label>
             <Input
@@ -42,6 +44,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               required
             />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number *</Label>
             <Input
@@ -53,6 +56,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               required
             />
           </div>
+
           <div className="space-y-2">
             <Label htmlFor="email">Email ID (Optional)</Label>
             <Input
@@ -63,6 +67,18 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="city">City / Town *</Label>
+            <Input
+              id="city"
+              placeholder="e.g. Prayagraj, Lucknow"
+              value={formData.city}
+              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+              required
+            />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="service">What service are you looking for? *</Label>
             <Select
@@ -80,9 +96,11 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               </SelectContent>
             </Select>
           </div>
+
           <Button type="submit" className="w-full bg-foreground text-background hover:bg-foreground/90">
             Submit Consultation Request
           </Button>
+
         </form>
       </DialogContent>
     </Dialog>
