@@ -12,12 +12,12 @@ const cols = [
       { label: "Residential Construction", href: "/services/residential" },
       { label: "Commercial Construction", href: "/services/commercial" },
       { label: "Interior Design", href: "/services/interiors" },
-      { label: "Process", href: "/process" },
     ],
   },
   {
     title: "Company",
     links: [
+      { label: "Process", href: "/process" },
       { label: "About us", href: "/about" },
     ],
   },
