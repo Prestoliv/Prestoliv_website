@@ -5,9 +5,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/lib/supabase";
+import { toast } from "@/hooks/use-toast";
 
 export const ConsultationDialog = ({ children }: { children: React.ReactNode }) => {
   const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -17,10 +20,34 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     otherService: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission here (e.g., send to backend or Supabase)
+    setSubmitting(true);
+
+    const { error } = await supabase.from("contact_us").insert({
+      name: formData.name.trim(),
+      phone: formData.phone.trim(),
+      email: formData.email.trim() || null,
+      city: formData.city.trim(),
+      service: formData.service,
+      other_service: formData.service === "others" ? formData.otherService.trim() : null,
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      toast({
+        title: "Could not submit request",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Request submitted",
+      description: "We'll get back to you soon.",
+    });
     setOpen(false);
     setFormData({ name: "", phone: "", email: "", city: "", service: "", otherService: "" });
   };
@@ -120,8 +147,12 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
             </div>
           )}
 
-          <Button type="submit" className="w-full bg-foreground text-background hover:bg-foreground/90">
-            Submit Consultation Request
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="w-full bg-foreground text-background hover:bg-foreground/90"
+          >
+            {submitting ? "Submitting…" : "Submit Consultation Request"}
           </Button>
 
         </form>
