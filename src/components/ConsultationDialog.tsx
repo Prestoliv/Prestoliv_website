@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export const ConsultationDialog = ({ children }: { children: React.ReactNode }) => {
@@ -13,6 +14,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     email: "",
     city: "",
     service: "",
+    otherService: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -20,7 +22,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     console.log("Form submitted:", formData);
     // Handle form submission here (e.g., send to backend or Supabase)
     setOpen(false);
-    setFormData({ name: "", phone: "", email: "", city: "", service: "" });
+    setFormData({ name: "", phone: "", email: "", city: "", service: "", otherService: "" });
   };
 
   return (
@@ -83,7 +85,13 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
             <Label htmlFor="service">What service are you looking for? *</Label>
             <Select
               value={formData.service}
-              onValueChange={(value) => setFormData({ ...formData, service: value })}
+              onValueChange={(value) =>
+                setFormData({
+                  ...formData,
+                  service: value,
+                  otherService: value === "others" ? formData.otherService : "",
+                })
+              }
               required
             >
               <SelectTrigger>
@@ -93,9 +101,24 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
                 <SelectItem value="residential">Residential Construction</SelectItem>
                 <SelectItem value="commercial">Commercial Projects</SelectItem>
                 <SelectItem value="renovation">Renovation & Remodeling</SelectItem>
+                <SelectItem value="others">Others</SelectItem>
               </SelectContent>
             </Select>
           </div>
+
+          {formData.service === "others" && (
+            <div className="space-y-2">
+              <Label htmlFor="otherService">Please specify *</Label>
+              <Textarea
+                id="otherService"
+                placeholder="Describe the service you're looking for"
+                value={formData.otherService}
+                onChange={(e) => setFormData({ ...formData, otherService: e.target.value })}
+                required
+                rows={3}
+              />
+            </div>
+          )}
 
           <Button type="submit" className="w-full bg-foreground text-background hover:bg-foreground/90">
             Submit Consultation Request
