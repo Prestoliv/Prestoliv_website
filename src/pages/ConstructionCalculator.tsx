@@ -3,94 +3,29 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Calculator,
   ArrowRight,
-  LayoutGrid,
-  Layers,
-  Package,
   Hammer,
   ChevronDown,
   ChevronUp,
   RefreshCw,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
-
-// ─── Types ──────────────────────────────────────────────────────────────────
-
-type Unit = "sqft" | "sqm";
-
-interface Material {
-  id: string;
-  label: string;
-  icon: React.ReactNode;
-  factor: number;       // multiplier per sq ft
-  unit: string;
-  defaultRate: number;  // INR
-  rateLabel: string;
-  color: string;        // tailwind bg class for accent dot
-}
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-
-const MATERIALS: Material[] = [
-  {
-    id: "bricks",
-    label: "Bricks",
-    icon: <LayoutGrid className="h-4 w-4" />,
-    factor: 300,
-    unit: "nos",
-    defaultRate: 8,
-    rateLabel: "per brick",
-    color: "bg-orange-400",
-  },
-  {
-    id: "iron",
-    label: "Iron (Sariya)",
-    icon: <Layers className="h-4 w-4" />,
-    factor: 0.03,
-    unit: "tonnes",
-    defaultRate: 65000,
-    rateLabel: "per tonne",
-    color: "bg-slate-400",
-  },
-  {
-    id: "sand",
-    label: "Sand",
-    icon: <Package className="h-4 w-4" />,
-    factor: 0.16,
-    unit: "cu.m",
-    defaultRate: 1800,
-    rateLabel: "per cu.m",
-    color: "bg-yellow-400",
-  },
-  {
-    id: "concrete",
-    label: "Concrete",
-    icon: <Layers className="h-4 w-4" />,
-    factor: 0.3,
-    unit: "quintal",
-    defaultRate: 400,
-    rateLabel: "per quintal",
-    color: "bg-stone-400",
-  },
-  {
-    id: "cement",
-    label: "Cement Bags",
-    icon: <Package className="h-4 w-4" />,
-    factor: 20,
-    unit: "bags",
-    defaultRate: 400,
-    rateLabel: "per bag",
-    color: "bg-brand",
-  },
-];
+import {
+  fetchCalculatorConfig,
+  type CalculatorConfig,
+  type CalculatorSettings,
+  type MaterialConfig,
+  type Unit,
+} from "@/lib/calculatorConfig";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-const toSqft = (val: number, unit: Unit) =>
-  unit === "sqft" ? val : val * 10.764;
+const toSqft = (val: number, unit: Unit, factor: number) =>
+  unit === "sqft" ? val : val * factor;
 
 const formatQty = (n: number) => {
   if (n >= 100000) return (n / 100000).toFixed(2) + " L";
@@ -104,6 +39,9 @@ const formatINR = (n: number) => {
   if (n >= 100000) return "₹" + (n / 100000).toFixed(2) + " L";
   return "₹" + Math.round(n).toLocaleString("en-IN");
 };
+
+const defaultRates = (materials: MaterialConfig[]) =>
+  Object.fromEntries(materials.map((m) => [m.id, m.defaultRate]));
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -138,7 +76,7 @@ const MaterialRow = ({
   onRateChange,
   index,
 }: {
-  material: Material;
+  material: MaterialConfig;
   qty: number;
   rate: number;
   onRateChange: (id: string, val: number) => void;
@@ -153,19 +91,16 @@ const MaterialRow = ({
       transition={{ delay: index * 0.07, duration: 0.4 }}
       className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-4 rounded-2xl border border-border/60 bg-card px-5 py-4 shadow-soft"
     >
-      {/* Label */}
       <div className="flex items-center gap-3">
         <div className={`h-2 w-2 rounded-full ${material.color}`} />
         <span className="font-medium">{material.label}</span>
       </div>
 
-      {/* Quantity */}
       <div className="text-right">
         <p className="text-xs text-muted-foreground">{material.unit}</p>
         <p className="font-semibold tabular-nums">{formatQty(qty)}</p>
       </div>
 
-      {/* Rate input */}
       <div className="text-right">
         <p className="text-xs text-muted-foreground">{material.rateLabel}</p>
         <div className="flex items-center gap-1">
@@ -180,7 +115,6 @@ const MaterialRow = ({
         </div>
       </div>
 
-      {/* Total */}
       <div className="min-w-[90px] text-right">
         <p className="text-xs text-muted-foreground">total</p>
         <p className="font-semibold text-brand tabular-nums">{formatINR(total)}</p>
@@ -217,32 +151,92 @@ const SummaryCard = ({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 const ConstructionCalculatorPage = () => {
+  const [config, setConfig] = useState<CalculatorConfig | null>(null);
+  const [loading, setLoading] = useState(true);
   const [unit, setUnit] = useState<Unit>("sqft");
   const [area, setArea] = useState<number>(1000);
-  const [rates, setRates] = useState<Record<string, number>>(
-    Object.fromEntries(MATERIALS.map((m) => [m.id, m.defaultRate]))
-  );
+  const [rates, setRates] = useState<Record<string, number>>({});
   const [showBreakdown, setShowBreakdown] = useState(true);
 
-  const sqft = toSqft(area, unit);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      const cfg = await fetchCalculatorConfig();
+      if (cancelled) return;
+      setConfig(cfg);
+      setUnit(cfg.settings.default_unit);
+      setArea(cfg.settings.default_area);
+      setRates(defaultRates(cfg.materials));
+      setLoading(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-  const rows = MATERIALS.map((m) => ({
+  const materials = config?.materials ?? [];
+  const settings: CalculatorSettings | undefined = config?.settings;
+
+  const sqft = settings
+    ? toSqft(area, unit, settings.sqm_to_sqft_factor)
+    : area;
+
+  const rows = materials.map((m) => ({
     material: m,
     qty: sqft * m.factor,
-    rate: rates[m.id],
-    total: sqft * m.factor * rates[m.id],
+    rate: rates[m.id] ?? m.defaultRate,
+    total: sqft * m.factor * (rates[m.id] ?? m.defaultRate),
   }));
 
   const grandTotal = rows.reduce((s, r) => s + r.total, 0);
+  const lowPct = settings?.low_variance_pct ?? 0.1;
+  const highPct = settings?.high_variance_pct ?? 0.1;
 
   const handleRateChange = (id: string, val: number) =>
     setRates((prev) => ({ ...prev, [id]: val }));
 
   const handleReset = () => {
-    setArea(1000);
-    setUnit("sqft");
-    setRates(Object.fromEntries(MATERIALS.map((m) => [m.id, m.defaultRate])));
+    if (!config) return;
+    setArea(config.settings.default_area);
+    setUnit(config.settings.default_unit);
+    setRates(defaultRates(config.materials));
   };
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <div className="flex min-h-[50vh] flex-col items-center justify-center gap-3 text-muted-foreground">
+          <Loader2 className="h-8 w-8 animate-spin text-brand" />
+          <p className="text-sm">Loading calculator…</p>
+        </div>
+        <CtaFooter />
+      </main>
+    );
+  }
+
+  if (settings && !settings.enabled) {
+    return (
+      <main className="min-h-screen bg-background text-foreground">
+        <Navbar />
+        <PageHero
+          eyebrow="Construction Cost Calculator"
+          title="Calculator temporarily unavailable"
+          subtitle="Please check back soon or book a consultation for a personalized estimate."
+        />
+        <section className="py-16 px-6 text-center">
+          <ConsultationDialog>
+            <Button size="lg" className="rounded-xl bg-brand text-brand-foreground">
+              Book a Free Consultation
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </ConsultationDialog>
+        </section>
+        <CtaFooter />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
@@ -254,11 +248,9 @@ const ConstructionCalculatorPage = () => {
         subtitle="Enter your area and get an instant material estimate — bricks, iron, sand, concrete, and cement. Adjust rates to match your local market."
       />
 
-      {/* ── Calculator Section ── */}
       <section className="py-24">
         <div className="mx-auto max-w-4xl px-6">
 
-          {/* ── Input Card ── */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -302,14 +294,13 @@ const ConstructionCalculatorPage = () => {
               </button>
             </div>
 
-            {unit === "sqm" && area > 0 && (
+            {unit === "sqm" && area > 0 && settings && (
               <p className="mt-3 text-xs text-muted-foreground">
                 ≈ {Math.round(sqft).toLocaleString("en-IN")} sq ft
               </p>
             )}
           </motion.div>
 
-          {/* ── Summary Cards ── */}
           <div className="mb-10 grid gap-4 sm:grid-cols-3">
             <SummaryCard
               label="Estimated Total"
@@ -319,19 +310,18 @@ const ConstructionCalculatorPage = () => {
             />
             <SummaryCard
               label="Low Estimate"
-              value={formatINR(grandTotal * 0.9)}
-              sub="−10% variance"
+              value={formatINR(grandTotal * (1 - lowPct))}
+              sub={`−${Math.round(lowPct * 100)}% variance`}
               delay={0.18}
             />
             <SummaryCard
               label="High Estimate"
-              value={formatINR(grandTotal * 1.1)}
-              sub="+10% variance"
+              value={formatINR(grandTotal * (1 + highPct))}
+              sub={`+${Math.round(highPct * 100)}% variance`}
               delay={0.26}
             />
           </div>
 
-          {/* ── Breakdown ── */}
           <div className="rounded-3xl border border-border/60 bg-card shadow-soft overflow-hidden">
             <button
               onClick={() => setShowBreakdown((v) => !v)}
@@ -341,7 +331,7 @@ const ConstructionCalculatorPage = () => {
                 <Hammer className="h-5 w-5 text-brand" />
                 <span className="font-semibold">Material breakdown</span>
                 <span className="rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-medium text-brand">
-                  {MATERIALS.length} items
+                  {materials.length} items
                 </span>
               </div>
               {showBreakdown ? (
@@ -362,7 +352,6 @@ const ConstructionCalculatorPage = () => {
                   className="overflow-hidden"
                 >
                   <div className="space-y-3 border-t border-border px-6 pb-6 pt-4">
-                    {/* Column headers */}
                     <div className="grid grid-cols-[1fr_auto_auto_auto] gap-4 px-5 pb-1">
                       {["Material", "Quantity", "Rate (editable)", "Total"].map(
                         (h) => (
@@ -388,7 +377,6 @@ const ConstructionCalculatorPage = () => {
                     ))}
                   </div>
 
-                  {/* Footer note */}
                   <div className="border-t border-border bg-surface px-8 py-4">
                     <p className="text-xs text-muted-foreground">
                       Rates are editable — update them to match your local market
@@ -400,7 +388,6 @@ const ConstructionCalculatorPage = () => {
             </AnimatePresence>
           </div>
 
-          {/* ── CTA ── */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
