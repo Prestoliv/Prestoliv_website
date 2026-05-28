@@ -32,7 +32,7 @@ const socials = [
 const contacts = [
   { icon: Phone, label: "+91 70028 76998", href: "tel:+917002876998" },
   { icon: Mail, label: "hello@prestoliv.com", href: "mailto:hello@prestoliv.com" },
-  { icon: MapPin, label: "Prestoliv Proptech Private Limited is:Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
+  { icon: MapPin, label: "Prestoliv Proptech Private Limited : Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
 ];
 
 export const CtaFooter = () => (
