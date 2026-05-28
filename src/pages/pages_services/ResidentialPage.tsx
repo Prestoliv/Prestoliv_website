@@ -109,7 +109,7 @@ const ResidentialPage = () => (
     <PageHero
       eyebrow="Residential Construction"
       title="Built for how your family actually lives."
-      subtitle="Independent homes, villas, duplexes, and renovations — fixed-price execution, VR-first design, and one accountable team from foundation to finish."
+      subtitle="Independent homes, villas, duplexes, and renovations  fixed-price execution, VR-first design, and one accountable team from foundation to finish."
     />
 
     {/* Main Service Section */}

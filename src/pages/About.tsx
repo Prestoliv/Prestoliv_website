@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 const commitments = [
   { icon: Eye, title: "VR-First", desc: "See It Before You Build It", detail: "Walk through your home in 3D before a single brick is laid. Catch what paper drawings can't show." },
-  { icon: Smartphone, title: "24/7 Live Dashboard", desc: "Daily site logs, payment tracking, and milestone updates — visible to you the moment they happen." },
+  { icon: Smartphone, title: "24/7 Live Dashboard", desc: "Daily site logs, payment tracking, and milestone updates  visible to you the moment they happen." },
   { icon: Lock, title: "Locked Price", desc: "The Quote Is the Price", detail: "Per-sqft for residential, fixed-BoQ for custom builds. Material spikes don't reach your bill." },
   { icon: FileCheck, title: "Penalty Clause", desc: "On-Time, In Writing", detail: "Your handover date sits in the contract with a delay penalty attached. We're paying if we miss." },
 ];
@@ -112,7 +112,7 @@ const About = () => (
         <div className="mt-8 space-y-6 text-lg leading-relaxed text-muted-foreground">
           <p>
             Prestoliv didn't begin in a boardroom. It began with the same
-            frustration our clients know — site visits that revealed nothing,
+            frustration our clients know  site visits that revealed nothing,
             budgets that quietly grew, and a handover date that kept moving.
           </p>
 
@@ -128,7 +128,7 @@ const About = () => (
           </p>
 
           <p className="text-foreground font-medium">
-            Not a contractor's promise — a system that keeps it.
+            Not a contractor's promise  a system that keeps it.
           </p>
         </div>
 
@@ -209,7 +209,7 @@ const About = () => (
 
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             Prestoliv combines architecture, engineering, construction, and
-            interiors under one accountable team — so the people designing your
+            interiors under one accountable team  so the people designing your
             home are aligned with the people building it.
           </p>
         </div>

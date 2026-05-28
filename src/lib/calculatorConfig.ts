@@ -48,7 +48,7 @@ export const DEFAULT_CALCULATOR_SETTINGS: CalculatorSettings = {
   hero_eyebrow: "Construction Cost Calculator",
   hero_title: "Estimate your home construction cost",
   hero_subtitle:
-    "Enter your built-up area and compare package rates — get an instant total with no hidden breakdowns.",
+    "Enter your built-up area and compare package rates  get an instant total with no hidden breakdowns.",
   area_section_title: "Built-up area",
   area_section_help:
     "Super built-up area of your home in square feet or square metres.",
@@ -77,7 +77,7 @@ export const FALLBACK_PACKAGES: PackageConfig[] = [
   {
     id: "classic",
     label: "Classic",
-    description: "Balanced quality and value — our most popular choice for homes.",
+    description: "Balanced quality and value  our most popular choice for homes.",
     pricePerSqft: 2100,
     badge: "Most popular",
     highlight: true,

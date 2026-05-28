@@ -28,7 +28,7 @@ import process3 from "@/assets/3p.png";
 
 const phases = [
   {
-    title: "Phase 1 — Design It Right",
+    title: "Phase 1  Design It Right",
     image: processHero,
     headline: "Design Everything Before You Build Anything.",
     progress: "32%",
@@ -37,7 +37,7 @@ const phases = [
         n: "01",
         icon: MessageSquare,
         title: "Initial Consultation",
-        desc: "One honest conversation. Your vision, your land, your budget. We tell you what's possible — and what isn't worth attempting.",
+        desc: "One honest conversation. Your vision, your land, your budget. We tell you what's possible  and what isn't worth attempting.",
       },
       {
         n: "02",
@@ -54,7 +54,7 @@ const phases = [
     ],
   },
   {
-    title: "Phase 2 — Lock It Down",
+    title: "Phase 2  Lock It Down",
     image: process2,
     headline: "Every Detail Finalized Before Execution Begins.",
     progress: "64%",
@@ -70,7 +70,7 @@ const phases = [
         n: "",
         icon: Layers,
         title: "Material Testing",
-        desc: "Tile, paint, laminate, cabinetry — tested in your 3D model before a single rupee leaves your account.",
+        desc: "Tile, paint, laminate, cabinetry  tested in your 3D model before a single rupee leaves your account.",
         isSubCard: true,
       },
       {
@@ -94,7 +94,7 @@ const phases = [
     ],
   },
   {
-    title: "Phase 3 — Build It True",
+    title: "Phase 3  Build It True",
     image: process3,
     headline: "Execution With Real Accountability.",
     progress: "92%",

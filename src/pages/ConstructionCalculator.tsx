@@ -77,7 +77,7 @@ const ConstructionCalculatorPage = () => {
         subtitle={hero.hero_subtitle}
       />
 
-      {/* Calculator — overlaps hero slightly */}
+      {/* Calculator  overlaps hero slightly */}
       <section className="relative z-10 -mt-6 pb-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-[2rem] border border-border/50 bg-background/95 p-6 shadow-card backdrop-blur-sm sm:p-8 md:p-10">

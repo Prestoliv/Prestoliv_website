@@ -108,7 +108,7 @@ const CommercialPage = () => (
     <PageHero
       eyebrow="Commercial Construction"
       title="Engineered around operations and launch timelines."
-      subtitle="Offices, retail spaces, clinics, and restaurants built to open on time. Commercial delays cost revenue — our systems track risk before it reaches site."
+      subtitle="Offices, retail spaces, clinics, and restaurants built to open on time. Commercial delays cost revenue  our systems track risk before it reaches site."
     />
 
     {/* Main Service Section */}

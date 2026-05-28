@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Prestoliv — light, Apple/Stripe inspired. Brand: #00A3A1 */
+    /* Prestoliv  light, Apple/Stripe inspired. Brand: #00A3A1 */
     --background: 0 0% 100%;
     --surface: 180 25% 98%;
     --surface-2: 180 20% 96%;

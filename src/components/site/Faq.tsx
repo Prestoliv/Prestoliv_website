@@ -3,11 +3,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 const faqs = [
   {
     q: "How can I track my project's daily progress?",
-    a: "Open your dashboard. Today's site photos are there. Yesterday's completed work is logged. Tomorrow's scheduled tasks are listed. Your payment status, material approvals, and direct chat with your project manager — same place. Web and mobile, updated by 7 PM every working day.",
+    a: "Open your dashboard. Today's site photos are there. Yesterday's completed work is logged. Tomorrow's scheduled tasks are listed. Your payment status, material approvals, and direct chat with your project manager  same place. Web and mobile, updated by 7 PM every working day.",
   },
   {
     q: "Does Prestoliv handle government approvals and financing?",
-    a: "Yes. We manage the full approval journey — plan sanction, commencement certificate, and statutory clearances — and coordinate with banks for home loan disbursement. You get one team tracking every document, so you're not running between offices chasing paperwork.",
+    a: "Yes. We manage the full approval journey  plan sanction, commencement certificate, and statutory clearances  and coordinate with banks for home loan disbursement. You get one team tracking every document, so you're not running between offices chasing paperwork.",
   },
   {
     q: "How do you ensure the project stays on schedule?",
@@ -15,11 +15,11 @@ const faqs = [
   },
   {
     q: "What happens if material costs increase mid-project?",
-    a: "Your contract locks pricing upfront, so mid-project market fluctuations don't land on you as surprise bills. Any genuine, client-approved change is itemised and visible on your dashboard before it's actioned — no hidden cost creep.",
+    a: "Your contract locks pricing upfront, so mid-project market fluctuations don't land on you as surprise bills. Any genuine, client-approved change is itemised and visible on your dashboard before it's actioned  no hidden cost creep.",
   },
   {
     q: "Who is responsible if something goes wrong during construction?",
-    a: "Prestoliv is. Architects, structural engineers, MEP, project managers, finishers, and interior teams all sit under one roof. There's no subcontractor blame game — one accountable team builds your home, and the same team fixes anything that isn't right.",
+    a: "Prestoliv is. Architects, structural engineers, MEP, project managers, finishers, and interior teams all sit under one roof. There's no subcontractor blame game  one accountable team builds your home, and the same team fixes anything that isn't right.",
   },
   {
     q: "Can I make design changes after construction has started?",
@@ -27,11 +27,11 @@ const faqs = [
   },
   {
     q: "How is Prestoliv different from hiring a contractor or architect separately?",
-    a: "A traditional build splits design, engineering, execution, and interiors across vendors who rarely coordinate. Prestoliv unifies all of it on one platform with one timeline, one point of accountability, and one dashboard — turnkey home construction without the coordination chaos.",
+    a: "A traditional build splits design, engineering, execution, and interiors across vendors who rarely coordinate. Prestoliv unifies all of it on one platform with one timeline, one point of accountability, and one dashboard  turnkey home construction without the coordination chaos.",
   },
   {
     q: "What types of projects does Prestoliv take on?",
-    a: "Prestoliv builds individual homes, villas, and residential projects end to end — from design and approvals through structure, finishing, and interiors. Whether it's a new build on your plot or a full turnkey home, you get the same transparent process and committed timeline.",
+    a: "Prestoliv builds individual homes, villas, and residential projects end to end  from design and approvals through structure, finishing, and interiors. Whether it's a new build on your plot or a full turnkey home, you get the same transparent process and committed timeline.",
   },
 ];
 

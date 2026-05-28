@@ -146,7 +146,7 @@ export function CostCalculatorWidget() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
-        {/* Left — inputs & live total */}
+        {/* Left  inputs & live total */}
         <aside className="lg:col-span-4">
           <div className="lg:sticky lg:top-28 space-y-5">
             <motion.div
@@ -268,13 +268,13 @@ export function CostCalculatorWidget() {
 
             <div className="hidden space-y-3 lg:block">
               <TrustPill icon={ShieldCheck} text="All-inclusive package rates" />
-              <TrustPill icon={Sparkles} text="Instant estimate — no material breakdown" />
+              <TrustPill icon={Sparkles} text="Instant estimate  no material breakdown" />
               <TrustPill icon={Building2} text="Transparent ₹/sq ft pricing" />
             </div>
           </div>
         </aside>
 
-        {/* Right — packages */}
+        {/* Right  packages */}
         <div className="lg:col-span-8">
           <div className="mb-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">

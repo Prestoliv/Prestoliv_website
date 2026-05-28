@@ -109,7 +109,7 @@ const InteriorsPage = () => (
     <PageHero
       eyebrow="Interior Design"
       title="From concept to handover. One team owns it all."
-      subtitle="Full-home interiors, kitchen remodels, wardrobes, and renovations managed end to end — with 3D visualization, trade-price procurement, and committed handover dates."
+      subtitle="Full-home interiors, kitchen remodels, wardrobes, and renovations managed end to end  with 3D visualization, trade-price procurement, and committed handover dates."
     />
 
     {/* Main Service Section */}

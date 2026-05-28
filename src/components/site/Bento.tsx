@@ -49,7 +49,7 @@ const items: Item[] = [
     image: bentoDashboard,
     className: "md:col-span-1",
     details:
-      "Daily updates, approvals, timelines, material tracking, and site intelligence — all accessible from one seamless dashboard.",
+      "Daily updates, approvals, timelines, material tracking, and site intelligence  all accessible from one seamless dashboard.",
   },
   {
     title: "Full-Stack Accountability",

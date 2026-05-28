@@ -10,12 +10,12 @@ const features = [
   {
     icon: FolderKanban,
     title: "One source of truth",
-    desc: "Drawings, contracts, schedules, and approvals live in one place — not scattered across WhatsApp threads and email chains.",
+    desc: "Drawings, contracts, schedules, and approvals live in one place  not scattered across WhatsApp threads and email chains.",
   },
   {
     icon: IndianRupee,
     title: "Money you can trace",
-    desc: "Every rupee mapped to a milestone. See what's paid, what's pending, and what each material actually cost — line by line.",
+    desc: "Every rupee mapped to a milestone. See what's paid, what's pending, and what each material actually cost  line by line.",
   },
   {
     icon: TriangleAlert,
@@ -50,7 +50,7 @@ export const TotalVisibility = () => {
 
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             On most builds, information is something you have to chase. With
-            Prestoliv, it's already waiting for you — every photo, payment,
+            Prestoliv, it's already waiting for you  every photo, payment,
             decision, and delay risk in one place, updated daily.
             <span className="block mt-4 text-foreground font-medium">
               You don't ask how the build is going. You open the app and see.
