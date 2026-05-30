@@ -10,14 +10,14 @@ Implementation: `src/lib/analytics/` · Route wrapper: `src/components/Analytics
 |----------|--------------|------|
 | Google Tag Manager | `VITE_GTM_ID` | Central tag container; trigger on `dataLayer` events below |
 | Google Analytics 4 | `VITE_GA_MEASUREMENT_ID` | Direct `gtag` (optional if GA4 is in GTM) |
-| Meta Pixel | `VITE_META_PIXEL_ID` | Ads + conversion API companion |
+| Meta Pixel | `VITE_META_PIXEL_ID` | Ads + conversions (loads direct; `4461774897440224`) |
 | Microsoft Clarity | `VITE_CLARITY_PROJECT_ID` | Session recordings & heatmaps |
 
 ## GTM setup
 
 **One-shot import:** run `npm run gtm:generate` then import `gtm/prestoliv-analytics-import.json` via GTM → Admin → Import Container. Full steps in `gtm/IMPORT.txt`.
 
-When `VITE_GTM_ID` is set, GA4/Meta load only through GTM (no duplicate direct gtag). Leave `VITE_GA_MEASUREMENT_ID` empty in Vercel.
+When `VITE_GTM_ID` is set, GA4 loads only through GTM (leave `VITE_GA_MEASUREMENT_ID` empty in Vercel). Meta Pixel loads direct when `VITE_META_PIXEL_ID` is set.
 
 Create **Custom Event** triggers using the **Event name** column exactly as written. Map to GA4 Event tags or use built-in GA4 configuration.
 

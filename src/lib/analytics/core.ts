@@ -31,7 +31,7 @@ export const analyticsConfig = {
   clarityProjectId: import.meta.env.VITE_CLARITY_PROJECT_ID?.trim() || "",
 } as const;
 
-/** When GTM is set, tags route GA4/Meta via dataLayer — skip duplicate direct scripts */
+/** When GTM is set, GA4 runs via GTM only. Meta Pixel loads direct when VITE_META_PIXEL_ID is set. */
 export const useGtmHub = !!analyticsConfig.gtmId;
 
 export const hasAnalytics =
@@ -110,7 +110,7 @@ export function track(options: TrackOptions) {
   });
 
   if (ga4Event && !useGtmHub) sendGa4(ga4Event, { ...params, ...ga4Params });
-  if (metaEvent && !useGtmHub) sendMeta(metaEvent, { ...params, ...metaParams }, metaStandard);
+  if (metaEvent && analyticsConfig.metaPixelId) sendMeta(metaEvent, { ...params, ...metaParams }, metaStandard);
 }
 
 function loadScript(src: string, id?: string) {
@@ -169,6 +169,18 @@ function loadMetaPixel(pixelId: string) {
 
   loadScript("https://connect.facebook.net/en_US/fbevents.js", "meta-pixel-script");
   window.fbq("init", pixelId);
+
+  if (!document.getElementById("meta-pixel-noscript")) {
+    const noscript = document.createElement("noscript");
+    noscript.id = "meta-pixel-noscript";
+    const img = document.createElement("img");
+    img.height = 1;
+    img.width = 1;
+    img.style.display = "none";
+    img.src = `https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`;
+    noscript.appendChild(img);
+    document.body.prepend(noscript);
+  }
 }
 
 function loadMicrosoftClarity(projectId: string) {
@@ -195,7 +207,7 @@ export function initAnalyticsScripts() {
   const { gtmId, gaMeasurementId, metaPixelId, clarityProjectId } = analyticsConfig;
   if (gtmId) loadGoogleTagManager(gtmId);
   if (gaMeasurementId && !useGtmHub) loadGoogleAnalytics(gaMeasurementId);
-  if (metaPixelId && !useGtmHub) loadMetaPixel(metaPixelId);
+  if (metaPixelId) loadMetaPixel(metaPixelId);
   if (clarityProjectId) loadMicrosoftClarity(clarityProjectId);
 }
 

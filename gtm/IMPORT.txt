@@ -17,6 +17,7 @@ STEP 1 — Import into Google Tag Manager
 STEP 2 — Vercel env vars (Production)
   Keep:
     VITE_GTM_ID=GTM-W5G7H4GP
+    VITE_META_PIXEL_ID=4461774897440224
     VITE_CLARITY_PROJECT_ID=wz5rob2h5u
 
   Remove (GA4 now runs inside GTM):
