@@ -15,6 +15,10 @@ Implementation: `src/lib/analytics/` · Route wrapper: `src/components/Analytics
 
 ## GTM setup
 
+**One-shot import:** run `npm run gtm:generate` then import `gtm/prestoliv-analytics-import.json` via GTM → Admin → Import Container. Full steps in `gtm/IMPORT.txt`.
+
+When `VITE_GTM_ID` is set, GA4/Meta load only through GTM (no duplicate direct gtag). Leave `VITE_GA_MEASUREMENT_ID` empty in Vercel.
+
 Create **Custom Event** triggers using the **Event name** column exactly as written. Map to GA4 Event tags or use built-in GA4 configuration.
 
 Every event also includes: `page_path`, `content_group`, `event_category`, `event_action`, `event_label`.

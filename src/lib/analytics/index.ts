@@ -16,6 +16,7 @@ export {
 export {
   analyticsConfig,
   hasAnalytics,
+  useGtmHub,
   initAnalyticsScripts,
   track,
   trackPageView,

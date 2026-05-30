@@ -31,8 +31,11 @@ export const analyticsConfig = {
   clarityProjectId: import.meta.env.VITE_CLARITY_PROJECT_ID?.trim() || "",
 } as const;
 
+/** When GTM is set, tags route GA4/Meta via dataLayer — skip duplicate direct scripts */
+export const useGtmHub = !!analyticsConfig.gtmId;
+
 export const hasAnalytics =
-  !!analyticsConfig.gtmId ||
+  useGtmHub ||
   !!analyticsConfig.gaMeasurementId ||
   !!analyticsConfig.metaPixelId ||
   !!analyticsConfig.clarityProjectId;
@@ -106,8 +109,8 @@ export function track(options: TrackOptions) {
     ...params,
   });
 
-  if (ga4Event) sendGa4(ga4Event, { ...params, ...ga4Params });
-  if (metaEvent) sendMeta(metaEvent, { ...params, ...metaParams }, metaStandard);
+  if (ga4Event && !useGtmHub) sendGa4(ga4Event, { ...params, ...ga4Params });
+  if (metaEvent && !useGtmHub) sendMeta(metaEvent, { ...params, ...metaParams }, metaStandard);
 }
 
 function loadScript(src: string, id?: string) {
@@ -191,8 +194,8 @@ export function initAnalyticsScripts() {
 
   const { gtmId, gaMeasurementId, metaPixelId, clarityProjectId } = analyticsConfig;
   if (gtmId) loadGoogleTagManager(gtmId);
-  if (gaMeasurementId) loadGoogleAnalytics(gaMeasurementId);
-  if (metaPixelId) loadMetaPixel(metaPixelId);
+  if (gaMeasurementId && !useGtmHub) loadGoogleAnalytics(gaMeasurementId);
+  if (metaPixelId && !useGtmHub) loadMetaPixel(metaPixelId);
   if (clarityProjectId) loadMicrosoftClarity(clarityProjectId);
 }
 
