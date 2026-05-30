@@ -17,6 +17,7 @@ import { supabase } from "@/lib/supabase";
 
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
+import { dashboardProfileUrl } from "@/lib/dashboard";
 
 import residentialImg from "@/assets/3.jpg";
 import commercialImg from "@/assets/2.jpg";
@@ -89,10 +90,7 @@ export const Navbar = () => {
   const handleDashboardClick = () => {
     if (user) {
       trackDashboardOpen();
-      window.open(
-        `https://prestoliv-dashboard.vercel.app/at/profile?uid=${user.id}`,
-        "_blank"
-      );
+      window.open(dashboardProfileUrl(user.id), "_blank");
     }
   };
 

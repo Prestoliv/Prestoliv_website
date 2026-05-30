@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { trackSignInComplete } from "@/lib/analytics";
+import { dashboardProfileUrl } from "@/lib/dashboard";
 
 const AuthCallback = () => {
   useEffect(() => {
@@ -8,7 +9,7 @@ const AuthCallback = () => {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
         trackSignInComplete();
-        window.open(`https://prestoliv-dashboard.vercel.app/at/profile?uid=${data.session.user.id}`, '_blank');
+        window.open(dashboardProfileUrl(data.session.user.id), "_blank");
         window.location.href = '/';
       } else {
         window.location.href = '/';
