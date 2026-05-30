@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
+import { trackSignInComplete } from "@/lib/analytics";
 
 const AuthCallback = () => {
   useEffect(() => {
     const handleAuthCallback = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
+        trackSignInComplete();
         window.open(`https://prestoliv-dashboard.vercel.app/at/profile?uid=${data.session.user.id}`, '_blank');
         window.location.href = '/';
       } else {

@@ -20,8 +20,17 @@ import {
   toSqft,
   type CalculatorConfig,
   type CalculatorSettings,
+  type PackageConfig,
   type Unit,
 } from "@/lib/calculatorConfig";
+import {
+  trackCalculatorAreaUpdated,
+  trackCalculatorEstimateViewed,
+  trackCalculatorPackageSelect,
+  trackCalculatorReset,
+  trackCalculatorStarted,
+  trackCalculatorUnitChanged,
+} from "@/lib/analytics";
 
 const AREA_MIN = 300;
 const AREA_MAX = 15000;
@@ -46,7 +55,10 @@ function UnitToggle({
         <button
           key={u}
           type="button"
-          onClick={() => onChange(u)}
+          onClick={() => {
+            if (u !== unit) trackCalculatorUnitChanged(u);
+            onChange(u);
+          }}
           className={`flex-1 rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
             unit === u
               ? "bg-brand text-brand-foreground shadow-sm"
@@ -80,6 +92,9 @@ export function CostCalculatorWidget() {
         cfg.packages.find((p) => p.highlight) ?? cfg.packages[0] ?? null;
       setSelectedId(defaultPkg?.id ?? null);
       setLoading(false);
+      if (cfg.packages.length > 0) {
+        trackCalculatorStarted({ packageCount: cfg.packages.length });
+      }
     })();
     return () => {
       cancelled = true;
@@ -110,11 +125,45 @@ export function CostCalculatorWidget() {
 
   const handleReset = () => {
     if (!config) return;
+    trackCalculatorReset();
     setArea(config.settings.default_area);
     setUnit(config.settings.default_unit);
     const defaultPkg =
       config.packages.find((p) => p.highlight) ?? config.packages[0] ?? null;
     setSelectedId(defaultPkg?.id ?? null);
+  };
+
+  useEffect(() => {
+    if (!settings || !selectedPackage || selectedTotal <= 0) return;
+    const t = window.setTimeout(() => {
+      trackCalculatorEstimateViewed({
+        estimateInr: selectedTotal,
+        packageLabel: selectedPackage.label,
+      });
+    }, 600);
+    return () => window.clearTimeout(t);
+  }, [selectedTotal, selectedPackage?.label, settings]);
+
+  useEffect(() => {
+    if (!settings) return;
+    const t = window.setTimeout(() => {
+      trackCalculatorAreaUpdated({
+        area,
+        unit,
+        sqft,
+        estimateInr: selectedTotal > 0 ? selectedTotal : undefined,
+      });
+    }, 900);
+    return () => window.clearTimeout(t);
+  }, [area, unit, sqft, settings]);
+
+  const handlePackageSelect = (pkg: PackageConfig) => {
+    setSelectedId(pkg.id);
+    trackCalculatorPackageSelect({
+      packageId: pkg.id,
+      packageLabel: pkg.label,
+      estimateInr: computePackageTotal(sqft, pkg.pricePerSqft),
+    });
   };
 
   if (loading || !settings) {
@@ -257,7 +306,7 @@ export function CostCalculatorWidget() {
                   </p>
                 )}
 
-                <ConsultationDialog>
+                <ConsultationDialog source="calculator_sidebar">
                   <Button className="mt-5 w-full rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 group">
                     {settings.cta_button}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -301,7 +350,7 @@ export function CostCalculatorWidget() {
                   total={computePackageTotal(sqft, pkg.pricePerSqft)}
                   perSqftLabel={settings.per_sqft_label}
                   selected={selectedPackage?.id === pkg.id}
-                  onSelect={() => setSelectedId(pkg.id)}
+                  onSelect={() => handlePackageSelect(pkg)}
                   index={i}
                 />
               ))}
@@ -345,7 +394,7 @@ export function CostCalculatorUnavailable({
       <p className="mt-2 text-sm text-muted-foreground">
         Please check back soon or book a consultation for a personalized estimate.
       </p>
-      <ConsultationDialog>
+      <ConsultationDialog source="calculator_empty_state">
         <Button className="mt-6 rounded-xl bg-brand text-brand-foreground">
           {settings.cta_button}
           <ArrowRight className="ml-2 h-4 w-4" />

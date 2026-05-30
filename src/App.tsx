@@ -14,6 +14,7 @@ import CommercialPage from "./pages/pages_services/CommercialPage.tsx";
 import ResidentialPage from "./pages/pages_services/ResidentialPage.tsx";
 import InteriorsPage from "./pages/pages_services/InteriorsPage.tsx";
 import ConstructionCalculatorPage from "./pages/ConstructionCalculator.tsx";
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <AnalyticsProvider>
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
@@ -48,6 +50,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </AnalyticsProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

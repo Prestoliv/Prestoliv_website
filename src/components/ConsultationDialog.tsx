@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,10 +7,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/hooks/use-toast";
+import {
+  trackConsultationFormError,
+  trackConsultationFormStart,
+  trackConsultationLead,
+  trackConsultationModalClose,
+  trackConsultationModalOpen,
+  type ConsultationSource,
+} from "@/lib/analytics";
 
-export const ConsultationDialog = ({ children }: { children: React.ReactNode }) => {
+type ConsultationDialogProps = {
+  children: React.ReactNode;
+  /** Where the user opened the modal — used for conversion attribution */
+  source: ConsultationSource;
+};
+
+export const ConsultationDialog = ({ children, source }: ConsultationDialogProps) => {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const formStarted = useRef(false);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -19,6 +34,22 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     service: "",
     otherService: "",
   });
+
+  const handleOpenChange = (next: boolean) => {
+    if (next) {
+      trackConsultationModalOpen(source);
+      formStarted.current = false;
+    } else if (open) {
+      trackConsultationModalClose(source);
+    }
+    setOpen(next);
+  };
+
+  const handleFormInteraction = () => {
+    if (formStarted.current) return;
+    formStarted.current = true;
+    trackConsultationFormStart(source);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,6 +67,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
     setSubmitting(false);
 
     if (error) {
+      trackConsultationFormError({ source, errorMessage: error.message });
       toast({
         title: "Could not submit request",
         description: error.message,
@@ -43,6 +75,13 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
       });
       return;
     }
+
+    trackConsultationLead({
+      service: formData.service,
+      city: formData.city.trim(),
+      source,
+      hasEmail: !!formData.email.trim(),
+    });
 
     toast({
       title: "Request submitted",
@@ -53,7 +92,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -69,6 +108,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               id="name"
               placeholder="Your full name"
               value={formData.name}
+              onFocus={handleFormInteraction}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
@@ -81,6 +121,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               type="tel"
               placeholder="Your phone number"
               value={formData.phone}
+              onFocus={handleFormInteraction}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required
             />
@@ -93,6 +134,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               type="email"
               placeholder="your@email.com"
               value={formData.email}
+              onFocus={handleFormInteraction}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
@@ -103,6 +145,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
               id="city"
               placeholder="e.g. Prayagraj, Lucknow"
               value={formData.city}
+              onFocus={handleFormInteraction}
               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
               required
             />
@@ -112,16 +155,17 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
             <Label htmlFor="service">What service are you looking for? *</Label>
             <Select
               value={formData.service}
-              onValueChange={(value) =>
+              onValueChange={(value) => {
+                handleFormInteraction();
                 setFormData({
                   ...formData,
                   service: value,
                   otherService: value === "others" ? formData.otherService : "",
-                })
-              }
+                });
+              }}
               required
             >
-              <SelectTrigger>
+              <SelectTrigger onFocus={handleFormInteraction}>
                 <SelectValue placeholder="Select a service" />
               </SelectTrigger>
               <SelectContent>
@@ -140,6 +184,7 @@ export const ConsultationDialog = ({ children }: { children: React.ReactNode }) 
                 id="otherService"
                 placeholder="Describe the service you're looking for"
                 value={formData.otherService}
+                onFocus={handleFormInteraction}
                 onChange={(e) => setFormData({ ...formData, otherService: e.target.value })}
                 required
                 rows={3}

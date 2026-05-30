@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Navbar } from "@/components/site/Navbar";
+import { trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
@@ -102,7 +104,12 @@ const VisualCard = ({
   </motion.div>
 );
 
-const InteriorsPage = () => (
+const InteriorsPage = () => {
+  useEffect(() => {
+    trackViewServiceInterest({ service: "interiors", location: "service_page" });
+  }, []);
+
+  return (
   <main className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
@@ -138,7 +145,7 @@ const InteriorsPage = () => (
             <FeatureList items={interiorFeatures} />
 
             <div className="flex flex-row gap-4">
-            <ConsultationDialog>
+            <ConsultationDialog source="service_interiors">
               <Button
                 size="lg"
                 className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
@@ -148,7 +155,17 @@ const InteriorsPage = () => (
               </Button>
             </ConsultationDialog>
 
-              <Link to="/calculator">
+              <Link
+                to="/calculator"
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: "calculate_cost",
+                    ctaText: "Calculate Cost",
+                    location: "service_interiors",
+                    destination: "/calculator",
+                  })
+                }
+              >
                 <Button
                   size="lg"
                   className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
@@ -216,6 +233,7 @@ const InteriorsPage = () => (
 
     <CtaFooter />
   </main>
-);
+  );
+};
 
 export default InteriorsPage;

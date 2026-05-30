@@ -3,6 +3,8 @@ import { ArrowRight, Instagram, Linkedin, Facebook, Mail, Phone, MapPin } from "
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { trackOutboundContact, trackSocialClick } from "@/lib/analytics";
+import { TrackableLink } from "@/components/analytics/TrackableLink";
 import logo from "@/assets/logo.svg";
 
 const cols = [
@@ -54,7 +56,7 @@ export const CtaFooter = () => (
           Tell us about your project. We'll come back with a feasibility plan, a guaranteed timeline and a locked, itemized price.
         </p>
         <div className="mt-8 flex justify-center">
-          <ConsultationDialog>
+          <ConsultationDialog source="footer_cta">
             <Button size="lg" className="rounded-[10px] bg-brand text-background hover:bg-brand/90 group">
               Start Your Project
               <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
@@ -88,6 +90,12 @@ export const CtaFooter = () => (
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
+                  onClick={() =>
+                    trackSocialClick({
+                      platform: label.toLowerCase(),
+                      location: "footer",
+                    })
+                  }
                   className="flex items-center justify-center size-8 rounded-md border border-background/10 text-background/50 hover:text-brand hover:border-brand/40 transition-colors"
                 >
                   <Icon className="size-4" />
@@ -104,13 +112,15 @@ export const CtaFooter = () => (
             <ul className="mt-4 space-y-2.5 text-sm">
               {c.links.map((l) => (
                 <li key={l.href}>
-                  <Link
+                  <TrackableLink
                     to={l.href}
+                    linkText={l.label}
+                    navLocation="footer"
                     className="hover:text-brand transition-colors"
                     onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   >
                     {l.label}
-                  </Link>
+                  </TrackableLink>
                 </li>
               ))}
             </ul>
@@ -122,10 +132,15 @@ export const CtaFooter = () => (
           <div className="text-xs font-semibold uppercase tracking-widest text-background/50">Contact Us</div>
           <ul className="mt-4 space-y-3">
             {contacts.map(({ icon: Icon, label, href }) => {
+              const contactType =
+                href.startsWith("tel:") ? "phone" : href.startsWith("mailto:") ? "email" : null;
               return (
                 <li key={label}>
                   <a
                     href={href}
+                    onClick={() => {
+                      if (contactType) trackOutboundContact(contactType, "footer");
+                    }}
                     className="flex items-start gap-2.5 text-sm text-background/60 hover:text-brand transition-colors group"
                   >
                     <Icon className="size-4 mt-0.5 shrink-0 text-background/40 group-hover:text-brand transition-colors" />

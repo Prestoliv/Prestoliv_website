@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
 
 import residentialImg from "@/assets/3.jpg";
 import commercialImg from "@/assets/2.jpg";
@@ -74,6 +75,7 @@ export const Navbar = () => {
   }, []);
 
   const handleGoogleLogin = async () => {
+    trackSignInStart();
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -86,6 +88,7 @@ export const Navbar = () => {
 
   const handleDashboardClick = () => {
     if (user) {
+      trackDashboardOpen();
       window.open(
         `https://prestoliv-dashboard.vercel.app/at/profile?uid=${user.id}`,
         "_blank"
@@ -194,12 +197,14 @@ export const Navbar = () => {
                         <Link
                           key={service.href}
                           to={service.href}
-                          onClick={() =>
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            })
-                          }
+                          onClick={() => {
+                            trackNavigationClick({
+                              linkText: service.label,
+                              destination: service.href,
+                              location: "navbar_services_dropdown",
+                            });
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
                           className="
                             group/item
                             flex
@@ -253,7 +258,7 @@ export const Navbar = () => {
                       Not sure where to start?
                     </p>
 
-                    <ConsultationDialog>
+                    <ConsultationDialog source="navbar_services_menu">
                       <button className="text-xs font-semibold text-brand hover:underline underline-offset-2">
                         Book a free call →
                       </button>
@@ -268,12 +273,14 @@ export const Navbar = () => {
               <Link
                 key={l.href}
                 to={l.href}
-                onClick={() =>
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  })
-                }
+                onClick={() => {
+                  trackNavigationClick({
+                    linkText: l.label,
+                    destination: l.href,
+                    location: "navbar_desktop",
+                  });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
                 className="
                   inline-flex
                   items-center
@@ -318,7 +325,7 @@ export const Navbar = () => {
             </Button>
           )}
 
-          <ConsultationDialog>
+          <ConsultationDialog source="navbar_desktop">
             <Button className="rounded-[10px] bg-brand text-background hover:bg-brand/90">
               Book a Consultation
             </Button>
@@ -398,13 +405,14 @@ export const Navbar = () => {
                           key={service.href}
                           to={service.href}
                           onClick={() => {
+                            trackNavigationClick({
+                              linkText: service.label,
+                              destination: service.href,
+                              location: "navbar_mobile_services",
+                            });
                             setOpen(false);
                             setServicesOpen(false);
-
-                            window.scrollTo({
-                              top: 0,
-                              behavior: "smooth",
-                            });
+                            window.scrollTo({ top: 0, behavior: "smooth" });
                           }}
                           className="group flex items-center gap-3 rounded-[10px] px-3 py-3 hover:bg-muted/40 transition-colors"
                         >
@@ -448,12 +456,13 @@ export const Navbar = () => {
                   key={l.href}
                   to={l.href}
                   onClick={() => {
-                    setOpen(false);
-
-                    window.scrollTo({
-                      top: 0,
-                      behavior: "smooth",
+                    trackNavigationClick({
+                      linkText: l.label,
+                      destination: l.href,
+                      location: "navbar_mobile",
                     });
+                    setOpen(false);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
                   }}
                   className="flex items-center h-11 px-4 rounded-[10px] text-sm font-medium text-foreground/80 hover:bg-muted/40 transition-colors"
                 >
@@ -488,7 +497,7 @@ export const Navbar = () => {
                 </Button>
               )}
 
-              <ConsultationDialog>
+              <ConsultationDialog source="navbar_mobile">
                 <Button className="w-full rounded-[10px] bg-brand text-background hover:bg-brand/90">
                   Book a Consultation
                 </Button>

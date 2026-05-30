@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Navbar } from "@/components/site/Navbar";
+import { trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
@@ -101,7 +103,12 @@ const VisualCard = ({
   </motion.div>
 );
 
-const CommercialPage = () => (
+const CommercialPage = () => {
+  useEffect(() => {
+    trackViewServiceInterest({ service: "commercial", location: "service_page" });
+  }, []);
+
+  return (
   <main className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
@@ -145,7 +152,7 @@ const CommercialPage = () => (
             <FeatureList items={commercialFeatures} />
 
             <div className="flex flex-row gap-4">
-            <ConsultationDialog>
+            <ConsultationDialog source="service_commercial">
               <Button
                 size="lg"
                 className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
@@ -155,7 +162,17 @@ const CommercialPage = () => (
               </Button>
             </ConsultationDialog>
 
-              <Link to="/calculator">
+              <Link
+                to="/calculator"
+                onClick={() =>
+                  trackCtaClick({
+                    ctaId: "calculate_cost",
+                    ctaText: "Calculate Cost",
+                    location: "service_commercial",
+                    destination: "/calculator",
+                  })
+                }
+              >
                 <Button
                   size="lg"
                   className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
@@ -215,6 +232,7 @@ const CommercialPage = () => (
 
     <CtaFooter />
   </main>
-);
+  );
+};
 
 export default CommercialPage;

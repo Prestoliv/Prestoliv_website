@@ -1,4 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { trackFaqExpand } from "@/lib/analytics";
 
 const faqs = [
   {
@@ -43,7 +44,17 @@ export const Faq = () => (
         <h2 className="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">Questions, answered.</h2>
         <p className="mt-3 text-muted-foreground">If we missed something, our team is one message away.</p>
       </div>
-      <Accordion type="single" collapsible className="mt-12 space-y-3">
+      <Accordion
+        type="single"
+        collapsible
+        className="mt-12 space-y-3"
+        onValueChange={(value) => {
+          if (!value) return;
+          const index = Number(value.replace("i-", ""));
+          const item = faqs[index];
+          if (item) trackFaqExpand({ question: item.q, index });
+        }}
+      >
         {faqs.map((f, i) => (
           <AccordionItem
             key={i}
