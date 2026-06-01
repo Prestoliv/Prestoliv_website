@@ -39,7 +39,7 @@ const contacts = [
 
 export const CtaFooter = () => (
   <>
-    <section className="relative overflow-hidden py-28 bg-gradient-hero">
+    <section id="footer-cta" className="relative overflow-hidden py-28 bg-gradient-hero">
       <div className="absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
       <motion.div
         aria-hidden
@@ -66,7 +66,7 @@ export const CtaFooter = () => (
       </div>
     </section>
 
-    <footer className="bg-foreground text-background/90">
+    <footer id="site-footer" className="bg-foreground text-background/90">
       <div className="max-w-6xl mx-auto px-6 py-16 grid grid-cols-2 md:grid-cols-5 gap-10">
 
         {/* Brand col */}
@@ -86,6 +86,8 @@ export const CtaFooter = () => (
               return (
                 <a
                   key={label}
+                  id={`btn-social-${label.toLowerCase()}`}
+                  data-analytics-id={`social_${label.toLowerCase()}`}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -137,6 +139,8 @@ export const CtaFooter = () => (
               return (
                 <li key={label}>
                   <a
+                    id={contactType ? `btn-contact-${contactType}` : undefined}
+                    data-analytics-id={contactType ? `contact_${contactType}` : undefined}
                     href={href}
                     onClick={() => {
                       if (contactType) trackOutboundContact(contactType, "footer");

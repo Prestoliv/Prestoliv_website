@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import house from "@/assets/hero-house1.png";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { trackCtaClick } from "@/lib/analytics";
+import { analyticsDataAttributes, ctaTriggerId, trackCtaClick } from "@/lib/analytics";
 
 
 export const Hero = () => {
@@ -23,6 +23,7 @@ export const Hero = () => {
 
   return (
     <section
+      id="hero"
       ref={ref}
       className="relative isolate min-h-screen sm:min-h-[130svh] flex flex-col overflow-hidden"
       style={{
@@ -90,7 +91,9 @@ export const Hero = () => {
           </ConsultationDialog>
 
           <Link
+            id={ctaTriggerId("calculate_cost-hero")}
             to="/calculator"
+            {...analyticsDataAttributes("calculate_cost-hero")}
             onClick={() =>
               trackCtaClick({
                 ctaId: "calculate_cost",

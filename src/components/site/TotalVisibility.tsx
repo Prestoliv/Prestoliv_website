@@ -31,7 +31,7 @@ const features = [
 
 export const TotalVisibility = () => {
   return (
-    <section className="relative overflow-hidden py-24 bg-background">
+    <section id="visibility" className="relative overflow-hidden py-24 bg-background">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-20 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brand/10 blur-3xl" />

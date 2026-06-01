@@ -20,7 +20,7 @@ import bento3d from "@/assets/1a.jpg";
 import bentoDashboard from "@/assets/2a.webp";
 import bentoAccountability from "@/assets/bento-accountability.jpg";
 import bentoTimeline from "@/assets/3p.png";
-import { trackCtaClick } from "@/lib/analytics";
+import { analyticsDataAttributes, ctaTriggerId, trackCtaClick } from "@/lib/analytics";
 
 type Item = {
   title: string;
@@ -131,6 +131,8 @@ export const Bento = () => {
             return (
               <motion.button
                 key={it.title}
+                id={ctaTriggerId(it.ctaId)}
+                {...analyticsDataAttributes(it.ctaId)}
                 onClick={() => {
                   trackCtaClick({
                     ctaId: it.ctaId,

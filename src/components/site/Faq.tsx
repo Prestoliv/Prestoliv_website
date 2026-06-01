@@ -37,7 +37,7 @@ const faqs = [
 ];
 
 export const Faq = () => (
-  <section className="py-24 bg-background">
+    <section id="faq" className="py-24 bg-background">
     <div className="max-w-3xl mx-auto px-6">
       <div className="text-center">
         <span className="text-xs font-semibold tracking-widest uppercase text-brand">FAQs</span>

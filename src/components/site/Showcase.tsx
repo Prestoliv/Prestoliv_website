@@ -4,7 +4,7 @@ import s2 from "@/assets/gallery-5.jpg";
 import team from "@/assets/team.jpg";
 
 export const Showcase = () => (
-  <section className="py-24 bg-surface border-y border-border">
+  <section id="showcase" className="py-24 bg-surface border-y border-border">
     <div className="max-w-6xl mx-auto px-6">
       <div className="max-w-xl">
         <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight">

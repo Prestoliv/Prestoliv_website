@@ -43,3 +43,5 @@ export {
   trackViewServiceInterest,
   type TrackParams,
 } from "./core";
+
+export { analyticsDataAttributes, consultationTriggerId, ctaTriggerId, navLinkId } from "./ids";

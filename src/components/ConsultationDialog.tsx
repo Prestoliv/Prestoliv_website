@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { cloneElement, isValidElement, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +15,7 @@ import {
   trackConsultationModalOpen,
   type ConsultationSource,
 } from "@/lib/analytics";
+import { analyticsDataAttributes, consultationTriggerId } from "@/lib/analytics/ids";
 
 type ConsultationDialogProps = {
   children: React.ReactNode;
@@ -91,10 +92,15 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
     setFormData({ name: "", phone: "", email: "", city: "", service: "", otherService: "" });
   };
 
+  const triggerId = consultationTriggerId(source);
+  const triggerProps = { id: triggerId, ...analyticsDataAttributes(source) };
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        {children}
+        {isValidElement(children)
+          ? cloneElement(children, triggerProps as Record<string, string>)
+          : children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

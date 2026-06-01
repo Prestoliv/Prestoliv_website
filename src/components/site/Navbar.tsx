@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
+import { navLinkId, trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
 import { dashboardProfileUrl } from "@/lib/dashboard";
 
 import residentialImg from "@/assets/3.jpg";
@@ -124,7 +124,7 @@ export const Navbar = () => {
         }`}
       >
         {/* Logo */}
-        <Link to="/" className="flex items-center shrink-0">
+        <Link id="nav-logo-home" data-analytics-id="nav-logo-home" to="/" className="flex items-center shrink-0">
           <img
             src={logo}
             alt="Prestoliv"
@@ -139,13 +139,20 @@ export const Navbar = () => {
             <div className="relative group mr-2">
               {/* Main Nav Link */}
               <Link
+                id={navLinkId("navbar_desktop", "/services")}
+                data-analytics-id={navLinkId("navbar_desktop", "/services")}
                 to="/services"
-                onClick={() =>
+                onClick={() => {
+                  trackNavigationClick({
+                    linkText: "Our Services",
+                    destination: "/services",
+                    location: "navbar_desktop",
+                  });
                   window.scrollTo({
                     top: 0,
                     behavior: "smooth",
-                  })
-                }
+                  });
+                }}
                 className="
                   inline-flex
                   items-center
@@ -194,6 +201,8 @@ export const Navbar = () => {
                       return (
                         <Link
                           key={service.href}
+                          id={navLinkId("navbar_services_dropdown", service.href)}
+                          data-analytics-id={navLinkId("navbar_services_dropdown", service.href)}
                           to={service.href}
                           onClick={() => {
                             trackNavigationClick({
@@ -270,6 +279,8 @@ export const Navbar = () => {
             {links.map((l) => (
               <Link
                 key={l.href}
+                id={navLinkId("navbar_desktop", l.href)}
+                data-analytics-id={navLinkId("navbar_desktop", l.href)}
                 to={l.href}
                 onClick={() => {
                   trackNavigationClick({
@@ -305,6 +316,8 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center gap-2">
           {user ? (
             <Button
+              id="btn-auth-dashboard"
+              data-analytics-id="dashboard_open"
               variant="outline"
               size="sm"
               className="rounded-[10px]"
@@ -314,6 +327,8 @@ export const Navbar = () => {
             </Button>
           ) : (
             <Button
+              id="btn-auth-login"
+              data-analytics-id="sign_in_start"
               variant="outline"
               size="sm"
               className="rounded-[10px]"
@@ -401,6 +416,8 @@ export const Navbar = () => {
                       {services.map((service) => (
                         <Link
                           key={service.href}
+                          id={navLinkId("navbar_mobile_services", service.href)}
+                          data-analytics-id={navLinkId("navbar_mobile_services", service.href)}
                           to={service.href}
                           onClick={() => {
                             trackNavigationClick({
@@ -452,6 +469,8 @@ export const Navbar = () => {
               {links.map((l) => (
                 <Link
                   key={l.href}
+                  id={navLinkId("navbar_mobile", l.href)}
+                  data-analytics-id={navLinkId("navbar_mobile", l.href)}
                   to={l.href}
                   onClick={() => {
                     trackNavigationClick({
@@ -473,6 +492,8 @@ export const Navbar = () => {
             <div className="p-4 space-y-2">
               {user ? (
                 <Button
+                  id="btn-auth-dashboard-mobile"
+                  data-analytics-id="dashboard_open"
                   variant="outline"
                   className="w-full rounded-[10px]"
                   onClick={() => {
@@ -484,6 +505,8 @@ export const Navbar = () => {
                 </Button>
               ) : (
                 <Button
+                  id="btn-auth-login-mobile"
+                  data-analytics-id="sign_in_start"
                   variant="outline"
                   className="w-full rounded-[10px]"
                   onClick={() => {

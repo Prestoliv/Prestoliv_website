@@ -3,7 +3,12 @@ import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import type { ConsultationSource } from "@/lib/analytics";
-import { trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
+import {
+  analyticsDataAttributes,
+  ctaTriggerId,
+  trackCtaClick,
+  trackViewServiceInterest,
+} from "@/lib/analytics";
 
 import { motion } from "framer-motion";
 
@@ -90,6 +95,8 @@ const ServiceActions = ({
 }) => (
   <div className="mt-8 flex flex-wrap items-center gap-3">
     <Link
+      id={ctaTriggerId(`view_service_details-${serviceSlug}`)}
+      {...analyticsDataAttributes(`view_service_details-${serviceSlug}`)}
       to={detailsHref}
       onClick={() => {
         trackViewServiceInterest({ service: serviceSlug, location: "services_hub" });
@@ -126,6 +133,8 @@ const ServiceActions = ({
     </Link>
 
     <Link
+      id={ctaTriggerId(`calculate_cost-${serviceSlug}`)}
+      {...analyticsDataAttributes(`calculate_cost-services_hub_${serviceSlug}`)}
       to="/calculator"
       onClick={() =>
         trackCtaClick({
@@ -244,6 +253,8 @@ const OurServices = () => (
         </Button>
       </ConsultationDialog>
       <Link
+        id={ctaTriggerId("calculate_cost-services_hub_hero")}
+        {...analyticsDataAttributes("calculate_cost-services_hub_hero")}
         to="/calculator"
         onClick={() =>
           trackCtaClick({
@@ -443,6 +454,8 @@ const OurServices = () => (
 
         <div className="mt-14 flex flex-wrap justify-center gap-3">
           <Link
+            id={ctaTriggerId("explore_specialized")}
+            {...analyticsDataAttributes("explore_specialized")}
             to="/calculator"
             onClick={() =>
               trackCtaClick({

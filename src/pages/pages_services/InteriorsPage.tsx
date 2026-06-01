@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/site/Navbar";
-import { trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
+import {
+  analyticsDataAttributes,
+  ctaTriggerId,
+  navLinkId,
+  trackCtaClick,
+  trackNavigationClick,
+  trackViewServiceInterest,
+} from "@/lib/analytics";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
@@ -167,6 +174,8 @@ const InteriorsPage = () => {
                 }
               >
                 <Button
+                  id={ctaTriggerId("calculate_cost-service_interiors")}
+                  {...analyticsDataAttributes("calculate_cost-service_interiors")}
                   size="lg"
                   className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
                 >
@@ -203,7 +212,16 @@ const InteriorsPage = () => {
           {relatedServices.map((service, i) => (
             <motion.a
               key={i}
+              id={navLinkId("service_related_interiors", service.href)}
+              data-analytics-id={navLinkId("service_related_interiors", service.href)}
               href={service.href}
+              onClick={() =>
+                trackNavigationClick({
+                  linkText: service.title,
+                  destination: service.href,
+                  location: "service_related_interiors",
+                })
+              }
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
