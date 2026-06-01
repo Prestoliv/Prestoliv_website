@@ -91,6 +91,8 @@ export const StatsGallery = () => {
           {images.map((item, i) => (
             <motion.div
               key={i}
+              id={`gallery-card-${i}`}
+              data-analytics-id={`gallery_${item.label.toLowerCase().replace(/\s+/g, "_")}`}
               whileHover={{ y: -6 }}
               transition={{ duration: 0.3 }}
               className="group relative shrink-0 w-[78vw] sm:w-[440px] aspect-[4/3] overflow-hidden rounded-3xl border border-border/60 bg-muted shadow-soft"

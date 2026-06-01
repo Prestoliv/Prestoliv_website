@@ -4,10 +4,21 @@ interface PageHeroProps {
   eyebrow: string;
   title: string;
   subtitle: string;
+  /** HTML section id for DevTools / GTM (auto-slug from eyebrow if omitted). */
+  sectionId?: string;
 }
 
-export const PageHero = ({ eyebrow, title, subtitle }: PageHeroProps) => (
+export const PageHero = ({ eyebrow, title, subtitle, sectionId }: PageHeroProps) => {
+  const heroSectionId =
+    sectionId ??
+    `page-hero-${eyebrow
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")}`;
+
+  return (
   <section
+    id={heroSectionId}
     className="relative pt-36 pb-20 overflow-hidden"
     style={{ background: "linear-gradient(to bottom, hsl(205 55% 65%) 0%, hsl(200 45% 78%) 60%, hsl(0 0% 100%) 100%)" }}
   >
@@ -40,4 +51,5 @@ export const PageHero = ({ eyebrow, title, subtitle }: PageHeroProps) => (
       </motion.p>
     </div>
   </section>
-);
+  );
+};

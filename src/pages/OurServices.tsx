@@ -237,7 +237,7 @@ const VisualCard = ({
 );
 
 const OurServices = () => (
-  <main className="min-h-screen overflow-hidden bg-background text-foreground">
+  <main id="page-services" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
     <PageHero
@@ -272,7 +272,7 @@ const OurServices = () => (
     </div>
 
     {/* Residential */}
-    <section className="py-24">
+    <section id="services-hub-residential" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-16 md:grid-cols-2">
           <motion.div
@@ -319,7 +319,7 @@ const OurServices = () => (
     </section>
 
     {/* Commercial */}
-    <section className="border-y border-border bg-surface py-24">
+    <section id="services-hub-commercial" className="border-y border-border bg-surface py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-16 md:grid-cols-2">
           <VisualCard
@@ -365,7 +365,7 @@ const OurServices = () => (
     </section>
 
     {/* Interiors */}
-    <section className="py-24">
+    <section id="services-hub-interiors" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-16 md:grid-cols-2">
           <motion.div
@@ -411,7 +411,7 @@ const OurServices = () => (
     </section>
 
     {/* Specialized */}
-    <section className="border-y border-border bg-surface py-24">
+    <section id="services-hub-specialized" className="border-y border-border bg-surface py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-3xl">
           <div className="inline-flex items-center rounded-full border border-border/60 bg-background/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand backdrop-blur">

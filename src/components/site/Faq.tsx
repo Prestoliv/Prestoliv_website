@@ -61,7 +61,12 @@ export const Faq = () => (
             value={`i-${i}`}
             className="rounded-md border border-border bg-card px-5 shadow-soft data-[state=open]:shadow-card transition-shadow"
           >
-            <AccordionTrigger className="text-left font-display text-base font-semibold hover:no-underline py-5">
+            <AccordionTrigger
+              id={`btn-faq-${i}`}
+              data-analytics-id={`faq_${i}`}
+              data-button-id={`faq_${i}`}
+              className="text-left font-display text-base font-semibold hover:no-underline py-5"
+            >
               {f.q}
             </AccordionTrigger>
             <AccordionContent className="text-muted-foreground leading-relaxed pb-5">

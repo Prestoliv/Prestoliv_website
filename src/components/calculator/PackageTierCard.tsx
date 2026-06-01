@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import type { PackageConfig } from "@/lib/calculatorConfig";
+import { analyticsProps } from "@/lib/analytics/ids";
 import { formatINR, formatRate } from "./format";
 
 type PackageTierCardProps = {
@@ -23,6 +24,7 @@ export function PackageTierCard({
   return (
     <motion.button
       type="button"
+      {...analyticsProps(`calculator-package-${pkg.id}`)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05, duration: 0.45 }}

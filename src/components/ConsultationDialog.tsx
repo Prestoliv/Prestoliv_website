@@ -15,7 +15,11 @@ import {
   trackConsultationModalOpen,
   type ConsultationSource,
 } from "@/lib/analytics";
-import { analyticsDataAttributes, consultationTriggerId } from "@/lib/analytics/ids";
+import {
+  analyticsDataAttributes,
+  consultationSubmitId,
+  consultationTriggerId,
+} from "@/lib/analytics/ids";
 
 type ConsultationDialogProps = {
   children: React.ReactNode;
@@ -99,7 +103,12 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {isValidElement(children)
-          ? cloneElement(children, triggerProps as Record<string, string>)
+          ? cloneElement(children, {
+              ...triggerProps,
+              id: triggerId,
+              "data-analytics-id": source,
+              "data-button-id": source,
+            } as Record<string, string>)
           : children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -199,6 +208,9 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
           )}
 
           <Button
+            id={consultationSubmitId(source)}
+            data-analytics-id={`consultation_submit_${source}`}
+            data-button-id={source}
             type="submit"
             disabled={submitting}
             className="w-full bg-foreground text-background hover:bg-foreground/90"

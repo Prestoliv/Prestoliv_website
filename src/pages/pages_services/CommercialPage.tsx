@@ -116,7 +116,7 @@ const CommercialPage = () => {
   }, []);
 
   return (
-  <main className="min-h-screen overflow-hidden bg-background text-foreground">
+  <main id="page-service-commercial" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
     <PageHero
@@ -126,7 +126,7 @@ const CommercialPage = () => {
     />
 
     {/* Main Service Section */}
-    <section className="py-24">
+    <section id="service-commercial-hero" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-16 md:grid-cols-2">
           <VisualCard
@@ -196,7 +196,7 @@ const CommercialPage = () => {
     </section>
 
     {/* Other Services */}
-    <section className="border-t border-border bg-surface py-24">
+    <section id="service-commercial-related" className="border-t border-border bg-surface py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">

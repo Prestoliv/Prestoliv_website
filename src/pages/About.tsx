@@ -8,7 +8,7 @@ import p1 from "@/assets/p1.jpeg";
 import p2 from "@/assets/p2.png";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { trackSocialClick } from "@/lib/analytics";
+import { analyticsProps, trackSocialClick } from "@/lib/analytics";
 
 const commitments = [
   { icon: Eye, title: "VR-First", desc: "See It Before You Build It", detail: "Walk through your home in 3D before a single brick is laid. Catch what paper drawings can't show." },
@@ -32,7 +32,7 @@ const teamMembers = [
 ];
 
 const About = () => (
-  <main className="min-h-screen bg-background text-foreground">
+  <main id="page-about" className="min-h-screen bg-background text-foreground">
     <Navbar />
     <PageHero
       eyebrow="About Us"
@@ -41,7 +41,7 @@ const About = () => (
     />
 
 {/* Our Story Section */}
-<section className="relative overflow-hidden py-28">
+<section id="about-story" className="relative overflow-hidden py-28">
   {/* Background Glow */}
   <div className="absolute inset-0 -z-10">
     <div className="absolute left-1/3 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
@@ -158,7 +158,7 @@ const About = () => (
 </section>
 
     {/* About Us - Four Commitments */}
-    <section className="py-24 bg-surface border-y border-border">
+    <section id="about-commitments" className="py-24 bg-surface border-y border-border">
       <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-2xl">
           <span className="text-xs font-semibold tracking-widest uppercase text-brand">About Us</span>
@@ -191,7 +191,7 @@ const About = () => (
     </section>
 
     {/* Meet the Team */}
-    <section className="relative overflow-hidden py-28">
+    <section id="about-team" className="relative overflow-hidden py-28">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute right-1/4 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
@@ -221,6 +221,7 @@ const About = () => (
           {teamMembers.map((member, i) => (
             <motion.a
               key={member.name}
+              {...analyticsProps(`about-team-linkedin-${member.name.toLowerCase().replace(/\s+/g, "-")}`)}
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
@@ -312,7 +313,7 @@ const About = () => (
     </section>
 
     {/* How We Work */}
-    <section className="py-24 bg-surface border-y border-border">
+    <section id="about-how-we-work" className="py-24 bg-surface border-y border-border">
       <div className="max-w-6xl mx-auto px-6">
         <div className="max-w-2xl">
           <span className="text-xs font-semibold tracking-widest uppercase text-brand">How we work</span>
@@ -347,7 +348,7 @@ const About = () => (
             );
           })}
         </div>
-        <div className="mt-12 text-center">
+        <div id="about-contact" className="mt-12 text-center">
           <ConsultationDialog source="about_page">
             <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft">
               Contact Us

@@ -117,7 +117,7 @@ const InteriorsPage = () => {
   }, []);
 
   return (
-  <main className="min-h-screen overflow-hidden bg-background text-foreground">
+  <main id="page-service-interiors" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
     <PageHero
@@ -127,7 +127,7 @@ const InteriorsPage = () => {
     />
 
     {/* Main Service Section */}
-    <section className="py-24">
+    <section id="service-interiors-hero" className="py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid items-center gap-16 md:grid-cols-2">
           <motion.div
@@ -197,7 +197,7 @@ const InteriorsPage = () => {
     </section>
 
     {/* Other Services */}
-    <section className="border-t border-border bg-surface py-24">
+    <section id="service-interiors-related" className="border-t border-border bg-surface py-24">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-12">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">

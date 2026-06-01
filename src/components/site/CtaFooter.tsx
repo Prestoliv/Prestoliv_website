@@ -162,9 +162,15 @@ export const CtaFooter = () => (
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between text-xs text-background/50">
           <span>© {new Date().getFullYear()} Prestoliv. All rights reserved.</span>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-background">Terms</a>
-            <a href="#" className="hover:text-background">Privacy</a>
-            <a href="#" className="hover:text-background">Cookies</a>
+            <a id="btn-legal-terms" data-analytics-id="legal_terms" href="#" className="hover:text-background">
+              Terms
+            </a>
+            <a id="btn-legal-privacy" data-analytics-id="legal_privacy" href="#" className="hover:text-background">
+              Privacy
+            </a>
+            <a id="btn-legal-cookies" data-analytics-id="legal_cookies" href="#" className="hover:text-background">
+              Cookies
+            </a>
           </div>
         </div>
       </div>

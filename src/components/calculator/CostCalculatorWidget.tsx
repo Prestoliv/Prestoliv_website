@@ -31,6 +31,7 @@ import {
   trackCalculatorStarted,
   trackCalculatorUnitChanged,
 } from "@/lib/analytics";
+import { analyticsProps, inputAnalyticsId } from "@/lib/analytics/ids";
 
 const AREA_MIN = 300;
 const AREA_MAX = 15000;
@@ -55,6 +56,7 @@ function UnitToggle({
         <button
           key={u}
           type="button"
+          {...analyticsProps(`calculator-unit-${u}`, { elementPrefix: "toggle" })}
           onClick={() => {
             if (u !== unit) trackCalculatorUnitChanged(u);
             onChange(u);
@@ -176,7 +178,7 @@ export function CostCalculatorWidget() {
   }
 
   return (
-    <div className="space-y-10">
+    <div id="calculator-widget" className="space-y-10">
       {/* Steps */}
       <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
         {STEPS.map((step, i) => (
@@ -225,6 +227,9 @@ export function CostCalculatorWidget() {
                 <div>
                   <div className="flex items-baseline justify-between gap-2">
                     <input
+                      id={inputAnalyticsId("calculator-area")}
+                      data-analytics-id="calculator_area"
+                      data-button-id="calculator_area"
                       type="number"
                       min={AREA_MIN}
                       max={AREA_MAX}
@@ -238,6 +243,8 @@ export function CostCalculatorWidget() {
                   </div>
 
                   <input
+                    id={inputAnalyticsId("calculator-area-slider")}
+                    data-analytics-id="calculator_area_slider"
                     type="range"
                     min={AREA_MIN}
                     max={AREA_MAX}
@@ -265,6 +272,7 @@ export function CostCalculatorWidget() {
 
                 <button
                   type="button"
+                  {...analyticsProps("calculator-reset")}
                   onClick={handleReset}
                   className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border py-2.5 text-sm font-medium text-muted-foreground transition hover:border-brand/30 hover:text-brand"
                 >

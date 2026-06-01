@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { navLinkId, trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
+import { analyticsProps, navLinkId, trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
 import { dashboardProfileUrl } from "@/lib/dashboard";
 
 import residentialImg from "@/assets/3.jpg";
@@ -266,7 +266,10 @@ export const Navbar = () => {
                     </p>
 
                     <ConsultationDialog source="navbar_services_menu">
-                      <button className="text-xs font-semibold text-brand hover:underline underline-offset-2">
+                      <button
+                        type="button"
+                        className="text-xs font-semibold text-brand hover:underline underline-offset-2"
+                      >
                         Book a free call →
                       </button>
                     </ConsultationDialog>
@@ -347,6 +350,8 @@ export const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button
+          type="button"
+          {...analyticsProps("navbar-mobile-menu-toggle", { elementPrefix: "toggle" })}
           onClick={() => setOpen(!open)}
           className="md:hidden p-2 rounded-xl hover:bg-muted/50 transition-colors"
           aria-label="Menu"
@@ -383,6 +388,8 @@ export const Navbar = () => {
             {/* Services */}
             <div className="border-b border-border/60">
               <button
+                type="button"
+                {...analyticsProps("navbar-mobile-services-toggle", { elementPrefix: "toggle" })}
                 onClick={() => setServicesOpen(!servicesOpen)}
                 className="flex items-center justify-between w-full px-5 py-4 text-sm font-semibold text-left"
               >

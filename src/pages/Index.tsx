@@ -10,7 +10,7 @@ import { Faq } from "@/components/site/Faq";
 import { CtaFooter } from "@/components/site/CtaFooter";
 
 const Index = () => (
-  <main className="min-h-screen bg-background text-foreground">
+  <main id="page-home" className="min-h-screen bg-background text-foreground">
     <Navbar />
     <Hero />
     <StatsGallery />

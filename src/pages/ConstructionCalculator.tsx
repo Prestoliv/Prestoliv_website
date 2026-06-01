@@ -68,7 +68,7 @@ const ConstructionCalculatorPage = () => {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-background text-foreground">
+    <main id="page-calculator" className="min-h-screen overflow-hidden bg-background text-foreground">
       <Navbar />
 
       <PageHero
@@ -91,7 +91,7 @@ const ConstructionCalculatorPage = () => {
       </div>
 
       {/* Calculator  overlaps hero slightly */}
-      <section className="relative z-10 -mt-6 pb-8">
+      <section id="calculator-widget-section" className="relative z-10 -mt-6 pb-8">
         <div className="mx-auto max-w-6xl px-6">
           <div className="rounded-[2rem] border border-border/50 bg-background/95 p-6 shadow-card backdrop-blur-sm sm:p-8 md:p-10">
             <CostCalculatorWidget />
@@ -100,7 +100,7 @@ const ConstructionCalculatorPage = () => {
       </section>
 
       {/* Bottom CTA band */}
-      <section className="border-t border-border bg-surface py-20">
+      <section id="calculator-bottom-cta" className="border-t border-border bg-surface py-20">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}

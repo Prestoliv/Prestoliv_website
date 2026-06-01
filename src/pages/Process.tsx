@@ -122,7 +122,7 @@ const phases = [
 ];
 
 const Process = () => (
-  <main className="min-h-screen overflow-hidden bg-background text-foreground">
+  <main id="page-process" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
     <PageHero
@@ -131,7 +131,7 @@ const Process = () => (
       subtitle="Nine steps. Zero guesswork. Every decision is made in 3D before a brick is laid."
     />
 
-    <section className="relative py-24">
+    <section id="process-phases" className="relative py-24">
       {/* Background Glow */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute left-1/3 top-20 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
@@ -326,7 +326,7 @@ const Process = () => (
       </div>
     </section>
 
-    <section className="border-t border-border bg-surface py-20">
+    <section id="process-cta" className="border-t border-border bg-surface py-20">
       <div className="mx-auto max-w-3xl px-6 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
           Ready to start?
