@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Clock, Smartphone, FileCheck, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { analyticsDataAttributes, ctaTriggerId, trackCtaClick } from "@/lib/analytics";
+import { buttonIdFromLabel, trackCtaClick } from "@/lib/analytics";
 
 const reasons = [
   {
@@ -62,15 +62,16 @@ export const WhyChooseUs = () => {
         </div>
 
         <div className="mt-14 flex flex-wrap items-center justify-center gap-3">
-          <ConsultationDialog source="home_why_choose">
+          <ConsultationDialog source="home_why_choose" buttonLabel="Book a consultation">
             <Button size="lg" className="rounded-[10px] bg-brand text-brand-foreground hover:bg-brand/90">
               Book a consultation
             </Button>
           </ConsultationDialog>
           <Link
-            id={ctaTriggerId("home_why_choose_process")}
+            id={buttonIdFromLabel("See our process")}
             to="/process"
-            {...analyticsDataAttributes("home_why_choose_process")}
+            data-analytics-id="see-our-process"
+            data-button-id="see-our-process"
             onClick={() =>
               trackCtaClick({
                 ctaId: "home_why_choose_process",

@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { Navbar } from "@/components/site/Navbar";
 import {
-  analyticsDataAttributes,
-  ctaTriggerId,
-  navLinkId,
+  buttonIdFromLabel,
+  slugifyButtonLabel,
   trackCtaClick,
   trackNavigationClick,
   trackViewServiceInterest,
@@ -153,7 +152,7 @@ const ResidentialPage = () => {
             <FeatureList items={residentialFeatures} />
 
             <div className="flex flex-row gap-4">
-            <ConsultationDialog source="service_residential">
+            <ConsultationDialog source="service_residential" buttonLabel="Get a Quote">
               <Button
                 size="lg"
                 className="mt-8 rounded-xl bg-brand text-brand-foreground hover:bg-brand/90 group"
@@ -175,8 +174,9 @@ const ResidentialPage = () => {
                 }
               >
                 <Button
-                  id={ctaTriggerId("calculate_cost-service_residential")}
-                  {...analyticsDataAttributes("calculate_cost-service_residential")}
+                  id={buttonIdFromLabel("Calculate Cost")}
+                  data-analytics-id="calculate-cost"
+                  data-button-id="calculate-cost"
                   size="lg"
                   className="mt-8 rounded-xl border border-brand bg-white text-brand hover:bg-brand hover:text-white group"
                 >
@@ -213,8 +213,8 @@ const ResidentialPage = () => {
           {relatedServices.map((service, i) => (
             <motion.a
               key={i}
-              id={navLinkId("service_related_residential", service.href)}
-              data-analytics-id={navLinkId("service_related_residential", service.href)}
+              id={buttonIdFromLabel(service.title)}
+              data-analytics-id={slugifyButtonLabel(service.title)}
               href={service.href}
               onClick={() =>
                 trackNavigationClick({

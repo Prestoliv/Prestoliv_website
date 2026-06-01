@@ -6,6 +6,7 @@ import {
   GA4_EVENTS,
   META_EVENTS,
 } from "./events";
+import { slugifyButtonLabel } from "./ids";
 
 type GtagFn = (...args: unknown[]) => void;
 type FbqFn = (...args: unknown[]) => void & {
@@ -102,8 +103,11 @@ export function track(options: TrackOptions) {
   } = options;
 
   const buttonId =
-    (typeof params.lead_source === "string" && params.lead_source) ||
+    (typeof params.button_name === "string" && params.button_name) ||
+    (typeof params.cta_text === "string" && slugifyButtonLabel(params.cta_text)) ||
+    (typeof params.button_label === "string" && slugifyButtonLabel(params.button_label)) ||
     (typeof params.cta_id === "string" && params.cta_id) ||
+    (typeof params.lead_source === "string" && params.lead_source) ||
     undefined;
 
   pushDataLayer({
@@ -283,14 +287,17 @@ export function trackCtaClick(params: {
   location: string;
   destination?: string;
 }) {
+  const buttonName = slugifyButtonLabel(params.ctaText);
   track({
     event: ANALYTICS_EVENTS.ctaClick,
     category: "engagement",
     action: "click",
-    label: params.ctaId,
+    label: params.ctaText,
     params: {
-      cta_id: params.ctaId,
+      cta_id: buttonName,
       cta_text: params.ctaText,
+      button_name: buttonName,
+      button_label: params.ctaText,
       cta_location: params.location,
       cta_destination: params.destination,
     },
@@ -299,50 +306,62 @@ export function trackCtaClick(params: {
   });
 }
 
-export function trackConsultationModalOpen(source: string) {
+export function trackConsultationModalOpen(source: string, buttonLabel: string) {
+  const buttonName = slugifyButtonLabel(buttonLabel);
   track({
     event: ANALYTICS_EVENTS.consultationModalOpen,
     category: "conversion",
     action: "open",
-    label: source,
-    params: { lead_source: source },
+    label: buttonLabel,
+    params: { lead_source: source, button_name: buttonName, button_label: buttonLabel },
     metaEvent: META_EVENTS.initiateCheckout,
     metaParams: { content_name: "consultation_form", lead_source: source },
     metaStandard: true,
   });
 }
 
-export function trackConsultationModalClose(source: string) {
+export function trackConsultationModalClose(source: string, buttonLabel: string) {
+  const buttonName = slugifyButtonLabel(buttonLabel);
   track({
     event: ANALYTICS_EVENTS.consultationModalClose,
     category: "conversion",
     action: "close",
-    label: source,
-    params: { lead_source: source },
+    label: buttonLabel,
+    params: { lead_source: source, button_name: buttonName, button_label: buttonLabel },
   });
 }
 
-export function trackConsultationFormStart(source: string) {
+export function trackConsultationFormStart(source: string, buttonLabel: string) {
+  const buttonName = slugifyButtonLabel(buttonLabel);
   track({
     event: ANALYTICS_EVENTS.consultationFormStart,
     category: "conversion",
     action: "start",
-    label: source,
-    params: { lead_source: source },
+    label: buttonLabel,
+    params: { lead_source: source, button_name: buttonName, button_label: buttonLabel },
   });
 }
 
-export function trackConsultationLead(params: { service: string; city: string; source: string; hasEmail: boolean }) {
+export function trackConsultationLead(params: {
+  service: string;
+  city: string;
+  source: string;
+  hasEmail: boolean;
+  buttonLabel: string;
+}) {
+  const buttonName = slugifyButtonLabel(params.buttonLabel);
   track({
     event: ANALYTICS_EVENTS.consultationFormSubmit,
     category: "conversion",
     action: "submit",
-    label: "consultation_form",
+    label: "Submit Consultation Request",
     params: {
       lead_source: params.source,
       service_type: params.service,
       city: params.city,
       has_email: params.hasEmail,
+      button_name: buttonName,
+      button_label: params.buttonLabel,
     },
     ga4Event: GA4_EVENTS.generateLead,
     ga4Params: {
@@ -361,13 +380,23 @@ export function trackConsultationLead(params: { service: string; city: string; s
   });
 }
 
-export function trackConsultationFormError(params: { source: string; errorMessage: string }) {
+export function trackConsultationFormError(params: {
+  source: string;
+  buttonLabel: string;
+  errorMessage: string;
+}) {
+  const buttonName = slugifyButtonLabel(params.buttonLabel);
   track({
     event: ANALYTICS_EVENTS.consultationFormError,
     category: "conversion",
     action: "error",
-    label: params.source,
-    params: { lead_source: params.source, error_message: params.errorMessage },
+    label: params.buttonLabel,
+    params: {
+      lead_source: params.source,
+      button_name: buttonName,
+      button_label: params.buttonLabel,
+      error_message: params.errorMessage,
+    },
   });
 }
 

@@ -56,7 +56,7 @@ function UnitToggle({
         <button
           key={u}
           type="button"
-          {...analyticsProps(`calculator-unit-${u}`, { elementPrefix: "toggle" })}
+          {...analyticsProps(u === "sqft" ? "Sq ft" : "Sq m", { elementPrefix: "toggle" })}
           onClick={() => {
             if (u !== unit) trackCalculatorUnitChanged(u);
             onChange(u);
@@ -272,7 +272,7 @@ export function CostCalculatorWidget() {
 
                 <button
                   type="button"
-                  {...analyticsProps("calculator-reset")}
+                  {...analyticsProps("Reset to defaults")}
                   onClick={handleReset}
                   className="flex w-full items-center justify-center gap-2 rounded-2xl border border-border py-2.5 text-sm font-medium text-muted-foreground transition hover:border-brand/30 hover:text-brand"
                 >
@@ -314,7 +314,7 @@ export function CostCalculatorWidget() {
                   </p>
                 )}
 
-                <ConsultationDialog source="calculator_sidebar">
+                <ConsultationDialog source="calculator_sidebar" buttonLabel={settings.cta_button}>
                   <Button className="mt-5 w-full rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90 group">
                     {settings.cta_button}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -402,7 +402,7 @@ export function CostCalculatorUnavailable({
       <p className="mt-2 text-sm text-muted-foreground">
         Please check back soon or book a consultation for a personalized estimate.
       </p>
-      <ConsultationDialog source="calculator_empty_state">
+      <ConsultationDialog source="calculator_empty_state" buttonLabel={settings.cta_button}>
         <Button className="mt-6 rounded-xl bg-brand text-brand-foreground">
           {settings.cta_button}
           <ArrowRight className="ml-2 h-4 w-4" />

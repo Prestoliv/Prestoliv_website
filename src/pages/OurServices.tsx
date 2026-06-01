@@ -3,12 +3,7 @@ import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import type { ConsultationSource } from "@/lib/analytics";
-import {
-  analyticsDataAttributes,
-  ctaTriggerId,
-  trackCtaClick,
-  trackViewServiceInterest,
-} from "@/lib/analytics";
+import { buttonIdFromLabel, trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
 
 import { motion } from "framer-motion";
 
@@ -95,8 +90,9 @@ const ServiceActions = ({
 }) => (
   <div className="mt-8 flex flex-wrap items-center gap-3">
     <Link
-      id={ctaTriggerId(`view_service_details-${serviceSlug}`)}
-      {...analyticsDataAttributes(`view_service_details-${serviceSlug}`)}
+      id={buttonIdFromLabel("View Detailed Page")}
+      data-analytics-id="view-detailed-page"
+      data-button-id="view-detailed-page"
       to={detailsHref}
       onClick={() => {
         trackViewServiceInterest({ service: serviceSlug, location: "services_hub" });
@@ -133,8 +129,9 @@ const ServiceActions = ({
     </Link>
 
     <Link
-      id={ctaTriggerId(`calculate_cost-${serviceSlug}`)}
-      {...analyticsDataAttributes(`calculate_cost-services_hub_${serviceSlug}`)}
+      id={buttonIdFromLabel("Calculate Cost")}
+      data-analytics-id="calculate-cost"
+      data-button-id="calculate-cost"
       to="/calculator"
       onClick={() =>
         trackCtaClick({
@@ -166,7 +163,10 @@ const ServiceActions = ({
       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
     </Link>
 
-    <ConsultationDialog source={`service_${serviceSlug}` as ConsultationSource}>
+    <ConsultationDialog
+      source={`service_${serviceSlug}` as ConsultationSource}
+      buttonLabel={`Book consultation — ${hubLabel}`}
+    >
       <Button
         variant="outline"
         size="sm"
@@ -247,14 +247,15 @@ const OurServices = () => (
     />
 
     <div className="mx-auto max-w-6xl px-6 -mt-4 flex flex-wrap justify-center gap-3">
-      <ConsultationDialog source="services_hub_hero">
+      <ConsultationDialog source="services_hub_hero" buttonLabel="Book a consultation">
         <Button size="lg" className="rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90">
           Book a consultation
         </Button>
       </ConsultationDialog>
       <Link
-        id={ctaTriggerId("calculate_cost-services_hub_hero")}
-        {...analyticsDataAttributes("calculate_cost-services_hub_hero")}
+        id={buttonIdFromLabel("Calculate Cost")}
+        data-analytics-id="calculate-cost"
+        data-button-id="calculate-cost"
         to="/calculator"
         onClick={() =>
           trackCtaClick({
@@ -454,8 +455,9 @@ const OurServices = () => (
 
         <div className="mt-14 flex flex-wrap justify-center gap-3">
           <Link
-            id={ctaTriggerId("explore_specialized")}
-            {...analyticsDataAttributes("explore_specialized")}
+            id={buttonIdFromLabel("Get a cost estimate")}
+            data-analytics-id="get-a-cost-estimate"
+            data-button-id="get-a-cost-estimate"
             to="/calculator"
             onClick={() =>
               trackCtaClick({
@@ -486,7 +488,7 @@ const OurServices = () => (
 
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
-          <ConsultationDialog source="services_hub_specialized">
+          <ConsultationDialog source="services_hub_specialized" buttonLabel="Talk to our team">
             <Button variant="outline" className="rounded-3xl">
               Talk to our team
             </Button>

@@ -16,7 +16,14 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { analyticsProps, navLinkId, trackDashboardOpen, trackNavigationClick, trackSignInStart } from "@/lib/analytics";
+import {
+  analyticsProps,
+  buttonIdFromLabel,
+  slugifyButtonLabel,
+  trackDashboardOpen,
+  trackNavigationClick,
+  trackSignInStart,
+} from "@/lib/analytics";
 import { dashboardProfileUrl } from "@/lib/dashboard";
 
 import residentialImg from "@/assets/3.jpg";
@@ -124,7 +131,12 @@ export const Navbar = () => {
         }`}
       >
         {/* Logo */}
-        <Link id="nav-logo-home" data-analytics-id="nav-logo-home" to="/" className="flex items-center shrink-0">
+        <Link
+          id={buttonIdFromLabel("Prestoliv home")}
+          data-analytics-id="prestoliv-home"
+          to="/"
+          className="flex items-center shrink-0"
+        >
           <img
             src={logo}
             alt="Prestoliv"
@@ -139,8 +151,8 @@ export const Navbar = () => {
             <div className="relative group mr-2">
               {/* Main Nav Link */}
               <Link
-                id={navLinkId("navbar_desktop", "/services")}
-                data-analytics-id={navLinkId("navbar_desktop", "/services")}
+                id={buttonIdFromLabel("Our Services")}
+                data-analytics-id="our-services"
                 to="/services"
                 onClick={() => {
                   trackNavigationClick({
@@ -201,8 +213,8 @@ export const Navbar = () => {
                       return (
                         <Link
                           key={service.href}
-                          id={navLinkId("navbar_services_dropdown", service.href)}
-                          data-analytics-id={navLinkId("navbar_services_dropdown", service.href)}
+                          id={buttonIdFromLabel(service.label)}
+                          data-analytics-id={slugifyButtonLabel(service.label)}
                           to={service.href}
                           onClick={() => {
                             trackNavigationClick({
@@ -265,7 +277,7 @@ export const Navbar = () => {
                       Not sure where to start?
                     </p>
 
-                    <ConsultationDialog source="navbar_services_menu">
+                    <ConsultationDialog source="navbar_services_menu" buttonLabel="Book a free call →">
                       <button
                         type="button"
                         className="text-xs font-semibold text-brand hover:underline underline-offset-2"
@@ -282,8 +294,8 @@ export const Navbar = () => {
             {links.map((l) => (
               <Link
                 key={l.href}
-                id={navLinkId("navbar_desktop", l.href)}
-                data-analytics-id={navLinkId("navbar_desktop", l.href)}
+                id={buttonIdFromLabel(l.label)}
+                data-analytics-id={slugifyButtonLabel(l.label)}
                 to={l.href}
                 onClick={() => {
                   trackNavigationClick({
@@ -319,8 +331,8 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center gap-2">
           {user ? (
             <Button
-              id="btn-auth-dashboard"
-              data-analytics-id="dashboard_open"
+              id={buttonIdFromLabel("View Dashboard")}
+              data-analytics-id="view-dashboard"
               variant="outline"
               size="sm"
               className="rounded-[10px]"
@@ -330,8 +342,8 @@ export const Navbar = () => {
             </Button>
           ) : (
             <Button
-              id="btn-auth-login"
-              data-analytics-id="sign_in_start"
+              id={buttonIdFromLabel("Login")}
+              data-analytics-id="login"
               variant="outline"
               size="sm"
               className="rounded-[10px]"
@@ -341,7 +353,7 @@ export const Navbar = () => {
             </Button>
           )}
 
-          <ConsultationDialog source="navbar_desktop">
+          <ConsultationDialog source="navbar_desktop" buttonLabel="Book a Consultation">
             <Button className="rounded-[10px] bg-brand text-background hover:bg-brand/90">
               Book a Consultation
             </Button>
@@ -351,7 +363,7 @@ export const Navbar = () => {
         {/* Mobile Toggle */}
         <button
           type="button"
-          {...analyticsProps("navbar-mobile-menu-toggle", { elementPrefix: "toggle" })}
+          {...analyticsProps("Menu", { elementPrefix: "toggle" })}
           onClick={() => setOpen(!open)}
           className="md:hidden p-2 rounded-xl hover:bg-muted/50 transition-colors"
           aria-label="Menu"
@@ -389,7 +401,7 @@ export const Navbar = () => {
             <div className="border-b border-border/60">
               <button
                 type="button"
-                {...analyticsProps("navbar-mobile-services-toggle", { elementPrefix: "toggle" })}
+                {...analyticsProps("Our Services", { elementPrefix: "toggle" })}
                 onClick={() => setServicesOpen(!servicesOpen)}
                 className="flex items-center justify-between w-full px-5 py-4 text-sm font-semibold text-left"
               >
@@ -423,8 +435,8 @@ export const Navbar = () => {
                       {services.map((service) => (
                         <Link
                           key={service.href}
-                          id={navLinkId("navbar_mobile_services", service.href)}
-                          data-analytics-id={navLinkId("navbar_mobile_services", service.href)}
+                          id={buttonIdFromLabel(service.label)}
+                          data-analytics-id={slugifyButtonLabel(service.label)}
                           to={service.href}
                           onClick={() => {
                             trackNavigationClick({
@@ -476,8 +488,8 @@ export const Navbar = () => {
               {links.map((l) => (
                 <Link
                   key={l.href}
-                  id={navLinkId("navbar_mobile", l.href)}
-                  data-analytics-id={navLinkId("navbar_mobile", l.href)}
+                  id={buttonIdFromLabel(l.label)}
+                  data-analytics-id={slugifyButtonLabel(l.label)}
                   to={l.href}
                   onClick={() => {
                     trackNavigationClick({
@@ -499,8 +511,8 @@ export const Navbar = () => {
             <div className="p-4 space-y-2">
               {user ? (
                 <Button
-                  id="btn-auth-dashboard-mobile"
-                  data-analytics-id="dashboard_open"
+                  id={buttonIdFromLabel("View Dashboard")}
+                  data-analytics-id="view-dashboard"
                   variant="outline"
                   className="w-full rounded-[10px]"
                   onClick={() => {
@@ -512,8 +524,8 @@ export const Navbar = () => {
                 </Button>
               ) : (
                 <Button
-                  id="btn-auth-login-mobile"
-                  data-analytics-id="sign_in_start"
+                  id={buttonIdFromLabel("Login")}
+                  data-analytics-id="login"
                   variant="outline"
                   className="w-full rounded-[10px]"
                   onClick={() => {
@@ -525,7 +537,7 @@ export const Navbar = () => {
                 </Button>
               )}
 
-              <ConsultationDialog source="navbar_mobile">
+              <ConsultationDialog source="navbar_mobile" buttonLabel="Book a Consultation">
                 <Button className="w-full rounded-[10px] bg-brand text-background hover:bg-brand/90">
                   Book a Consultation
                 </Button>

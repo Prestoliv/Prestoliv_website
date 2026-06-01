@@ -3,7 +3,7 @@ import { ArrowRight, Instagram, Linkedin, Facebook, Mail, Phone, MapPin } from "
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { trackOutboundContact, trackSocialClick } from "@/lib/analytics";
+import { buttonIdFromLabel, slugifyButtonLabel, trackOutboundContact, trackSocialClick } from "@/lib/analytics";
 import { TrackableLink } from "@/components/analytics/TrackableLink";
 import logo from "@/assets/logo.svg";
 
@@ -56,7 +56,7 @@ export const CtaFooter = () => (
           Tell us about your project. We'll come back with a feasibility plan, a guaranteed timeline and a locked, itemized price.
         </p>
         <div className="mt-8 flex justify-center">
-          <ConsultationDialog source="footer_cta">
+          <ConsultationDialog source="footer_cta" buttonLabel="Start Your Project">
             <Button size="lg" className="rounded-[10px] bg-brand text-background hover:bg-brand/90 group">
               Start Your Project
               <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
@@ -86,8 +86,9 @@ export const CtaFooter = () => (
               return (
                 <a
                   key={label}
-                  id={`btn-social-${label.toLowerCase()}`}
-                  data-analytics-id={`social_${label.toLowerCase()}`}
+                  id={buttonIdFromLabel(label)}
+                  data-analytics-id={slugifyButtonLabel(label)}
+                  data-button-id={slugifyButtonLabel(label)}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -139,8 +140,9 @@ export const CtaFooter = () => (
               return (
                 <li key={label}>
                   <a
-                    id={contactType ? `btn-contact-${contactType}` : undefined}
-                    data-analytics-id={contactType ? `contact_${contactType}` : undefined}
+                    id={buttonIdFromLabel(label)}
+                    data-analytics-id={slugifyButtonLabel(label)}
+                    data-button-id={slugifyButtonLabel(label)}
                     href={href}
                     onClick={() => {
                       if (contactType) trackOutboundContact(contactType, "footer");
@@ -162,13 +164,13 @@ export const CtaFooter = () => (
         <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between text-xs text-background/50">
           <span>© {new Date().getFullYear()} Prestoliv. All rights reserved.</span>
           <div className="flex gap-6">
-            <a id="btn-legal-terms" data-analytics-id="legal_terms" href="#" className="hover:text-background">
+            <a id={buttonIdFromLabel("Terms")} data-analytics-id="terms" data-button-id="terms" href="#" className="hover:text-background">
               Terms
             </a>
-            <a id="btn-legal-privacy" data-analytics-id="legal_privacy" href="#" className="hover:text-background">
+            <a id={buttonIdFromLabel("Privacy")} data-analytics-id="privacy" data-button-id="privacy" href="#" className="hover:text-background">
               Privacy
             </a>
-            <a id="btn-legal-cookies" data-analytics-id="legal_cookies" href="#" className="hover:text-background">
+            <a id={buttonIdFromLabel("Cookies")} data-analytics-id="cookies" data-button-id="cookies" href="#" className="hover:text-background">
               Cookies
             </a>
           </div>

@@ -337,7 +337,7 @@ const Process = () => (
         <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
           Tell us about your project. We&apos;ll map the next steps across design, approvals, and build.
         </p>
-        <ConsultationDialog source="process_page">
+        <ConsultationDialog source="process_page" buttonLabel="Start Your Project">
           <Button
             size="lg"
             className="mt-8 rounded-[10px] bg-brand text-background hover:bg-brand/90 group"

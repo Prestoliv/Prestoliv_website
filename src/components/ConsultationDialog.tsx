@@ -17,17 +17,22 @@ import {
 } from "@/lib/analytics";
 import {
   analyticsDataAttributes,
+  buttonIdFromLabel,
   consultationSubmitId,
-  consultationTriggerId,
+  slugifyButtonLabel,
 } from "@/lib/analytics/ids";
+
+const SUBMIT_LABEL = "Submit Consultation Request";
 
 type ConsultationDialogProps = {
   children: React.ReactNode;
-  /** Where the user opened the modal — used for conversion attribution */
+  /** Placement for lead_source in reports (internal). */
   source: ConsultationSource;
+  /** Visible label on the trigger — used for HTML id (e.g. "Get started" → btn-get-started). */
+  buttonLabel: string;
 };
 
-export const ConsultationDialog = ({ children, source }: ConsultationDialogProps) => {
+export const ConsultationDialog = ({ children, source, buttonLabel }: ConsultationDialogProps) => {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const formStarted = useRef(false);
@@ -40,12 +45,15 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
     otherService: "",
   });
 
+  const buttonSlug = slugifyButtonLabel(buttonLabel);
+  const triggerId = buttonIdFromLabel(buttonLabel);
+
   const handleOpenChange = (next: boolean) => {
     if (next) {
-      trackConsultationModalOpen(source);
+      trackConsultationModalOpen(source, buttonLabel);
       formStarted.current = false;
     } else if (open) {
-      trackConsultationModalClose(source);
+      trackConsultationModalClose(source, buttonLabel);
     }
     setOpen(next);
   };
@@ -53,7 +61,7 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
   const handleFormInteraction = () => {
     if (formStarted.current) return;
     formStarted.current = true;
-    trackConsultationFormStart(source);
+    trackConsultationFormStart(source, buttonLabel);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,7 +80,7 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
     setSubmitting(false);
 
     if (error) {
-      trackConsultationFormError({ source, errorMessage: error.message });
+      trackConsultationFormError({ source, buttonLabel, errorMessage: error.message });
       toast({
         title: "Could not submit request",
         description: error.message,
@@ -86,6 +94,7 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
       city: formData.city.trim(),
       source,
       hasEmail: !!formData.email.trim(),
+      buttonLabel,
     });
 
     toast({
@@ -96,19 +105,16 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
     setFormData({ name: "", phone: "", email: "", city: "", service: "", otherService: "" });
   };
 
-  const triggerId = consultationTriggerId(source);
-  const triggerProps = { id: triggerId, ...analyticsDataAttributes(source) };
+  const triggerProps = {
+    id: triggerId,
+    ...analyticsDataAttributes(buttonSlug),
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         {isValidElement(children)
-          ? cloneElement(children, {
-              ...triggerProps,
-              id: triggerId,
-              "data-analytics-id": source,
-              "data-button-id": source,
-            } as Record<string, string>)
+          ? cloneElement(children, triggerProps as Record<string, string>)
           : children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -158,7 +164,7 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
             <Label htmlFor="city">City / Town *</Label>
             <Input
               id="city"
-              placeholder="e.g. Prayagraj, Lucknow"
+              placeholder="Your city"
               value={formData.city}
               onFocus={handleFormInteraction}
               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -172,15 +178,11 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
               value={formData.service}
               onValueChange={(value) => {
                 handleFormInteraction();
-                setFormData({
-                  ...formData,
-                  service: value,
-                  otherService: value === "others" ? formData.otherService : "",
-                });
+                setFormData({ ...formData, service: value });
               }}
               required
             >
-              <SelectTrigger onFocus={handleFormInteraction}>
+              <SelectTrigger id="service">
                 <SelectValue placeholder="Select a service" />
               </SelectTrigger>
               <SelectContent>
@@ -208,14 +210,14 @@ export const ConsultationDialog = ({ children, source }: ConsultationDialogProps
           )}
 
           <Button
-            id={consultationSubmitId(source)}
-            data-analytics-id={`consultation_submit_${source}`}
-            data-button-id={source}
+            id={consultationSubmitId(buttonLabel)}
+            data-analytics-id={slugifyButtonLabel(SUBMIT_LABEL)}
+            data-button-id={buttonSlug}
             type="submit"
             disabled={submitting}
             className="w-full bg-foreground text-background hover:bg-foreground/90"
           >
-            {submitting ? "Submitting…" : "Submit Consultation Request"}
+            {submitting ? "Submitting…" : SUBMIT_LABEL}
           </Button>
 
         </form>

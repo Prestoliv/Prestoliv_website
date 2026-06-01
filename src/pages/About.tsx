@@ -8,7 +8,7 @@ import p1 from "@/assets/p1.jpeg";
 import p2 from "@/assets/p2.png";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { analyticsProps, trackSocialClick } from "@/lib/analytics";
+import { buttonIdFromLabel, slugifyButtonLabel, trackSocialClick } from "@/lib/analytics";
 
 const commitments = [
   { icon: Eye, title: "VR-First", desc: "See It Before You Build It", detail: "Walk through your home in 3D before a single brick is laid. Catch what paper drawings can't show." },
@@ -221,7 +221,9 @@ const About = () => (
           {teamMembers.map((member, i) => (
             <motion.a
               key={member.name}
-              {...analyticsProps(`about-team-linkedin-${member.name.toLowerCase().replace(/\s+/g, "-")}`)}
+              id={buttonIdFromLabel(member.name)}
+              data-analytics-id={slugifyButtonLabel(member.name)}
+              data-button-id={slugifyButtonLabel(member.name)}
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
@@ -349,7 +351,7 @@ const About = () => (
           })}
         </div>
         <div id="about-contact" className="mt-12 text-center">
-          <ConsultationDialog source="about_page">
+          <ConsultationDialog source="about_page" buttonLabel="Contact Us">
             <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft">
               Contact Us
             </Button>

@@ -78,7 +78,7 @@ const ConstructionCalculatorPage = () => {
       />
 
       <div className="mx-auto max-w-6xl px-6 -mt-4 flex justify-center">
-        <ConsultationDialog source="calculator_page_hero">
+        <ConsultationDialog source="calculator_page_hero" buttonLabel={hero.cta_button}>
           <Button
             variant="outline"
             size="lg"
@@ -117,7 +117,7 @@ const ConstructionCalculatorPage = () => {
             <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
               {hero.cta_subtitle}
             </p>
-            <ConsultationDialog source="calculator_bottom">
+            <ConsultationDialog source="calculator_bottom" buttonLabel={hero.cta_button}>
               <Button
                 size="lg"
                 className="mt-8 rounded-2xl bg-brand px-8 text-brand-foreground hover:bg-brand/90 group"

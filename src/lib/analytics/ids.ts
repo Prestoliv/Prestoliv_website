@@ -1,46 +1,53 @@
 import type { ConsultationSource } from "./events";
 
-/** Stable HTML id for consultation triggers (visible in DevTools + GTM click triggers). */
-export function consultationTriggerId(source: ConsultationSource) {
-  return `btn-consult-${source}`;
+/** "Get started" → "get-started" */
+export function slugifyButtonLabel(label: string) {
+  return label
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80);
 }
 
-export function consultationSubmitId(source: ConsultationSource) {
-  return `btn-consult-submit-${source}`;
+/** HTML id from visible button/link text: "Get started" → id="btn-get-started" */
+export function buttonIdFromLabel(label: string) {
+  const slug = slugifyButtonLabel(label);
+  return slug ? `btn-${slug}` : "btn-unknown";
 }
 
-/** Stable HTML id for CTA buttons/links. */
-export function ctaTriggerId(ctaId: string) {
-  return ctaId.startsWith("btn-") ? ctaId : `btn-${ctaId}`;
+/** @deprecated Use buttonIdFromLabel(label) with the button's visible text */
+export function ctaTriggerId(label: string) {
+  return buttonIdFromLabel(label);
 }
 
-export function navLinkId(navLocation: string, destination: string) {
-  const pathSlug = destination.replace(/^\//, "").replace(/\//g, "-") || "home";
-  return `nav-${navLocation}-${pathSlug}`;
+export function consultationTriggerId(_source: ConsultationSource, buttonLabel: string) {
+  return buttonIdFromLabel(buttonLabel);
 }
 
-export function inputAnalyticsId(name: string) {
-  return `input-${name}`;
+export function consultationSubmitId(buttonLabel: string) {
+  return buttonIdFromLabel(`submit ${buttonLabel}`);
 }
 
-/** data-analytics-id mirrors dataLayer button_id / lead_source / cta_id. */
+export function navLinkId(_navLocation: string, linkText: string) {
+  return buttonIdFromLabel(linkText);
+}
+
+export function inputAnalyticsId(label: string) {
+  return `input-${slugifyButtonLabel(label)}`;
+}
+
 export const analyticsDataAttributes = (buttonId: string) => ({
   "data-analytics-id": buttonId,
   "data-button-id": buttonId,
 });
 
-/** HTML id + data attributes for any clickable (buttons, links, cards). */
 export function analyticsProps(
-  analyticsId: string,
+  label: string,
   options?: { elementPrefix?: "btn" | "nav" | "input" | "toggle" },
 ) {
+  const slug = slugifyButtonLabel(label);
   const prefix = options?.elementPrefix ?? "btn";
-  const id =
-    analyticsId.startsWith("btn-") ||
-    analyticsId.startsWith("nav-") ||
-    analyticsId.startsWith("input-") ||
-    analyticsId.startsWith("toggle-")
-      ? analyticsId
-      : `${prefix}-${analyticsId}`;
-  return { id, ...analyticsDataAttributes(analyticsId) };
+  const id = prefix === "btn" ? buttonIdFromLabel(label) : `${prefix}-${slug}`;
+  return { id, ...analyticsDataAttributes(slug) };
 }

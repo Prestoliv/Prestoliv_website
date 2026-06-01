@@ -47,9 +47,11 @@ export {
 export {
   analyticsDataAttributes,
   analyticsProps,
+  buttonIdFromLabel,
   consultationSubmitId,
   consultationTriggerId,
   ctaTriggerId,
   inputAnalyticsId,
   navLinkId,
+  slugifyButtonLabel,
 } from "./ids";

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import house from "@/assets/hero-house1.png";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { analyticsDataAttributes, ctaTriggerId, trackCtaClick } from "@/lib/analytics";
+import { buttonIdFromLabel, trackCtaClick } from "@/lib/analytics";
 
 
 export const Hero = () => {
@@ -80,7 +80,7 @@ export const Hero = () => {
           transition={{ duration: 0.75, delay: 0.25 }}
           className="mt-8 flex items-center justify-center gap-3"
         >
-          <ConsultationDialog source="hero">
+          <ConsultationDialog source="hero" buttonLabel="Get started">
             <Button
               size="lg"
               className="rounded-[10px] bg-white text-foreground hover:bg-white/90 shadow-soft group px-7 py-3"
@@ -91,9 +91,10 @@ export const Hero = () => {
           </ConsultationDialog>
 
           <Link
-            id={ctaTriggerId("calculate_cost-hero")}
+            id={buttonIdFromLabel("Calculate Cost")}
             to="/calculator"
-            {...analyticsDataAttributes("calculate_cost-hero")}
+            data-analytics-id="calculate-cost"
+            data-button-id="calculate-cost"
             onClick={() =>
               trackCtaClick({
                 ctaId: "calculate_cost",

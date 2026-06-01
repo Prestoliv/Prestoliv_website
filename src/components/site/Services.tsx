@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { PencilRuler, Activity, KeyRound, ArrowUpRight } from "lucide-react";
-import { analyticsDataAttributes, ctaTriggerId, trackCtaClick } from "@/lib/analytics";
+import { buttonIdFromLabel, slugifyButtonLabel, trackCtaClick } from "@/lib/analytics";
 
 const services = [
   {
@@ -62,11 +62,12 @@ export const Services = () => {
                 className="group relative rounded-md hairline bg-card p-6 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-500 ease-smooth overflow-hidden"
               >
                 <Link
-                  id={ctaTriggerId(s.ctaId)}
+                  id={buttonIdFromLabel(s.title)}
                   to={s.href}
                   className="absolute inset-0 z-10 rounded-md"
                   aria-label={s.title}
-                  {...analyticsDataAttributes(s.ctaId)}
+                  data-analytics-id={slugifyButtonLabel(s.title)}
+                  data-button-id={slugifyButtonLabel(s.title)}
                   onClick={() =>
                     trackCtaClick({
                       ctaId: s.ctaId,

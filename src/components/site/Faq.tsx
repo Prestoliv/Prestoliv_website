@@ -1,5 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { trackFaqExpand } from "@/lib/analytics";
+import { buttonIdFromLabel, slugifyButtonLabel, trackFaqExpand } from "@/lib/analytics";
 
 const faqs = [
   {
@@ -62,9 +62,9 @@ export const Faq = () => (
             className="rounded-md border border-border bg-card px-5 shadow-soft data-[state=open]:shadow-card transition-shadow"
           >
             <AccordionTrigger
-              id={`btn-faq-${i}`}
-              data-analytics-id={`faq_${i}`}
-              data-button-id={`faq_${i}`}
+              id={buttonIdFromLabel(f.q)}
+              data-analytics-id={slugifyButtonLabel(f.q)}
+              data-button-id={slugifyButtonLabel(f.q)}
               className="text-left font-display text-base font-semibold hover:no-underline py-5"
             >
               {f.q}
