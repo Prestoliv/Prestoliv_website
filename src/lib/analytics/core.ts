@@ -101,12 +101,18 @@ export function track(options: TrackOptions) {
     metaStandard = false,
   } = options;
 
+  const buttonId =
+    (typeof params.lead_source === "string" && params.lead_source) ||
+    (typeof params.cta_id === "string" && params.cta_id) ||
+    undefined;
+
   pushDataLayer({
     event,
     event_category: category,
     event_action: action,
     event_label: label,
     ...params,
+    ...(buttonId ? { button_id: buttonId } : {}),
   });
 
   if (ga4Event && !useGtmHub) sendGa4(ga4Event, { ...params, ...ga4Params });

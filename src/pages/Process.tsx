@@ -325,6 +325,30 @@ const Process = () => (
         </div>
       </div>
     </section>
+
+    <section className="border-t border-border bg-surface py-20">
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+          Ready to start?
+        </p>
+        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+          Book a free consultation
+        </h2>
+        <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
+          Tell us about your project. We&apos;ll map the next steps across design, approvals, and build.
+        </p>
+        <ConsultationDialog source="process_page">
+          <Button
+            size="lg"
+            className="mt-8 rounded-[10px] bg-brand text-background hover:bg-brand/90 group"
+          >
+            Start Your Project
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Button>
+        </ConsultationDialog>
+      </div>
+    </section>
+
     <CtaFooter />
   </main>
 );

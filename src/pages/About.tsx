@@ -7,6 +7,8 @@ import team from "@/assets/team.jpg";
 import p1 from "@/assets/p1.jpeg";
 import p2 from "@/assets/p2.png";
 import { Button } from "@/components/ui/button";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { trackSocialClick } from "@/lib/analytics";
 
 const commitments = [
   { icon: Eye, title: "VR-First", desc: "See It Before You Build It", detail: "Walk through your home in 3D before a single brick is laid. Catch what paper drawings can't show." },
@@ -222,6 +224,9 @@ const About = () => (
               href={member.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() =>
+                trackSocialClick({ platform: "linkedin", location: "about_team" })
+              }
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -343,9 +348,11 @@ const About = () => (
           })}
         </div>
         <div className="mt-12 text-center">
-          <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft">
-            Contact Us
-          </Button>
+          <ConsultationDialog source="about_page">
+            <Button size="lg" className="rounded-[5px] bg-brand text-brand-foreground hover:bg-brand/90 shadow-soft">
+              Contact Us
+            </Button>
+          </ConsultationDialog>
         </div>
       </div>
     </section>

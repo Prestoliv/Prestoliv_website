@@ -77,6 +77,19 @@ const ConstructionCalculatorPage = () => {
         subtitle={hero.hero_subtitle}
       />
 
+      <div className="mx-auto max-w-6xl px-6 -mt-4 flex justify-center">
+        <ConsultationDialog source="calculator_page_hero">
+          <Button
+            variant="outline"
+            size="lg"
+            className="rounded-2xl border-brand/30 text-brand hover:bg-brand/5"
+          >
+            {hero.cta_button}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </ConsultationDialog>
+      </div>
+
       {/* Calculator  overlaps hero slightly */}
       <section className="relative z-10 -mt-6 pb-8">
         <div className="mx-auto max-w-6xl px-6">
@@ -104,7 +117,7 @@ const ConstructionCalculatorPage = () => {
             <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-muted-foreground">
               {hero.cta_subtitle}
             </p>
-            <ConsultationDialog source="calculator_page_hero">
+            <ConsultationDialog source="calculator_bottom">
               <Button
                 size="lg"
                 className="mt-8 rounded-2xl bg-brand px-8 text-brand-foreground hover:bg-brand/90 group"

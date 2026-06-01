@@ -1,17 +1,19 @@
 Prestoliv GTM — one-shot import (GTM-W5G7H4GP)
 ================================================
 
-WHAT YOU GET (auto-generated)
-  • 30 Data Layer variables (page_path, lead_source, etc.)
-  • 9 Custom Event triggers (virtual_page_view, generate_lead, etc.)
-  • 10 GA4 tags wired to G-Z21L9R9W4V
+WHAT YOU GET (auto-generated, ctruth-style named tags)
+  • 100+ Data Layer variables (lead_source, button_id, cta_id, etc.)
+  • 100+ named triggers (e.g. "Home | Get Started | Modal Open")
+  • 100+ GA4 event tags (e.g. "GA4 | Home | Get Started | Lead Submitted")
+  • 1 GA4 Configuration tag → G-Z21L9R9W4V
+  • Full list: gtm/TAG_CATALOG.md
 
 STEP 1 — Import into Google Tag Manager
   1. Open https://tagmanager.google.com → container GTM-W5G7H4GP
   2. Admin (gear icon) → Import Container
   3. Choose file: gtm/prestoliv-analytics-import.json
   4. Choose workspace: Default Workspace
-  5. Import option: Merge (recommended) or Overwrite if container is empty
+  5. Import option: Merge (recommended) — review duplicate tag names if re-importing
   6. Confirm → Submit → Publish
 
 STEP 2 — Vercel env vars (Production)
@@ -27,9 +29,9 @@ STEP 2 — Vercel env vars (Production)
 
 STEP 3 — Test
   1. GTM → Preview → enter https://www.prestoliv.com
-  2. Browse pages → Tags Fired should show "GA4 - page_view"
-  3. Open consultation modal → "GA4 - All Other Custom Events"
-  4. GA4 → Reports → Realtime → confirm active user
+  2. Click "Get started" on homepage → tag "GA4 | Home | Get Started | Modal Open"
+  3. Submit consultation form → "GA4 | Home | Get Started | Lead Submitted"
+  4. GA4 → Reports → Realtime → confirm events + button_id / lead_source
 
-Regenerate import file after event changes:
+Regenerate after event or button changes:
   npm run gtm:generate

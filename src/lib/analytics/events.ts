@@ -105,7 +105,10 @@ export type ConsultationSource =
   | "service_commercial"
   | "service_interiors"
   | "process_page"
-  | "about_page";
+  | "about_page"
+  | "services_hub_hero"
+  | "services_hub_specialized"
+  | "home_why_choose";
 
 export type SocialPlatform = "instagram" | "linkedin" | "facebook";
 

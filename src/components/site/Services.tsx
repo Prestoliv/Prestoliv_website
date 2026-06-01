@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { PencilRuler, Activity, KeyRound, ArrowUpRight } from "lucide-react";
+import { trackCtaClick } from "@/lib/analytics";
 
 const services = [
   {
@@ -8,6 +10,8 @@ const services = [
     title: "Visionary Planning",
     desc: "You see it before we build it. Architectural drawings, 3D model, full VR walkthrough included. Most clients catch eight to twelve things they would have lived with for thirty years.",
     tags: ["3D Model", "VR Walkthrough", "Drawings"],
+    ctaId: "home_service_planning",
+    href: "/process",
   },
   {
     n: "02",
@@ -15,6 +19,8 @@ const services = [
     title: "Transparent Execution",
     desc: "You watch it as we build it. Daily photos, live work logs, real-time payment status. AI flags scheduling risks before they become delays. You stay informed without lifting a phone.",
     tags: ["Daily Logs", "Live Dashboard", "AI Risk Alerts"],
+    ctaId: "home_service_execution",
+    href: "/about",
   },
   {
     n: "03",
@@ -22,6 +28,8 @@ const services = [
     title: "Quality Handover",
     desc: "You move in when we said you would. Approvals, structure, interiors, snag closure, all handled, all on the date written in your contract. Move in. Don't move in and renovate.",
     tags: ["Approvals", "Snag Closure", "On-Time Handover"],
+    ctaId: "home_service_handover",
+    href: "/services",
   },
 ];
 
@@ -45,15 +53,27 @@ export const Services = () => {
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
-              <motion.a
+              <motion.div
                 key={s.title}
-                href="#"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="group relative rounded-md hairline bg-card p-6 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-500 ease-smooth overflow-hidden"
               >
+                <Link
+                  to={s.href}
+                  className="absolute inset-0 z-10 rounded-md"
+                  aria-label={s.title}
+                  onClick={() =>
+                    trackCtaClick({
+                      ctaId: s.ctaId,
+                      ctaText: s.title,
+                      location: "home_services",
+                      destination: s.href,
+                    })
+                  }
+                />
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="flex items-center justify-between">
                   <div className="size-10 rounded-md bg-brand-soft text-brand flex items-center justify-center">
@@ -73,7 +93,7 @@ export const Services = () => {
                     </span>
                   ))}
                 </div>
-              </motion.a>
+              </motion.div>
             );
           })}
         </div>

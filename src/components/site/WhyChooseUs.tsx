@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-import { Clock, Smartphone, FileCheck, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Clock, Smartphone, FileCheck, Phone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { trackCtaClick } from "@/lib/analytics";
 
 const reasons = [
   {
@@ -56,6 +59,30 @@ export const WhyChooseUs = () => {
               </motion.div>
             );
           })}
+        </div>
+
+        <div className="mt-14 flex flex-wrap items-center justify-center gap-3">
+          <ConsultationDialog source="home_why_choose">
+            <Button size="lg" className="rounded-[10px] bg-brand text-brand-foreground hover:bg-brand/90">
+              Book a consultation
+            </Button>
+          </ConsultationDialog>
+          <Link
+            to="/process"
+            onClick={() =>
+              trackCtaClick({
+                ctaId: "home_why_choose_process",
+                ctaText: "See our process",
+                location: "home_why_choose_us",
+                destination: "/process",
+              })
+            }
+          >
+            <Button size="lg" variant="outline" className="rounded-[10px] group">
+              See our process
+              <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-0.5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

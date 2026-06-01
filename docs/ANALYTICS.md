@@ -17,9 +17,11 @@ Implementation: `src/lib/analytics/` · Route wrapper: `src/components/Analytics
 
 **One-shot import:** run `npm run gtm:generate` then import `gtm/prestoliv-analytics-import.json` via GTM → Admin → Import Container. Full steps in `gtm/IMPORT.txt`.
 
+**Named tags (ctruth-style):** The import creates **one GA4 tag + trigger per button/action** (e.g. `GA4 | Home | Get Started | Lead Submitted`). Full list: `gtm/TAG_CATALOG.md`. Site code still uses `lead_source` / `cta_id` in dataLayer; GTM filters route each to the right tag.
+
 When `VITE_GTM_ID` is set, GA4 loads only through GTM (leave `VITE_GA_MEASUREMENT_ID` empty in Vercel). Meta Pixel loads direct when `VITE_META_PIXEL_ID` is set.
 
-Create **Custom Event** triggers using the **Event name** column exactly as written. Map to GA4 Event tags or use built-in GA4 configuration.
+Every event also sends **`button_id`** (= `lead_source` or `cta_id`) for GA4 reporting.
 
 Every event also includes: `page_path`, `content_group`, `event_category`, `event_action`, `event_label`.
 

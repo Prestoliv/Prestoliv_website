@@ -1,6 +1,9 @@
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
+import { ConsultationDialog } from "@/components/ConsultationDialog";
+import type { ConsultationSource } from "@/lib/analytics";
+import { trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
 
 import { motion } from "framer-motion";
 
@@ -11,11 +14,12 @@ import {
   Layers,
   ArrowRight,
   CheckCircle2,
-  Calculator,
   ExternalLink,
 } from "lucide-react";
 
 import { Link } from "react-router-dom";
+
+import { Button } from "@/components/ui/button";
 
 import residentialImg from "@/assets/3.jpg";
 import commercialImg from "@/assets/2.jpg";
@@ -73,15 +77,29 @@ const FeatureList = ({ items }: { items: string[] }) => (
   </div>
 );
 
+type ServiceSlug = "residential" | "commercial" | "interiors";
+
 const ServiceActions = ({
   detailsHref,
+  serviceSlug,
+  hubLabel,
 }: {
   detailsHref: string;
+  serviceSlug: ServiceSlug;
+  hubLabel: string;
 }) => (
   <div className="mt-8 flex flex-wrap items-center gap-3">
-    {/* View Details */}
     <Link
       to={detailsHref}
+      onClick={() => {
+        trackViewServiceInterest({ service: serviceSlug, location: "services_hub" });
+        trackCtaClick({
+          ctaId: "view_service_details",
+          ctaText: "View Detailed Page",
+          location: `services_hub_${serviceSlug}`,
+          destination: detailsHref,
+        });
+      }}
       className="
         group
         inline-flex
@@ -107,9 +125,16 @@ const ServiceActions = ({
       <ExternalLink className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
     </Link>
 
-    {/* Calculate Cost */}
     <Link
-      to={`/calculator`}
+      to="/calculator"
+      onClick={() =>
+        trackCtaClick({
+          ctaId: "calculate_cost",
+          ctaText: "Calculate Cost",
+          location: `services_hub_${serviceSlug}`,
+          destination: "/calculator",
+        })
+      }
       className="
         group
         inline-flex
@@ -127,11 +152,20 @@ const ServiceActions = ({
         hover:bg-brand/90
       "
     >
-      
       Calculate Cost
 
       <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
     </Link>
+
+    <ConsultationDialog source={`service_${serviceSlug}` as ConsultationSource}>
+      <Button
+        variant="outline"
+        size="sm"
+        className="rounded-3xl border-border"
+      >
+        Book consultation — {hubLabel}
+      </Button>
+    </ConsultationDialog>
   </div>
 );
 
@@ -157,17 +191,14 @@ const VisualCard = ({
     className="relative"
   >
     <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card shadow-soft">
-      {/* Main Image */}
       <img
         src={image}
         alt={title}
         className="aspect-[4/5] w-full object-cover transition-transform duration-700 hover:scale-105"
       />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-      {/* Bottom Card */}
       <div className="absolute bottom-5 left-5 max-w-[240px] rounded-2xl border border-white/20 bg-white/10 p-4 text-white backdrop-blur-xl">
         <p className="text-xs uppercase tracking-[0.2em] text-white/70">
           {tag}
@@ -187,7 +218,6 @@ const VisualCard = ({
         </div>
       </div>
 
-      {/* Status */}
       <div className="absolute right-5 top-5 rounded-2xl border border-border/50 bg-background/80 px-4 py-3 backdrop-blur-xl shadow-soft">
         <p className="text-xs text-muted-foreground">Status</p>
 
@@ -207,6 +237,29 @@ const OurServices = () => (
       subtitle="Three core services. One Prestoliv team. From the first sketch to the keys in your hand."
     />
 
+    <div className="mx-auto max-w-6xl px-6 -mt-4 flex flex-wrap justify-center gap-3">
+      <ConsultationDialog source="services_hub_hero">
+        <Button size="lg" className="rounded-2xl bg-brand text-brand-foreground hover:bg-brand/90">
+          Book a consultation
+        </Button>
+      </ConsultationDialog>
+      <Link
+        to="/calculator"
+        onClick={() =>
+          trackCtaClick({
+            ctaId: "calculate_cost",
+            ctaText: "Calculate Cost",
+            location: "services_hub_hero",
+            destination: "/calculator",
+          })
+        }
+      >
+        <Button size="lg" variant="outline" className="rounded-2xl">
+          Calculate Cost
+        </Button>
+      </Link>
+    </div>
+
     {/* Residential */}
     <section className="py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -215,6 +268,9 @@ const OurServices = () => (
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            onViewportEnter={() =>
+              trackViewServiceInterest({ service: "residential", location: "services_hub" })
+            }
           >
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <Home className="h-8 w-8" />
@@ -233,7 +289,11 @@ const OurServices = () => (
 
             <FeatureList items={residentialFeatures} />
 
-            <ServiceActions detailsHref="/services/residential" />
+            <ServiceActions
+              detailsHref="/services/residential"
+              serviceSlug="residential"
+              hubLabel="Residential"
+            />
           </motion.div>
 
           <VisualCard
@@ -263,6 +323,9 @@ const OurServices = () => (
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            onViewportEnter={() =>
+              trackViewServiceInterest({ service: "commercial", location: "services_hub" })
+            }
           >
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <Building2 className="h-8 w-8" />
@@ -280,7 +343,11 @@ const OurServices = () => (
 
             <FeatureList items={commercialFeatures} />
 
-            <ServiceActions detailsHref="/services/commercial" />
+            <ServiceActions
+              detailsHref="/services/commercial"
+              serviceSlug="commercial"
+              hubLabel="Commercial"
+            />
           </motion.div>
         </div>
       </div>
@@ -294,6 +361,9 @@ const OurServices = () => (
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            onViewportEnter={() =>
+              trackViewServiceInterest({ service: "interiors", location: "services_hub" })
+            }
           >
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <Paintbrush className="h-8 w-8" />
@@ -311,7 +381,11 @@ const OurServices = () => (
 
             <FeatureList items={interiorFeatures} />
 
-            <ServiceActions detailsHref="/services/interiors" />
+            <ServiceActions
+              detailsHref="/services/interiors"
+              serviceSlug="interiors"
+              hubLabel="Interiors"
+            />
           </motion.div>
 
           <VisualCard
@@ -367,9 +441,17 @@ const OurServices = () => (
           ))}
         </div>
 
-        <div className="mt-14 flex justify-center">
+        <div className="mt-14 flex flex-wrap justify-center gap-3">
           <Link
-            to="/services/specialized"
+            to="/calculator"
+            onClick={() =>
+              trackCtaClick({
+                ctaId: "explore_specialized",
+                ctaText: "Explore Specialized Services",
+                location: "services_hub_specialized",
+                destination: "/calculator",
+              })
+            }
             className="
               group
               inline-flex
@@ -387,10 +469,15 @@ const OurServices = () => (
               hover:bg-brand/90
             "
           >
-            Explore Specialized Services
+            Get a cost estimate
 
             <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
           </Link>
+          <ConsultationDialog source="services_hub_specialized">
+            <Button variant="outline" className="rounded-3xl">
+              Talk to our team
+            </Button>
+          </ConsultationDialog>
         </div>
       </div>
     </section>

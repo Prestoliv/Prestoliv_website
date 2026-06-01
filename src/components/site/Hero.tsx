@@ -1,9 +1,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import house from "@/assets/hero-house1.png";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { trackCtaClick } from "@/lib/analytics";
 
 
 export const Hero = () => {
@@ -87,6 +89,25 @@ export const Hero = () => {
             </Button>
           </ConsultationDialog>
 
+          <Link
+            to="/calculator"
+            onClick={() =>
+              trackCtaClick({
+                ctaId: "calculate_cost",
+                ctaText: "Calculate Cost",
+                location: "hero",
+                destination: "/calculator",
+              })
+            }
+          >
+            <Button
+              size="lg"
+              variant="outline"
+              className="rounded-[10px] border-white/40 bg-white/10 text-white hover:bg-white/20 backdrop-blur px-7 py-3"
+            >
+              Calculate Cost
+            </Button>
+          </Link>
         </motion.div>
       </motion.div>
 

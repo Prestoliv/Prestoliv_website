@@ -2,61 +2,25 @@
  * Generates gtm/prestoliv-analytics-import.json — import via
  * GTM → Admin → Import Container → Merge (prefer) or Overwrite.
  *
+ * One named GA4 tag + trigger per button/action (ctruth-style visibility).
+ *
  * Usage: node scripts/generate-gtm-import.mjs
  */
 
 import { writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { buildNamedTagCatalog } from "./gtm-named-tags-catalog.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = join(__dirname, "../gtm/prestoliv-analytics-import.json");
+const TAG_CATALOG_MD = join(__dirname, "../gtm/TAG_CATALOG.md");
 
 const GTM_ID = "GTM-W5G7H4GP";
 const GA4_ID = "G-Z21L9R9W4V";
 const ALL_PAGES = "2147479553";
 
-const PRESTOLIV_EVENTS = [
-  "virtual_page_view",
-  "scroll_depth",
-  "section_view",
-  "navigation_click",
-  "outbound_link_click",
-  "consultation_modal_open",
-  "consultation_modal_close",
-  "consultation_form_start",
-  "consultation_form_submit",
-  "consultation_form_error",
-  "calculator_started",
-  "calculator_area_updated",
-  "calculator_unit_changed",
-  "calculator_package_selected",
-  "calculator_estimate_viewed",
-  "calculator_reset",
-  "calculator_cta_click",
-  "cta_click",
-  "view_service_interest",
-  "faq_expand",
-  "sign_in_start",
-  "sign_in_complete",
-  "dashboard_open",
-  "contact_click",
-  "social_click",
-];
-
-const GA4_MAPPED = {
-  virtual_page_view: "page_view",
-  consultation_form_submit: "generate_lead",
-  calculator_package_selected: "select_item",
-  calculator_started: "view_item",
-  view_service_interest: "view_item",
-  navigation_click: "click",
-  outbound_link_click: "click",
-  sign_in_start: "login",
-  sign_in_complete: "login",
-};
-
-const DLV_KEYS = [
+const BASE_DLV_KEYS = [
   "page_path",
   "page_title",
   "page_location",
@@ -64,6 +28,7 @@ const DLV_KEYS = [
   "event_category",
   "event_action",
   "event_label",
+  "button_id",
   "lead_source",
   "service_type",
   "city",
@@ -72,16 +37,22 @@ const DLV_KEYS = [
   "cta_id",
   "cta_text",
   "cta_location",
+  "cta_destination",
   "link_text",
   "link_destination",
   "nav_location",
   "package_id",
   "package_label",
   "estimate_inr",
+  "area_value",
+  "area_unit",
+  "built_up_sqft",
   "faq_index",
   "faq_question",
   "social_platform",
+  "social_location",
   "contact_type",
+  "contact_location",
   "error_message",
   "method",
   "package_count",
@@ -113,15 +84,23 @@ function dlv(name, key) {
   };
 }
 
-function customEventTrigger(name, eventName) {
+function customEventTrigger(triggerName, eventName, filters = []) {
   const triggerId = nextId();
+  const extraFilters = filters.map(({ key, value }) => ({
+    type: "EQUALS",
+    parameter: [
+      { type: "TEMPLATE", key: "arg0", value: `{{DLV - ${key}}}` },
+      { type: "TEMPLATE", key: "arg1", value: value },
+    ],
+  }));
+
   return {
     id: triggerId,
     def: {
       accountId: "0",
       containerId: "0",
       triggerId,
-      name,
+      name: triggerName,
       type: "CUSTOM_EVENT",
       customEventFilter: [
         {
@@ -132,40 +111,18 @@ function customEventTrigger(name, eventName) {
           ],
         },
       ],
-      fingerprint: "1",
-    },
-  };
-}
-
-function regexEventTrigger(name, regex) {
-  const triggerId = nextId();
-  return {
-    id: triggerId,
-    def: {
-      accountId: "0",
-      containerId: "0",
-      triggerId,
-      name,
-      type: "CUSTOM_EVENT",
-      customEventFilter: [
-        {
-          type: "MATCH_REGEX",
-          parameter: [
-            { type: "TEMPLATE", key: "arg0", value: "{{_event}}" },
-            { type: "TEMPLATE", key: "arg1", value: regex },
-          ],
-        },
-      ],
+      ...(extraFilters.length > 0 ? { filter: extraFilters } : {}),
       fingerprint: "1",
     },
   };
 }
 
 function eventParams(keys) {
+  const unique = [...new Set(keys)];
   return {
     type: "LIST",
     key: "eventSettingsTable",
-    list: keys.map((key) => ({
+    list: unique.map((key) => ({
       type: "MAP",
       map: [
         { type: "TEMPLATE", key: "parameter", value: key },
@@ -175,70 +132,50 @@ function eventParams(keys) {
   };
 }
 
-function ga4EventTag(name, eventName, triggerId, paramKeys) {
+function ga4EventTagDef(tagName, ga4EventName, triggerId, paramKeys) {
   const tagId = nextId();
+  const params = [...paramKeys];
+  if (!params.includes("button_id")) {
+    params.push("button_id");
+  }
   return {
-    id: tagId,
-    def: {
-      accountId: "0",
-      containerId: "0",
-      tagId,
-      name,
-      type: "gaawe",
-      parameter: [
-        { type: "BOOLEAN", key: "sendEcommerceData", value: "false" },
-        { type: "TEMPLATE", key: "eventName", value: eventName },
-        { type: "TEMPLATE", key: "measurementIdOverride", value: GA4_ID },
-        eventParams(paramKeys),
-      ],
-      fingerprint: "1",
-      firingTriggerId: [triggerId],
-      tagFiringOption: "ONCE_PER_EVENT",
-      monitoringMetadata: { type: "MAP" },
-      consentSettings: { consentStatus: "NOT_SET" },
-    },
+    accountId: "0",
+    containerId: "0",
+    tagId,
+    name: tagName,
+    type: "gaawe",
+    parameter: [
+      { type: "BOOLEAN", key: "sendEcommerceData", value: "false" },
+      { type: "TEMPLATE", key: "eventName", value: ga4EventName },
+      { type: "TEMPLATE", key: "measurementIdOverride", value: GA4_ID },
+      eventParams(params),
+    ],
+    fingerprint: "1",
+    firingTriggerId: [triggerId],
+    tagFiringOption: "ONCE_PER_EVENT",
+    monitoringMetadata: { type: "MAP" },
+    consentSettings: { consentStatus: "NOT_SET" },
   };
 }
 
-// --- Build variables ---
-const variables = [];
-for (const key of DLV_KEYS) {
-  variables.push(dlv(`DLV - ${key}`, key));
+const namedCatalog = buildNamedTagCatalog();
+
+const paramKeysUsed = new Set(BASE_DLV_KEYS);
+for (const entry of namedCatalog) {
+  for (const key of entry.params) paramKeysUsed.add(key);
 }
 
-// --- Triggers ---
-const tVirtualPageView = customEventTrigger("CE - virtual_page_view", "virtual_page_view");
-const tGenerateLead = customEventTrigger("CE - consultation_form_submit", "consultation_form_submit");
-const tSelectItem = customEventTrigger("CE - calculator_package_selected", "calculator_package_selected");
-const tViewItemCalc = customEventTrigger("CE - calculator_started", "calculator_started");
-const tViewItemService = customEventTrigger("CE - view_service_interest", "view_service_interest");
-const tLoginStart = customEventTrigger("CE - sign_in_start", "sign_in_start");
-const tLoginComplete = customEventTrigger("CE - sign_in_complete", "sign_in_complete");
-const tNavigation = customEventTrigger("CE - navigation_click", "navigation_click");
+const variables = [...paramKeysUsed].map((key) => dlv(`DLV - ${key}`, key));
 
-const mappedEvents = new Set(Object.keys(GA4_MAPPED));
-const catchAllRegex = PRESTOLIV_EVENTS.filter((e) => !mappedEvents.has(e)).join("|");
-const tCatchAll = regexEventTrigger("CE - All Other Prestoliv Events", catchAllRegex);
+const triggers = [];
+const tags = [];
 
-const triggers = [
-  tVirtualPageView,
-  tGenerateLead,
-  tSelectItem,
-  tViewItemCalc,
-  tViewItemService,
-  tLoginStart,
-  tLoginComplete,
-  tNavigation,
-  tCatchAll,
-];
-
-// --- Tags ---
 const ga4ConfigTagId = nextId();
-const ga4ConfigTag = {
+tags.push({
   accountId: "0",
   containerId: "0",
   tagId: ga4ConfigTagId,
-  name: "GA4 - Configuration",
+  name: "GA4 | Configuration",
   type: "googtag",
   parameter: [
     { type: "TEMPLATE", key: "tagId", value: GA4_ID },
@@ -261,75 +198,39 @@ const ga4ConfigTag = {
   tagFiringOption: "ONCE_PER_EVENT",
   monitoringMetadata: { type: "MAP" },
   consentSettings: { consentStatus: "NOT_SET" },
-};
+});
 
-const tags = [
-  ga4ConfigTag,
-  ga4EventTag("GA4 - page_view", "page_view", tVirtualPageView.id, [
-    "page_path",
-    "page_title",
-    "page_location",
-    "content_group",
-  ]).def,
-  ga4EventTag("GA4 - generate_lead", "generate_lead", tGenerateLead.id, [
-    "lead_source",
-    "service_type",
-    "city",
-    "has_email",
-  ]).def,
-  ga4EventTag("GA4 - select_item", "select_item", tSelectItem.id, [
-    "package_id",
-    "package_label",
-    "estimate_inr",
-  ]).def,
-  ga4EventTag("GA4 - view_item (calculator)", "view_item", tViewItemCalc.id, ["package_count"]).def,
-  ga4EventTag("GA4 - view_item (service)", "view_item", tViewItemService.id, [
-    "service_slug",
-    "interest_location",
-  ]).def,
-  ga4EventTag("GA4 - login (start)", "login", tLoginStart.id, ["method"]).def,
-  ga4EventTag("GA4 - login (complete)", "login", tLoginComplete.id, ["method"]).def,
-  ga4EventTag("GA4 - click (navigation)", "click", tNavigation.id, [
-    "link_text",
-    "link_destination",
-    "nav_location",
-  ]).def,
+for (const entry of namedCatalog) {
+  const trigger = customEventTrigger(entry.triggerName, entry.event, entry.filters);
+  triggers.push(trigger);
+  tags.push(ga4EventTagDef(entry.tagName, entry.ga4Event, trigger.id, entry.params));
+}
+
+const mdLines = [
+  "# Prestoliv GTM tag catalog (named tags)",
+  "",
+  `Generated: ${new Date().toISOString().slice(0, 10)}`,
+  "",
+  `Container: **${GTM_ID}** · GA4: **${GA4_ID}**`,
+  "",
+  `**${namedCatalog.length}** GA4 event tags (one per button/action) + 1 configuration tag.`,
+  "",
+  "Import: `gtm/prestoliv-analytics-import.json` → GTM Admin → Import Container → Merge → Publish.",
+  "",
+  "| GTM tag name | Trigger | dataLayer event | GA4 event | Filters |",
+  "|--------------|---------|-----------------|-----------|---------|",
 ];
 
-// Catch-all: send dataLayer event name as GA4 event name
-const catchAllTagId = nextId();
-tags.push({
-  accountId: "0",
-  containerId: "0",
-  tagId: catchAllTagId,
-  name: "GA4 - All Other Custom Events",
-  type: "gaawe",
-  parameter: [
-    { type: "BOOLEAN", key: "sendEcommerceData", value: "false" },
-    { type: "TEMPLATE", key: "eventName", value: "{{Event}}" },
-    { type: "TEMPLATE", key: "measurementIdOverride", value: GA4_ID },
-    eventParams([
-      "event_category",
-      "event_action",
-      "event_label",
-      "lead_source",
-      "scroll_percent",
-      "cta_id",
-      "cta_text",
-      "cta_location",
-      "faq_index",
-      "social_platform",
-      "contact_type",
-      "estimate_inr",
-      "package_label",
-    ]),
-  ],
-  fingerprint: "1",
-  firingTriggerId: [tCatchAll.id],
-  tagFiringOption: "ONCE_PER_EVENT",
-  monitoringMetadata: { type: "MAP" },
-  consentSettings: { consentStatus: "NOT_SET" },
-});
+const mdCell = (s) => s.replace(/\|/g, " · ");
+
+for (const entry of namedCatalog) {
+  const filterStr = entry.filters.length
+    ? entry.filters.map((f) => `${f.key}=${f.value}`).join(", ")
+    : "—";
+  mdLines.push(
+    `| ${mdCell(entry.tagName)} | ${mdCell(entry.triggerName)} | \`${entry.event}\` | \`${entry.ga4Event}\` | ${filterStr} |`,
+  );
+}
 
 const container = {
   exportFormatVersion: 2,
@@ -339,8 +240,8 @@ const container = {
     accountId: "0",
     containerId: "0",
     containerVersionId: "0",
-    name: "Prestoliv Analytics — full setup",
-    description: `Import into ${GTM_ID}. Triggers + GA4 tags for all Prestoliv dataLayer events.`,
+    name: "Prestoliv Analytics — named tags (full)",
+    description: `Import into ${GTM_ID}. One GA4 tag per CTA/action; matches ctruth-style GTM UI.`,
     container: {
       path: "accounts/0/containers/0",
       accountId: "0",
@@ -350,7 +251,22 @@ const container = {
       usageContext: ["WEB"],
       fingerprint: "0",
       tagManagerUrl: "https://tagmanager.google.com/",
-      features: { supportUserPermissions: true, supportEnvironments: true, supportWorkspaces: true, supportGtagConfigs: true, supportBuiltInVariables: true, supportClients: false, supportFolders: true, supportTags: true, supportTemplates: true, supportTriggers: true, supportVariables: true, supportVersions: true, supportZones: true, supportTransformations: false },
+      features: {
+        supportUserPermissions: true,
+        supportEnvironments: true,
+        supportWorkspaces: true,
+        supportGtagConfigs: true,
+        supportBuiltInVariables: true,
+        supportClients: false,
+        supportFolders: true,
+        supportTags: true,
+        supportTemplates: true,
+        supportTriggers: true,
+        supportVariables: true,
+        supportVersions: true,
+        supportZones: true,
+        supportTransformations: false,
+      },
       tagIds: [GTM_ID],
     },
     tag: tags,
@@ -370,5 +286,8 @@ const container = {
 
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(container, null, 2));
+writeFileSync(TAG_CATALOG_MD, `${mdLines.join("\n")}\n`);
+
 console.log(`Wrote ${OUT}`);
+console.log(`Wrote ${TAG_CATALOG_MD}`);
 console.log(`  ${variables.length} variables, ${triggers.length} triggers, ${tags.length} tags`);

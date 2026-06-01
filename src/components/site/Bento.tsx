@@ -20,6 +20,7 @@ import bento3d from "@/assets/1a.jpg";
 import bentoDashboard from "@/assets/2a.webp";
 import bentoAccountability from "@/assets/bento-accountability.jpg";
 import bentoTimeline from "@/assets/3p.png";
+import { trackCtaClick } from "@/lib/analytics";
 
 type Item = {
   title: string;
@@ -28,6 +29,7 @@ type Item = {
   image: string;
   className: string;
   details: string;
+  ctaId: string;
 };
 
 const items: Item[] = [
@@ -40,6 +42,7 @@ const items: Item[] = [
     className: "md:col-span-2",
     details:
       "Walk through every room, refine layouts, test spatial flow, and make confident decisions before execution starts.",
+    ctaId: "bento_virtual_design",
   },
   {
     title: "Live Project Tracking",
@@ -50,6 +53,7 @@ const items: Item[] = [
     className: "md:col-span-1",
     details:
       "Daily updates, approvals, timelines, material tracking, and site intelligence  all accessible from one seamless dashboard.",
+    ctaId: "bento_live_tracking",
   },
   {
     title: "Full-Stack Accountability",
@@ -60,6 +64,7 @@ const items: Item[] = [
     className: "md:col-span-1",
     details:
       "Architecture, execution, engineering, interiors, and project management under one ecosystem with complete ownership.",
+    ctaId: "bento_accountability",
   },
   {
     title: "Data-Driven Timelines",
@@ -70,6 +75,7 @@ const items: Item[] = [
     className: "md:col-span-2",
     details:
       "Execution timelines are continuously monitored and optimized to identify delays before they impact delivery.",
+    ctaId: "bento_timelines",
   },
 ];
 
@@ -125,7 +131,14 @@ export const Bento = () => {
             return (
               <motion.button
                 key={it.title}
-                onClick={() => setActive(it)}
+                onClick={() => {
+                  trackCtaClick({
+                    ctaId: it.ctaId,
+                    ctaText: it.title,
+                    location: "home_bento",
+                  });
+                  setActive(it);
+                }}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
