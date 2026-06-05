@@ -3,6 +3,7 @@ import { ArrowRight, Instagram, Linkedin, Facebook, Mail, Phone, MapPin } from "
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
+import { useContactSettings } from "@/components/ContactSettingsProvider";
 import { buttonIdFromLabel, FOOTER_SERVICE_LINKS, slugifyButtonLabel, trackOutboundContact, trackPhoneClick, trackSocialClick } from "@/lib/analytics";
 import { TrackableLink } from "@/components/analytics/TrackableLink";
 import logo from "@/assets/logo.svg";
@@ -23,13 +24,16 @@ const socials = [
   { icon: Facebook, href: "https://www.facebook.com/profile.php?id=61573836098768", label: "Facebook" },
 ];
 
-const contacts = [
-  { icon: Phone, label: "+91 98490 78569", href: "tel:+919849078569" },
-  { icon: Mail, label: "hello@prestoliv.com", href: "mailto:hello@prestoliv.com" },
-  { icon: MapPin, label: "Prestoliv Proptech Private Limited : Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
-];
+export const CtaFooter = () => {
+  const { phoneDisplay, phoneE164 } = useContactSettings();
 
-export const CtaFooter = () => (
+  const contacts = [
+    { icon: Phone, label: phoneDisplay, href: `tel:${phoneE164}` },
+    { icon: Mail, label: "hello@prestoliv.com", href: "mailto:hello@prestoliv.com" },
+    { icon: MapPin, label: "Prestoliv Proptech Private Limited : Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
+  ];
+
+  return (
   <>
     <section id="footer-cta" className="relative overflow-hidden py-28 bg-gradient-hero">
       <div className="absolute inset-0 bg-grid opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]" />
@@ -195,4 +199,5 @@ export const CtaFooter = () => (
       </div>
     </footer>
   </>
-);
+  );
+};

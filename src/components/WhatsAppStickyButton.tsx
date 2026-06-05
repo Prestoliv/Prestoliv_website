@@ -1,6 +1,6 @@
+import { useContactSettings } from "@/components/ContactSettingsProvider";
 import { buttonIdFromLabel, slugifyButtonLabel, trackWhatsAppClick } from "@/lib/analytics";
-
-const WHATSAPP_URL = "https://wa.me/919849078569";
+import { buildWhatsAppUrl } from "@/lib/contactSettings";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" className="size-7 fill-current" aria-hidden>
@@ -10,17 +10,24 @@ const WhatsAppIcon = () => (
 
 export const WhatsAppStickyButton = () => {
   const label = "Chat on WhatsApp";
+  const { whatsappNumber, whatsappEnabled } = useContactSettings();
+
+  if (!whatsappEnabled) {
+    return null;
+  }
+
+  const whatsappUrl = buildWhatsAppUrl(whatsappNumber);
 
   return (
     <a
       id={buttonIdFromLabel(label)}
       data-analytics-id={slugifyButtonLabel(label)}
       data-button-id={slugifyButtonLabel(label)}
-      href={WHATSAPP_URL}
+      href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      onClick={() => trackWhatsAppClick(WHATSAPP_URL)}
+      onClick={() => trackWhatsAppClick(whatsappUrl)}
       className="fixed bottom-24 right-4 z-40 flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25D366] sm:bottom-6 sm:right-6"
     >
       <WhatsAppIcon />

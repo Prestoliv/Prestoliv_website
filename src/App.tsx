@@ -15,6 +15,7 @@ import ResidentialPage from "./pages/pages_services/ResidentialPage.tsx";
 import InteriorsPage from "./pages/pages_services/InteriorsPage.tsx";
 import ConstructionCalculatorPage from "./pages/ConstructionCalculator.tsx";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { ContactSettingsProvider } from "@/components/ContactSettingsProvider";
 import { WhatsAppStickyButton } from "@/components/WhatsAppStickyButton";
 
 
@@ -36,6 +37,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ContactSettingsProvider>
         <AnalyticsProvider>
         <ScrollToTop />
         <WhatsAppStickyButton />
@@ -53,6 +55,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         </AnalyticsProvider>
+        </ContactSettingsProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
