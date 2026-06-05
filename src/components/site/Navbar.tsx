@@ -19,9 +19,11 @@ import { ConsultationDialog } from "@/components/ConsultationDialog";
 import {
   analyticsProps,
   buttonIdFromLabel,
+  CORE_SERVICE_INTERESTS,
   slugifyButtonLabel,
   trackDashboardOpen,
   trackNavigationClick,
+  trackServiceInterestClick,
   trackSignInStart,
 } from "@/lib/analytics";
 import { dashboardProfileUrl } from "@/lib/dashboard";
@@ -43,6 +45,7 @@ const services = [
     image: residentialImg,
     description: "Homes, villas & renovations built around how you live.",
     tag: "Most Popular",
+    interest: CORE_SERVICE_INTERESTS.residential,
   },
   {
     label: "Commercial",
@@ -51,6 +54,7 @@ const services = [
     description:
       "Offices, retail & clinics engineered around operations.",
     tag: null,
+    interest: CORE_SERVICE_INTERESTS.commercial,
   },
   {
     label: "Interior Design",
@@ -59,6 +63,7 @@ const services = [
     description:
       "Full-home interiors managed from concept to handover.",
     tag: null,
+    interest: CORE_SERVICE_INTERESTS.interiors,
   },
 ];
 
@@ -217,6 +222,7 @@ export const Navbar = () => {
                           data-analytics-id={slugifyButtonLabel(service.label)}
                           to={service.href}
                           onClick={() => {
+                            trackServiceInterestClick(service.interest);
                             trackNavigationClick({
                               linkText: service.label,
                               destination: service.href,
@@ -439,6 +445,7 @@ export const Navbar = () => {
                           data-analytics-id={slugifyButtonLabel(service.label)}
                           to={service.href}
                           onClick={() => {
+                            trackServiceInterestClick(service.interest);
                             trackNavigationClick({
                               linkText: service.label,
                               destination: service.href,

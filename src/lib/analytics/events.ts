@@ -57,6 +57,13 @@ export const ANALYTICS_EVENTS = {
   // Contact & social
   contactClick: "contact_click",
   socialClick: "social_click",
+
+  /** GTM-first event names (used alongside legacy names where applicable) */
+  formStart: "form_start",
+  formError: "form_error",
+  serviceInterest: "service_interest",
+  phoneClick: "phone_click",
+  whatsappClick: "whatsapp_click",
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
@@ -165,4 +172,54 @@ export function getContentGroup(pathname: string): string {
   if (PAGE_CONTENT_GROUPS[pathname]) return PAGE_CONTENT_GROUPS[pathname];
   if (pathname.startsWith("/services/")) return "service_detail";
   return "other";
+}
+
+/** GTM page_type values pushed on init and route change */
+export type PageType = "home" | "service" | "process" | "about" | "contact";
+
+export function getPageType(pathname: string): PageType {
+  const path = pathname.split("?")[0];
+  if (path === "/" || path === "") return "home";
+  if (path === "/process") return "process";
+  if (path === "/about") return "about";
+  if (path === "/calculator") return "contact";
+  if (path.startsWith("/services")) return "service";
+  return "home";
+}
+
+/** CTA placement for GTM form / cta_click events */
+export type CtaLocation = "hero" | "services" | "sticky_bar" | "footer";
+
+export const CONSULTATION_FORM_NAME = "book_free_consultation";
+
+export function sourceToCtaLocation(source: ConsultationSource): CtaLocation {
+  switch (source) {
+    case "hero":
+    case "home_why_choose":
+      return "hero";
+    case "footer_cta":
+      return "footer";
+    case "navbar_desktop":
+    case "navbar_mobile":
+    case "navbar_services_menu":
+      return "sticky_bar";
+    default:
+      return "services";
+  }
+}
+
+/** Form service select value → GTM service_interest snake_case */
+export function formServiceToInterest(service: string): string {
+  const map: Record<string, string> = {
+    residential: "residential_construction",
+    commercial: "commercial_construction",
+    renovation: "renovation_remodeling",
+    interiors: "interior_design",
+    others: "",
+  };
+  return map[service] ?? service;
+}
+
+export function isBookFreeConsultationLabel(label: string): boolean {
+  return /book a free consultation/i.test(label.trim());
 }

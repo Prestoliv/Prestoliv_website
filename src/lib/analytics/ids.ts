@@ -10,6 +10,16 @@ export function slugifyButtonLabel(label: string) {
     .slice(0, 80);
 }
 
+/** "Home Construction & Design" → "home_construction_design" */
+export function slugifyServiceInterest(label: string) {
+  return label
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "")
+    .slice(0, 80);
+}
+
 /** HTML id from visible button/link text: "Get started" → id="btn-get-started" */
 export function buttonIdFromLabel(label: string) {
   const slug = slugifyButtonLabel(label);

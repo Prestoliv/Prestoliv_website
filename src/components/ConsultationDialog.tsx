@@ -10,9 +10,12 @@ import { toast } from "@/hooks/use-toast";
 import {
   trackConsultationFormError,
   trackConsultationFormStart,
+  trackConsultationCtaClick,
   trackConsultationLead,
   trackConsultationModalClose,
   trackConsultationModalOpen,
+  isBookFreeConsultationLabel,
+  sourceToCtaLocation,
   type ConsultationSource,
 } from "@/lib/analytics";
 import {
@@ -48,6 +51,8 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
   const buttonSlug = slugifyButtonLabel(buttonLabel);
   const triggerId = buttonIdFromLabel(buttonLabel);
 
+  const ctaLocation = sourceToCtaLocation(source);
+
   const handleOpenChange = (next: boolean) => {
     if (next) {
       trackConsultationModalOpen(source, buttonLabel);
@@ -61,7 +66,16 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
   const handleFormInteraction = () => {
     if (formStarted.current) return;
     formStarted.current = true;
-    trackConsultationFormStart(source, buttonLabel);
+    trackConsultationFormStart(source, buttonLabel, ctaLocation);
+  };
+
+  const handleFormInvalid = () => {
+    trackConsultationFormError({
+      source,
+      buttonLabel,
+      errorMessage: "validation_failed",
+      ctaLocation,
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,7 +94,7 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
     setSubmitting(false);
 
     if (error) {
-      trackConsultationFormError({ source, buttonLabel, errorMessage: error.message });
+      trackConsultationFormError({ source, buttonLabel, errorMessage: error.message, ctaLocation });
       toast({
         title: "Could not submit request",
         description: error.message,
@@ -95,6 +109,7 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
       source,
       hasEmail: !!formData.email.trim(),
       buttonLabel,
+      ctaLocation,
     });
 
     toast({
@@ -105,9 +120,20 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
     setFormData({ name: "", phone: "", email: "", city: "", service: "", otherService: "" });
   };
 
+  const handleTriggerClick = (e: React.MouseEvent) => {
+    if (isBookFreeConsultationLabel(buttonLabel)) {
+      trackConsultationCtaClick(ctaLocation);
+    }
+    if (isValidElement(children)) {
+      const childOnClick = (children.props as { onClick?: (ev: React.MouseEvent) => void }).onClick;
+      childOnClick?.(e);
+    }
+  };
+
   const triggerProps = {
     id: triggerId,
     ...analyticsDataAttributes(buttonSlug),
+    onClick: handleTriggerClick,
   };
 
   return (
@@ -122,7 +148,6 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
           <DialogTitle className="text-2xl font-bold">Book a Consultation</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
-
           <div className="space-y-2">
             <Label htmlFor="name">Name *</Label>
             <Input
@@ -130,6 +155,7 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
               placeholder="Your full name"
               value={formData.name}
               onFocus={handleFormInteraction}
+              onInvalid={handleFormInvalid}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               required
             />
@@ -143,6 +169,7 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
               placeholder="Your phone number"
               value={formData.phone}
               onFocus={handleFormInteraction}
+              onInvalid={handleFormInvalid}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               required
             />
@@ -167,6 +194,7 @@ export const ConsultationDialog = ({ children, source, buttonLabel }: Consultati
               placeholder="Your city"
               value={formData.city}
               onFocus={handleFormInteraction}
+              onInvalid={handleFormInvalid}
               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
               required
             />

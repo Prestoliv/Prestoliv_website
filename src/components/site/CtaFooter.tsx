@@ -3,19 +3,11 @@ import { ArrowRight, Instagram, Linkedin, Facebook, Mail, Phone, MapPin } from "
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
-import { buttonIdFromLabel, slugifyButtonLabel, trackOutboundContact, trackSocialClick } from "@/lib/analytics";
+import { buttonIdFromLabel, FOOTER_SERVICE_LINKS, slugifyButtonLabel, trackOutboundContact, trackPhoneClick, trackSocialClick } from "@/lib/analytics";
 import { TrackableLink } from "@/components/analytics/TrackableLink";
 import logo from "@/assets/logo.svg";
 
 const cols = [
-  {
-    title: "Services",
-    links: [
-      { label: "Residential Construction", href: "/services/residential" },
-      { label: "Commercial Construction", href: "/services/commercial" },
-      { label: "Interior Design", href: "/services/interiors" },
-    ],
-  },
   {
     title: "Company",
     links: [
@@ -32,7 +24,7 @@ const socials = [
 ];
 
 const contacts = [
-  { icon: Phone, label: "+91 70028 76998", href: "tel:+917002876998" },
+  { icon: Phone, label: "+91 98490 78569", href: "tel:+919849078569" },
   { icon: Mail, label: "hello@prestoliv.com", href: "mailto:hello@prestoliv.com" },
   { icon: MapPin, label: "Prestoliv Proptech Private Limited : Plot No. A-50, D K Enclave, Miyapur, Hyderabad, Telangana, India - 500049.", href: "#" },
 ];
@@ -108,7 +100,28 @@ export const CtaFooter = () => (
           </div>
         </div>
 
-        {/* Services & Company cols */}
+        {/* Services col */}
+        <div>
+          <div className="text-xs font-semibold uppercase tracking-widest text-background/50">Services</div>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {FOOTER_SERVICE_LINKS.map((l) => (
+              <li key={l.href}>
+                <TrackableLink
+                  to={l.href}
+                  linkText={l.label}
+                  navLocation="footer"
+                  serviceInterest={l.interest}
+                  className="hover:text-brand transition-colors"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  {l.label}
+                </TrackableLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Company col */}
         {cols.map((c) => (
           <div key={c.title}>
             <div className="text-xs font-semibold uppercase tracking-widest text-background/50">{c.title}</div>
@@ -145,7 +158,11 @@ export const CtaFooter = () => (
                     data-button-id={slugifyButtonLabel(label)}
                     href={href}
                     onClick={() => {
-                      if (contactType) trackOutboundContact(contactType, "footer");
+                      if (contactType === "phone") {
+                        trackPhoneClick(href);
+                      } else if (contactType === "email") {
+                        trackOutboundContact("email", "footer");
+                      }
                     }}
                     className="flex items-start gap-2.5 text-sm text-background/60 hover:text-brand transition-colors group"
                   >

@@ -3,7 +3,7 @@ import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import type { ConsultationSource } from "@/lib/analytics";
-import { buttonIdFromLabel, trackCtaClick, trackViewServiceInterest } from "@/lib/analytics";
+import { buttonIdFromLabel, CORE_SERVICE_INTERESTS, SPECIALIZED_SERVICE_CARDS, trackCtaClick, trackServiceInterestClick, trackViewServiceInterest } from "@/lib/analytics";
 
 import { motion } from "framer-motion";
 
@@ -52,14 +52,7 @@ const interiorFeatures = [
   "Transparent timelines with committed handover dates.",
 ];
 
-const specializedFeatures = [
-  "Architectural design and VR walkthroughs.",
-  "Project management for already-started builds.",
-  "Integrated vastu consultation.",
-  "Structural audits and renovation feasibility.",
-  "Construction loan facilitation and documentation.",
-  "Independent quality and milestone tracking.",
-];
+const specializedServiceInterests = SPECIALIZED_SERVICE_CARDS;
 
 const FeatureList = ({ items }: { items: string[] }) => (
   <div className="mt-8 space-y-4">
@@ -95,6 +88,7 @@ const ServiceActions = ({
       data-button-id="view-detailed-page"
       to={detailsHref}
       onClick={() => {
+        trackServiceInterestClick(CORE_SERVICE_INTERESTS[serviceSlug]);
         trackViewServiceInterest({ service: serviceSlug, location: "services_hub" });
         trackCtaClick({
           ctaId: "view_service_details",
@@ -430,15 +424,17 @@ const OurServices = () => (
         </div>
 
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {specializedFeatures.map((feature, i) => (
-            <motion.div
-              key={i}
+          {specializedServiceInterests.map(({ label, interest }, i) => (
+            <motion.button
+              key={interest}
+              type="button"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
               whileHover={{ y: -4 }}
-              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-7 backdrop-blur shadow-soft"
+              onClick={() => trackServiceInterestClick(interest)}
+              className="group relative overflow-hidden rounded-3xl border border-border/60 bg-card/60 p-7 text-left backdrop-blur shadow-soft"
             >
               <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-b from-brand/[0.08] to-transparent" />
 
@@ -447,9 +443,9 @@ const OurServices = () => (
               </div>
 
               <p className="relative mt-5 text-sm leading-relaxed text-muted-foreground">
-                {feature}
+                {label}
               </p>
-            </motion.div>
+            </motion.button>
           ))}
         </div>
 

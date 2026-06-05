@@ -1,13 +1,21 @@
 import { Link, type LinkProps } from "react-router-dom";
-import { buttonIdFromLabel, slugifyButtonLabel, trackNavigationClick } from "@/lib/analytics";
+import { buttonIdFromLabel, slugifyButtonLabel, trackNavigationClick, trackServiceInterestClick } from "@/lib/analytics";
 
 type TrackableLinkProps = LinkProps & {
   linkText: string;
   navLocation: string;
+  serviceInterest?: string;
 };
 
 /** Internal router link with navigation_click analytics */
-export function TrackableLink({ linkText, navLocation, onClick, to, ...props }: TrackableLinkProps) {
+export function TrackableLink({
+  linkText,
+  navLocation,
+  serviceInterest,
+  onClick,
+  to,
+  ...props
+}: TrackableLinkProps) {
   const destination = typeof to === "string" ? to : (to.pathname ?? "");
   const elementId = buttonIdFromLabel(linkText);
   const slug = slugifyButtonLabel(linkText);
@@ -19,6 +27,7 @@ export function TrackableLink({ linkText, navLocation, onClick, to, ...props }: 
       data-button-id={slug}
       to={to}
       onClick={(e) => {
+        if (serviceInterest) trackServiceInterestClick(serviceInterest);
         trackNavigationClick({
           linkText,
           destination,

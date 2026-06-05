@@ -1,23 +1,39 @@
 export {
   ANALYTICS_EVENTS,
   ANALYTICS_EVENT_CATALOG,
+  CONSULTATION_FORM_NAME,
   EVENT_CATEGORY,
   GA4_EVENTS,
   META_EVENTS,
   PAGE_CONTENT_GROUPS,
+  formServiceToInterest,
   getContentGroup,
+  getPageType,
+  isBookFreeConsultationLabel,
+  sourceToCtaLocation,
   type AnalyticsEventName,
   type ConsultationSource,
+  type CtaLocation,
   type EventCategory,
+  type PageType,
   type ServiceSlug,
   type SocialPlatform,
 } from "./events";
+
+export {
+  CORE_SERVICE_INTERESTS,
+  FOOTER_SERVICE_LINKS,
+  SPECIALIZED_SERVICE_CARDS,
+} from "./serviceCatalog";
 
 export {
   analyticsConfig,
   hasAnalytics,
   useGtmHub,
   initAnalyticsScripts,
+  initDataLayer,
+  pushGtmEvent,
+  pushPageType,
   track,
   trackPageView,
   trackScrollDepth,
@@ -28,6 +44,10 @@ export {
   trackConsultationFormStart,
   trackConsultationLead,
   trackConsultationFormError,
+  trackConsultationCtaClick,
+  trackServiceInterestClick,
+  trackPhoneClick,
+  trackWhatsAppClick,
   trackCalculatorStarted,
   trackCalculatorAreaUpdated,
   trackCalculatorUnitChanged,
@@ -54,4 +74,5 @@ export {
   inputAnalyticsId,
   navLinkId,
   slugifyButtonLabel,
+  slugifyServiceInterest,
 } from "./ids";

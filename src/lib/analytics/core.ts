@@ -1,8 +1,13 @@
 import {
   ANALYTICS_EVENTS,
   type AnalyticsEventName,
+  type CtaLocation,
+  CONSULTATION_FORM_NAME,
   type EventCategory,
+  formServiceToInterest,
   getContentGroup,
+  getPageType,
+  type PageType,
   GA4_EVENTS,
   META_EVENTS,
 } from "./events";
@@ -69,6 +74,21 @@ function pushDataLayer(payload: Record<string, unknown>) {
     page_path: payload.page_path ?? currentPath(),
     content_group: payload.content_group ?? getContentGroup(window.location.pathname),
   });
+}
+
+/** Raw GTM pushes — exact schema for client GTM triggers (no extra event_* fields) */
+export function pushGtmEvent(payload: Record<string, unknown>) {
+  window.dataLayer = window.dataLayer ?? [];
+  window.dataLayer.push(payload);
+}
+
+export function pushPageType(pageType: PageType) {
+  pushGtmEvent({ page_type: pageType });
+}
+
+export function initDataLayer() {
+  window.dataLayer = window.dataLayer ?? [];
+  pushPageType(getPageType(window.location.pathname));
 }
 
 function sendGa4(event: string, params?: TrackParams) {
@@ -214,6 +234,8 @@ export function initAnalyticsScripts() {
   if (scriptsLoaded || !hasAnalytics) return;
   scriptsLoaded = true;
 
+  initDataLayer();
+
   const { gtmId, gaMeasurementId, metaPixelId, clarityProjectId } = analyticsConfig;
   if (gtmId) loadGoogleTagManager(gtmId);
   if (gaMeasurementId && !useGtmHub) loadGoogleAnalytics(gaMeasurementId);
@@ -225,6 +247,9 @@ export function trackPageView(path: string, title?: string) {
   const pageTitle = title ?? document.title;
   const pageLocation = `${window.location.origin}${path}`;
   const contentGroup = getContentGroup(path.split("?")[0]);
+  const pageType = getPageType(path.split("?")[0]);
+
+  pushPageType(pageType);
 
   track({
     event: ANALYTICS_EVENTS.virtualPageView,
@@ -331,14 +356,20 @@ export function trackConsultationModalClose(source: string, buttonLabel: string)
   });
 }
 
-export function trackConsultationFormStart(source: string, buttonLabel: string) {
+export function trackConsultationFormStart(source: string, buttonLabel: string, ctaLocation?: CtaLocation) {
   const buttonName = slugifyButtonLabel(buttonLabel);
+  const location = ctaLocation ?? "services";
   track({
     event: ANALYTICS_EVENTS.consultationFormStart,
     category: "conversion",
     action: "start",
     label: buttonLabel,
     params: { lead_source: source, button_name: buttonName, button_label: buttonLabel },
+  });
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.formStart,
+    form_name: CONSULTATION_FORM_NAME,
+    cta_location: location,
   });
 }
 
@@ -348,8 +379,12 @@ export function trackConsultationLead(params: {
   source: string;
   hasEmail: boolean;
   buttonLabel: string;
+  ctaLocation?: CtaLocation;
 }) {
   const buttonName = slugifyButtonLabel(params.buttonLabel);
+  const location = params.ctaLocation ?? "services";
+  const serviceInterest = formServiceToInterest(params.service);
+
   track({
     event: ANALYTICS_EVENTS.consultationFormSubmit,
     category: "conversion",
@@ -378,12 +413,22 @@ export function trackConsultationLead(params: {
     },
     metaStandard: true,
   });
+
+  pushGtmEvent({
+    event: GA4_EVENTS.generateLead,
+    form_name: CONSULTATION_FORM_NAME,
+    cta_location: location,
+    service_interest: serviceInterest,
+    lead_value: 5000,
+    currency: "INR",
+  });
 }
 
 export function trackConsultationFormError(params: {
   source: string;
   buttonLabel: string;
   errorMessage: string;
+  ctaLocation?: CtaLocation;
 }) {
   const buttonName = slugifyButtonLabel(params.buttonLabel);
   track({
@@ -397,6 +442,51 @@ export function trackConsultationFormError(params: {
       button_label: params.buttonLabel,
       error_message: params.errorMessage,
     },
+  });
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.formError,
+    form_name: CONSULTATION_FORM_NAME,
+    form_step: "error",
+    cta_location: params.ctaLocation ?? "services",
+    error_message: params.errorMessage,
+  });
+}
+
+/** GTM cta_click for "Book a Free Consultation" triggers */
+export function trackConsultationCtaClick(ctaLocation: CtaLocation) {
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.ctaClick,
+    cta_location: ctaLocation,
+  });
+}
+
+/** GTM service_interest on service card / link click */
+export function trackServiceInterestClick(serviceInterest: string) {
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.serviceInterest,
+    service_interest: serviceInterest,
+  });
+  track({
+    event: ANALYTICS_EVENTS.viewServiceInterest,
+    category: "engagement",
+    action: "click",
+    label: serviceInterest,
+    params: { service_interest: serviceInterest, service_slug: serviceInterest },
+  });
+}
+
+export function trackPhoneClick(linkUrl: string) {
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.phoneClick,
+    link_url: linkUrl,
+  });
+  trackOutboundContact("phone", "footer");
+}
+
+export function trackWhatsAppClick(linkUrl: string) {
+  pushGtmEvent({
+    event: ANALYTICS_EVENTS.whatsappClick,
+    link_url: linkUrl,
   });
 }
 
