@@ -15,6 +15,7 @@ import ResidentialPage from "./pages/pages_services/ResidentialPage.tsx";
 import InteriorsPage from "./pages/pages_services/InteriorsPage.tsx";
 import ConstructionCalculatorPage from "./pages/ConstructionCalculator.tsx";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { WhatsAppStickyButton } from "@/components/WhatsAppStickyButton";
 
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
       <BrowserRouter>
         <AnalyticsProvider>
         <ScrollToTop />
+        <WhatsAppStickyButton />
         <Routes>
           <Route path="/" element={<Index />} />
         <Route path="/process" element={<Process />} />
