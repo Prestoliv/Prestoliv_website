@@ -1,4 +1,3 @@
-import { PageMeta } from "@/components/PageMeta";
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
@@ -233,10 +232,6 @@ const VisualCard = ({
 
 const OurServices = () => (
   <main id="page-services" className="min-h-screen overflow-hidden bg-background text-foreground">
-    <PageMeta
-      title="Construction & Interior Design Services | Prestoliv"
-      description="Explore Prestoliv's home construction & interior design with 3D walkthroughs, project management, vastu & partner financing support."
-    />
     <Navbar />
 
     <PageHero

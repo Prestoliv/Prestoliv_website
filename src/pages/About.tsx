@@ -1,4 +1,3 @@
-import { PageMeta } from "@/components/PageMeta";
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
@@ -34,10 +33,6 @@ const teamMembers = [
 
 const About = () => (
   <main id="page-about" className="min-h-screen bg-background text-foreground">
-    <PageMeta
-      title="About Prestoliv | Home Builders in Hyderabad"
-      description="Meet Prestoliv — Hyderabad home builders delivering transparent, on-time construction with 3D walkthroughs, live tracking & a 10-yr structural warranty."
-    />
     <Navbar />
     <PageHero
       eyebrow="About Us"

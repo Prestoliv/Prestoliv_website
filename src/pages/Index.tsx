@@ -1,4 +1,3 @@
-import { PageMeta } from "@/components/PageMeta";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { StatsGallery } from "@/components/site/StatsGallery";
@@ -12,10 +11,6 @@ import { CtaFooter } from "@/components/site/CtaFooter";
 
 const Index = () => (
   <main id="page-home" className="min-h-screen bg-background text-foreground">
-    <PageMeta
-      title="Home Construction + 3D Walkthrough | Prestoliv"
-      description="Build your home in Hyderabad with Prestoliv. Transparent construction with 3D/VR walkthroughs, live site tracking & on-time delivery. Book a free consult."
-    />
     <Navbar />
     <Hero />
     <StatsGallery />
