@@ -10,6 +10,7 @@ import p2 from "@/assets/p2.png";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { buttonIdFromLabel, slugifyButtonLabel, trackSocialClick } from "@/lib/analytics";
+import { Link } from "react-router-dom";
 
 const commitments = [
   { icon: Eye, title: "VR-First", desc: "See It Before You Build It", detail: "Walk through your home in 3D before a single brick is laid. Catch what paper drawings can't show." },
@@ -132,7 +133,14 @@ const About = () => (
 
           <p>
             So we rebuilt the model from the ground up: design proven in a virtual 3D walkthrough
-            before a brick is laid, transparent construction with every rupee and milestone visible on a
+            before a brick is laid,{" "}
+            <Link
+              to="/services"
+              className="underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+            >
+              transparent construction
+            </Link>{" "}
+            with every rupee and milestone visible on a
             live dashboard, and a completion date we put in writing.
           </p>
 

@@ -290,7 +290,12 @@ const OurServices = () => (
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              House construction in Hyderabad
+              <Link
+                to="/services/residential"
+                className="underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+              >
+                House construction in Hyderabad
+              </Link>
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">
@@ -345,7 +350,12 @@ const OurServices = () => (
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Commercial Construction
+              <Link
+                to="/services/commercial"
+                className="underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+              >
+                Commercial Construction
+              </Link>
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">
@@ -383,7 +393,12 @@ const OurServices = () => (
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Interior design in Hyderabad
+              <Link
+                to="/services/interiors"
+                className="underline underline-offset-4 decoration-brand/40 hover:decoration-brand"
+              >
+                Interior design in Hyderabad
+              </Link>
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">

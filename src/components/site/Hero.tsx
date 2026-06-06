@@ -59,7 +59,13 @@ export const Hero = () => {
           transition={{ duration: 0.75, delay: 0.05 }}
           className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-md leading-[0.95]"
         >
-          Home construction in Hyderabad,
+          <Link
+            to="/services"
+            className="underline underline-offset-4 decoration-white/50 hover:decoration-white"
+          >
+            Home construction in Hyderabad
+          </Link>
+          ,
           <br />
           finally done right.
         </motion.h1>
@@ -70,7 +76,14 @@ export const Hero = () => {
           transition={{ duration: 0.75, delay: 0.15 }}
           className="mt-6 max-w-xl mx-auto text-base sm:text-lg text-white/90 leading-relaxed"
         >
-          Design and build your home with a virtual 3D walkthrough, live site
+          Design and build your home with a{" "}
+          <Link
+            to="/process"
+            className="underline underline-offset-4 decoration-white/50 hover:decoration-white"
+          >
+            virtual 3D walkthrough
+          </Link>
+          , live site
           tracking, and transparent construction — with a price locked the day you sign.
         </motion.p>
 
