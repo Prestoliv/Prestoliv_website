@@ -124,8 +124,8 @@ const ResidentialPage = () => {
 
     <PageHero
       eyebrow="Residential Construction"
-      title="Built for how your family actually lives."
-      subtitle="Independent homes, villas, duplexes, and renovations  fixed-price execution, VR-first design, and one accountable team from foundation to finish."
+      title="House construction in Hyderabad, built for your family."
+      subtitle="Independent homes, villas, duplexes, and renovations — fixed-price execution, a virtual 3D walkthrough, and one accountable team from foundation to finish."
     />
 
     {/* Main Service Section */}
@@ -142,13 +142,13 @@ const ResidentialPage = () => {
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Residential Construction
+              House construction in Hyderabad
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">
               Independent homes, villas, duplexes, and renovations designed
               around how your family actually lives. Fixed-price execution,
-              VR-first design, and one accountable team from foundation to
+              virtual 3D walkthrough, and one accountable team from foundation to
               finish.
             </p>
 

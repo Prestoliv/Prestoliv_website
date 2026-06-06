@@ -20,7 +20,7 @@ const commitments = [
 
 const howWeWork = [
   { n: "01", icon: Users, title: "Radical Ownership", desc: "One Prestoliv team handles design, approvals, construction, and interiors. You manage one project manager. We manage everything else, including the vendors most builders make you chase." },
-  { n: "02", icon: Shield, title: "Future-Proof Quality", desc: "500+ in-process quality checks across structural, MEP, and finish phases. Backed by structural and waterproofing warranties that outlast the build itself." },
+  { n: "02", icon: Shield, title: "Future-Proof Quality", desc: "500+ in-process quality checks across structural, MEP, and finish phases. Eligible residential builds include a 10-year structural warranty — backed by structural and waterproofing coverage that outlasts the build itself." },
   { n: "03", icon: Smartphone, title: "Digital Integrity", desc: "Every milestone, every payment, every material approval, logged, timestamped, and visible to you in real time. If it happened on site, it's on the record." },
   { n: "04", icon: Calendar, title: "Predictable Delivery", desc: "AI-driven scheduling flags risk weeks before it hits the site. Your handover date is contractual, not aspirational, with a delay penalty backing it." },
   { n: "05", icon: Building, title: "Financial Ease", desc: "Loan coordination with partner banks. Faster approvals through track-record-based bank relationships. Disbursement aligned to construction milestones, you draw only what you've used." },
@@ -44,7 +44,7 @@ const About = () => (
     <PageHero
       eyebrow="About Us"
       title="Rebuilding the building experience."
-      subtitle="Construction in India runs on three broken promises: the timeline slips, the budget grows, the updates stop. Prestoliv was built to end all three. VR design before we break ground. A live dashboard while we build. A price that holds, written into the contract."
+      subtitle="Hyderabad home builders on a mission to end broken timelines, surprise budgets, and silent site updates. Virtual 3D walkthrough before we break ground. Live site tracking while we build. A price that holds, written into the contract."
     />
 
 {/* Our Story Section */}
@@ -131,8 +131,8 @@ const About = () => (
           </p>
 
           <p>
-            So we rebuilt the model from the ground up: design proven in 3D
-            before a brick is laid, every rupee and milestone visible on a
+            So we rebuilt the model from the ground up: design proven in a virtual 3D walkthrough
+            before a brick is laid, transparent construction with every rupee and milestone visible on a
             live dashboard, and a completion date we put in writing.
           </p>
 

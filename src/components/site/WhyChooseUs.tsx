@@ -19,7 +19,7 @@ const reasons = [
   {
     icon: FileCheck,
     title: "Fixed-Price Contracts",
-    desc: "The number you sign is the number you pay. Material price spikes are our problem. Scope changes get quoted and approved in writing before anyone touches a tool.",
+    desc: "The number you sign is the number you pay. Material price spikes are our problem. Eligible builds include a 10-year structural warranty — scope changes get quoted and approved in writing before anyone touches a tool.",
   },
   {
     icon: Phone,
@@ -35,7 +35,7 @@ export const WhyChooseUs = () => {
         <div className="text-center max-w-3xl mx-auto">
           <span className="text-xs font-semibold tracking-widest uppercase text-brand">Why choose us?</span>
           <h2 className="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight">
-            We've removed the risks of traditional construction.
+            Transparent construction, built for Hyderabad homeowners.
           </h2>
         </div>
 

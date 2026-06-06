@@ -59,9 +59,9 @@ export const Hero = () => {
           transition={{ duration: 0.75, delay: 0.05 }}
           className="font-display text-5xl sm:text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-md leading-[0.95]"
         >
-          Construction, finally
+          Home construction in Hyderabad,
           <br />
-          done right.
+          finally done right.
         </motion.h1>
 
         <motion.p
@@ -70,8 +70,8 @@ export const Hero = () => {
           transition={{ duration: 0.75, delay: 0.15 }}
           className="mt-6 max-w-xl mx-auto text-base sm:text-lg text-white/90 leading-relaxed"
         >
-          Design, build and finish your home with 3D walkthroughs, daily site
-          updates, and a price that's locked the day you sign.
+          Design and build your home with a virtual 3D walkthrough, live site
+          tracking, and transparent construction — with a price locked the day you sign.
         </motion.p>
 
         <motion.div
@@ -122,7 +122,7 @@ export const Hero = () => {
       >
         <motion.img
           src={house}
-          alt="Modern home built by Prestoliv"
+          alt="Modern home built by Prestoliv — house construction in Hyderabad"
           className="w-[160%] sm:w-full max-w-none sm:max-w-[2000px] mx-auto -ml-[30%] sm:ml-0 select-none"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}

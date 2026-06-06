@@ -69,7 +69,7 @@ export const CtaFooter = () => {
         <div className="col-span-2">
           <img src={logo} alt="Prestoliv" className="h-7 w-auto brightness-0 invert" />
           <p className="mt-4 text-sm text-background/60 max-w-xs">
-            Construction, finally done right. 3D walkthroughs, daily site updates and a price that's locked the day you sign.
+            Home builders in Hyderabad, done right — virtual 3D walkthroughs, live site tracking, and a price locked the day you sign.
           </p>
           <div className="mt-6 flex items-center gap-2 text-xs text-background/60">
             <span className="size-2 rounded-full bg-brand animate-pulse" />

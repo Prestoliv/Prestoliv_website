@@ -4,7 +4,7 @@ import { buttonIdFromLabel, slugifyButtonLabel, trackFaqExpand } from "@/lib/ana
 const faqs = [
   {
     q: "How can I track my project's daily progress?",
-    a: "Open your dashboard. Today's site photos are there. Yesterday's completed work is logged. Tomorrow's scheduled tasks are listed. Your payment status, material approvals, and direct chat with your project manager  same place. Web and mobile, updated by 7 PM every working day.",
+    a: "Open your dashboard for live site tracking — today's site photos, yesterday's completed work, and tomorrow's scheduled tasks. Your payment status, material approvals, and direct chat with your project manager, all in one place. Web and mobile, updated by 7 PM every working day.",
   },
   {
     q: "Does Prestoliv handle government approvals and financing?",
@@ -28,7 +28,7 @@ const faqs = [
   },
   {
     q: "How is Prestoliv different from hiring a contractor or architect separately?",
-    a: "A traditional build splits design, engineering, execution, and interiors across vendors who rarely coordinate. Prestoliv unifies all of it on one platform with one timeline, one point of accountability, and one dashboard  turnkey home construction without the coordination chaos.",
+    a: "A traditional build splits design, engineering, execution, and interiors across vendors who rarely coordinate. As a construction company in Hyderabad, Prestoliv unifies all of it on one platform with one timeline, one point of accountability, and one dashboard — turnkey home construction without the coordination chaos.",
   },
   {
     q: "What types of projects does Prestoliv take on?",

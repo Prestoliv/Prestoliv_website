@@ -28,7 +28,7 @@ import interiorsImg from "@/assets/1.jpg";
 
 const residentialFeatures = [
   "Architectural design tailored to how your family actually lives.",
-  "VR walkthrough before construction begins.",
+  "Virtual 3D walkthrough before construction begins.",
   "Fixed-price construction contracts with no surprise escalation.",
   "Approvals, NOCs, and loan coordination handled end to end.",
   "One in-house team from foundation to interiors.",
@@ -244,7 +244,7 @@ const OurServices = () => (
     <PageHero
       eyebrow="Our Services"
       title="Built around your project. Backed by our process."
-      subtitle="Three core services. One Prestoliv team. From the first sketch to the keys in your hand."
+      subtitle="A construction company in Hyderabad offering three core services — one Prestoliv team from the first sketch to the keys in your hand."
     />
 
     <div className="mx-auto max-w-6xl px-6 -mt-4 flex flex-wrap justify-center gap-3">
@@ -290,13 +290,13 @@ const OurServices = () => (
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Residential Construction
+              House construction in Hyderabad
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">
               Independent homes, villas, duplexes, and renovations designed
               around how your family actually lives. Fixed-price execution,
-              VR-first design, and one accountable team from foundation to
+              virtual 3D walkthrough, and one accountable team from foundation to
               finish.
             </p>
 
@@ -383,13 +383,13 @@ const OurServices = () => (
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Interior Design
+              Interior design in Hyderabad
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">
               Full-home interiors, kitchen remodels, wardrobes, and renovations
-              managed from concept to handover. One team owns the design,
-              procurement, and execution process.
+              managed from concept to handover — with 3D visualization before
+              procurement begins.
             </p>
 
             <FeatureList items={interiorFeatures} />

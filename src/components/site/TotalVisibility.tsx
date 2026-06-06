@@ -45,13 +45,13 @@ export const TotalVisibility = () => {
           </div>
 
           <h2 className="mt-6 font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-tight">
-            Your project has nothing to hide.
+            Live site tracking — your project has nothing to hide.
           </h2>
 
           <p className="mt-6 text-lg leading-relaxed text-muted-foreground">
             On most builds, information is something you have to chase. With
-            Prestoliv, it's already waiting for you  every photo, payment,
-            decision, and delay risk in one place, updated daily.
+            Prestoliv, it's already waiting for you — daily photos, payments,
+            decisions, and delay risks in one place, updated through live site tracking.
             <span className="block mt-4 text-foreground font-medium">
               You don't ask how the build is going. You open the app and see.
             </span>

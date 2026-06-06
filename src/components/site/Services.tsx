@@ -8,7 +8,7 @@ const services = [
     n: "01",
     icon: PencilRuler,
     title: "Visionary Planning",
-    desc: "You see it before we build it. Architectural drawings, 3D model, full VR walkthrough included. Most clients catch eight to twelve things they would have lived with for thirty years.",
+    desc: "You see it before we build it. Architectural drawings, a 3D model, and a full virtual 3D walkthrough included. Most clients catch eight to twelve things they would have lived with for thirty years.",
     tags: ["3D Model", "VR Walkthrough", "Drawings"],
     ctaId: "home_service_planning",
     href: "/process",
@@ -17,7 +17,7 @@ const services = [
     n: "02",
     icon: Activity,
     title: "Transparent Execution",
-    desc: "You watch it as we build it. Daily photos, live work logs, real-time payment status. AI flags scheduling risks before they become delays. You stay informed without lifting a phone.",
+    desc: "You watch it as we build it. Daily photos, live site tracking, and real-time payment status. AI flags scheduling risks before they become delays. You stay informed without lifting a phone.",
     tags: ["Daily Logs", "Live Dashboard", "AI Risk Alerts"],
     ctaId: "home_service_execution",
     href: "/about",
@@ -41,11 +41,11 @@ export const Services = () => {
           <div>
             <span className="text-xs font-semibold tracking-widest uppercase text-brand">Building without the anxiety</span>
             <h2 className="mt-3 font-display text-4xl sm:text-5xl font-bold tracking-tight max-w-2xl">
-              Engineered for certainty.
+              Transparent construction, engineered for certainty.
             </h2>
           </div>
           <p className="max-w-sm text-muted-foreground">
-            Most construction stress comes from not knowing what's happening, what it'll cost, or when it'll end. We've engineered all three out of the process.
+            Most house construction in Hyderabad stalls when owners lose visibility on cost, quality, or timeline. We've engineered all three out of the process.
           </p>
         </div>
 

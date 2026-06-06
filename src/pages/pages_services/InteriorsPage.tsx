@@ -124,8 +124,8 @@ const InteriorsPage = () => {
 
     <PageHero
       eyebrow="Interior Design"
-      title="From concept to handover. One team owns it all."
-      subtitle="Full-home interiors, kitchen remodels, wardrobes, and renovations managed end to end  with 3D visualization, trade-price procurement, and committed handover dates."
+      title="Interior design in Hyderabad — one team, concept to handover."
+      subtitle="Full-home interiors, kitchen remodels, wardrobes, and renovations managed end to end — with 3D visualization, trade-price procurement, and committed handover dates."
     />
 
     {/* Main Service Section */}
@@ -142,7 +142,7 @@ const InteriorsPage = () => {
             </div>
 
             <h2 className="mt-6 font-display text-4xl font-bold tracking-tight">
-              Interior Design
+              Interior design in Hyderabad
             </h2>
 
             <p className="mt-5 leading-relaxed text-muted-foreground">

@@ -135,7 +135,7 @@ const Process = () => (
     <PageHero
       eyebrow="Our Process"
       title="From vision to reality, pixel by pixel."
-      subtitle="Nine steps. Zero guesswork. Every decision is made in 3D before a brick is laid."
+      subtitle="Nine steps. Zero guesswork. Every decision is made in a virtual 3D walkthrough before a brick is laid — with live site tracking from day one on site."
     />
 
     <section id="process-phases" className="relative py-24">

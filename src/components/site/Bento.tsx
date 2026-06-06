@@ -36,7 +36,7 @@ const items: Item[] = [
   {
     title: "Virtual-First Design",
     blurb:
-      "Experience your future home before construction even begins.",
+      "Walk through your future home in a virtual 3D walkthrough before construction begins.",
     icon: Box,
     image: bento3d,
     className: "md:col-span-2",
@@ -47,7 +47,7 @@ const items: Item[] = [
   {
     title: "Live Project Tracking",
     blurb:
-      "Real-time visibility into your project’s execution.",
+      "Live site tracking with real-time visibility into your project’s execution.",
     icon: Activity,
     image: bentoDashboard,
     className: "md:col-span-1",
@@ -118,8 +118,8 @@ export const Bento = () => {
           </h2>
 
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Prestoliv combines architecture, technology, execution, and
-            accountability into one seamless construction experience.
+            Prestoliv is a construction company in Hyderabad that combines architecture,
+            technology, execution, and accountability into one seamless build experience.
           </p>
         </motion.div>
 
