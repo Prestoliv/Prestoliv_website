@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { PageSeoFromPath } from "@/components/PageSeoFromPath";
 import { Navbar } from "@/components/site/Navbar";
 import {
   buttonIdFromLabel,
@@ -116,6 +117,8 @@ const InteriorsPage = () => {
   }, []);
 
   return (
+  <>
+    <PageSeoFromPath path="/services/interiors" />
   <main id="page-service-interiors" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
@@ -251,6 +254,7 @@ const InteriorsPage = () => {
 
     <CtaFooter />
   </main>
+  </>
   );
 };
 

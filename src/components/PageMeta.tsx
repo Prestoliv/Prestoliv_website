@@ -5,15 +5,18 @@ export const OG_IMAGE_URL = "https://www.prestoliv.com/og-image.png";
 type PageMetaProps = {
   title: string;
   description: string;
+  ogUrl: string;
 };
 
-export const PageMeta = ({ title, description }: PageMetaProps) => (
+export const PageMeta = ({ title, description, ogUrl }: PageMetaProps) => (
   <Helmet>
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={ogUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={ogUrl} />
     <meta property="og:image" content={OG_IMAGE_URL} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@Prestoliv" />

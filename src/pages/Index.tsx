@@ -1,3 +1,4 @@
+import { PageMeta } from "@/components/PageMeta";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { StatsGallery } from "@/components/site/StatsGallery";
@@ -10,18 +11,25 @@ import { Faq } from "@/components/site/Faq";
 import { CtaFooter } from "@/components/site/CtaFooter";
 
 const Index = () => (
-  <main id="page-home" className="min-h-screen bg-background text-foreground">
-    <Navbar />
-    <Hero />
-    <StatsGallery />
-    <TotalVisibility />
-    <Bento />
-    <Services />
-    <WhyChooseUs />
-    <Showcase />
-    <Faq />
-    <CtaFooter />
-  </main>
+  <>
+    <PageMeta
+      title="Home Construction + 3D Walkthrough | Prestoliv"
+      description="Build your home in Hyderabad with Prestoliv. Transparent construction with 3D/VR walkthroughs, live site tracking & on-time delivery. Book a free consult."
+      ogUrl="https://www.prestoliv.com/"
+    />
+    <main id="page-home" className="min-h-screen bg-background text-foreground">
+      <Navbar />
+      <Hero />
+      <StatsGallery />
+      <TotalVisibility />
+      <Bento />
+      <Services />
+      <WhyChooseUs />
+      <Showcase />
+      <Faq />
+      <CtaFooter />
+    </main>
+  </>
 );
 
 export default Index;

@@ -13,12 +13,21 @@
 
     <script>
       window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        wait_for_update: 500,
+      });
       window.dataLayer.push({ page_type: "home" });
     </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Home Construction + 3D Walkthrough | Prestoliv" />
     <meta property="og:description" content="Build your home in Hyderabad with Prestoliv. Transparent construction with 3D/VR walkthroughs, live site tracking &amp; on-time delivery. Book a free consult." />
+    <meta property="og:url" content="https://www.prestoliv.com/" />
     <meta property="og:image" content="https://www.prestoliv.com/og-image.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -32,7 +41,7 @@
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
         "name": "Prestoliv",
-        "description": "Home construction and interior design company in Hyderabad with 3D/VR walkthroughs and live site tracking.",
+        "description": "Home construction and interior design company in Hyderabad with 3D/VR walkthroughs, live site tracking and on-time delivery.",
         "url": "https://www.prestoliv.com",
         "telephone": "+91-98490-78569",
         "address": {
@@ -42,7 +51,20 @@
           "addressCountry": "IN"
         },
         "areaServed": "Hyderabad",
-        "serviceType": ["Home Construction", "Interior Design", "Commercial Construction", "Renovation"]
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Construction & Design Services",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Home Construction" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Construction" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Interior Design" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Renovation & Remodeling" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Architectural Design & 3D Walkthroughs" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Vastu Consultation" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Project Management" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Partner Financing Support" } }
+          ]
+        }
       }
     </script>
   </head>

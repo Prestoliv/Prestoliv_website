@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { PageSeoFromPath } from "@/components/PageSeoFromPath";
 import { Navbar } from "@/components/site/Navbar";
 import {
   buttonIdFromLabel,
@@ -116,6 +117,8 @@ const ResidentialPage = () => {
   }, []);
 
   return (
+  <>
+    <PageSeoFromPath path="/services/residential" />
   <main id="page-service-residential" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
@@ -252,6 +255,7 @@ const ResidentialPage = () => {
 
     <CtaFooter />
   </main>
+  </>
   );
 };
 

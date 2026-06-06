@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader2 } from "lucide-react";
+import { PageSeoFromPath } from "@/components/PageSeoFromPath";
 import { Button } from "@/components/ui/button";
 import { ConsultationDialog } from "@/components/ConsultationDialog";
 import { Navbar } from "@/components/site/Navbar";
@@ -39,6 +40,8 @@ const ConstructionCalculatorPage = () => {
 
   if (bootLoading) {
     return (
+      <>
+        <PageSeoFromPath path="/calculator" />
       <main className="min-h-screen bg-background text-foreground">
         <Navbar />
         <div className="flex min-h-[60vh] flex-col items-center justify-center gap-3 text-muted-foreground">
@@ -47,11 +50,14 @@ const ConstructionCalculatorPage = () => {
         </div>
         <CtaFooter />
       </main>
+      </>
     );
   }
 
   if (!enabled && settings) {
     return (
+      <>
+        <PageSeoFromPath path="/calculator" />
       <main className="min-h-screen bg-background text-foreground">
         <Navbar />
         <PageHero
@@ -64,10 +70,13 @@ const ConstructionCalculatorPage = () => {
         </section>
         <CtaFooter />
       </main>
+      </>
     );
   }
 
   return (
+    <>
+      <PageSeoFromPath path="/calculator" />
     <main id="page-calculator" className="min-h-screen overflow-hidden bg-background text-foreground">
       <Navbar />
 
@@ -138,6 +147,7 @@ const ConstructionCalculatorPage = () => {
 
       <CtaFooter />
     </main>
+    </>
   );
 };
 

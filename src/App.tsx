@@ -16,6 +16,7 @@ import InteriorsPage from "./pages/pages_services/InteriorsPage.tsx";
 import ConstructionCalculatorPage from "./pages/ConstructionCalculator.tsx";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { ContactSettingsProvider } from "@/components/ContactSettingsProvider";
+import { CookieConsentBanner } from "@/components/CookieConsentBanner";
 import { WhatsAppStickyButton } from "@/components/WhatsAppStickyButton";
 
 
@@ -40,6 +41,7 @@ const App = () => (
         <ContactSettingsProvider>
         <AnalyticsProvider>
         <ScrollToTop />
+        <CookieConsentBanner />
         <WhatsAppStickyButton />
         <Routes>
           <Route path="/" element={<Index />} />

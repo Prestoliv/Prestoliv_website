@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { PageSeoFromPath } from "@/components/PageSeoFromPath";
 import { analyticsProps } from "@/lib/analytics";
 
 const NotFound = () => {
@@ -10,6 +11,8 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
+    <>
+      <PageSeoFromPath path="/404" />
     <main id="page-not-found" className="flex min-h-screen items-center justify-center bg-muted">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">404</h1>
@@ -23,6 +26,7 @@ const NotFound = () => {
         </Link>
       </div>
     </main>
+    </>
   );
 };
 

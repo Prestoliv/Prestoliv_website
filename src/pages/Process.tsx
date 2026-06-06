@@ -1,3 +1,4 @@
+import { PageMeta } from "@/components/PageMeta";
 import { Navbar } from "@/components/site/Navbar";
 import { CtaFooter } from "@/components/site/CtaFooter";
 import { PageHero } from "@/components/site/PageHero";
@@ -122,6 +123,12 @@ const phases = [
 ];
 
 const Process = () => (
+  <>
+    <PageMeta
+      title="Our Construction Process & 3D Walkthroughs | Prestoliv"
+      description="See how Prestoliv builds in Hyderabad: virtual-first 3D/VR walkthroughs, transparent milestones, live site tracking and guaranteed on-time delivery."
+      ogUrl="https://www.prestoliv.com/process"
+    />
   <main id="page-process" className="min-h-screen overflow-hidden bg-background text-foreground">
     <Navbar />
 
@@ -351,6 +358,7 @@ const Process = () => (
 
     <CtaFooter />
   </main>
+  </>
 );
 
 export default Process;
