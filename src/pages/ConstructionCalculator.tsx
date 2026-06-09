@@ -77,7 +77,7 @@ const ConstructionCalculatorPage = () => {
   return (
     <>
       <PageSeoFromPath path="/calculator" />
-    <main id="page-calculator" className="min-h-screen overflow-hidden bg-background text-foreground">
+    <main id="page-calculator" className="min-h-screen bg-background text-foreground">
       <Navbar />
 
       <PageHero
@@ -86,27 +86,28 @@ const ConstructionCalculatorPage = () => {
         subtitle={hero.hero_subtitle}
       />
 
-      <div className="mx-auto max-w-6xl px-6 -mt-4 flex justify-center">
-        <ConsultationDialog source="calculator_page_hero" buttonLabel={hero.cta_button}>
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-2xl border-brand/30 text-brand hover:bg-brand/5"
-          >
-            {hero.cta_button}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </ConsultationDialog>
-      </div>
-
-      {/* Calculator  overlaps hero slightly */}
-      <section id="calculator-widget-section" className="relative z-10 -mt-6 pb-8">
-        <div className="mx-auto max-w-6xl px-6">
-          <div className="rounded-[2rem] border border-border/50 bg-background/95 p-6 shadow-card backdrop-blur-sm sm:p-8 md:p-10">
-            <CostCalculatorWidget />
-          </div>
+      {/* Overlap hero as one block; keep CTA above the card (no negative margin on the card) */}
+      <div className="relative z-10 -mt-10">
+        <div className="relative z-20 mx-auto max-w-6xl px-6 mb-8 flex justify-center">
+          <ConsultationDialog source="calculator_page_hero" buttonLabel={hero.cta_button}>
+            <Button
+              size="lg"
+              className="rounded-2xl bg-brand px-8 text-brand-foreground shadow-soft hover:bg-brand/90 group"
+            >
+              {hero.cta_button}
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </ConsultationDialog>
         </div>
-      </section>
+
+        <section id="calculator-widget-section" className="pb-8">
+          <div className="mx-auto max-w-6xl px-6">
+            <div className="rounded-[2rem] border border-border/50 bg-background/95 p-6 shadow-card backdrop-blur-sm sm:p-8 md:p-10">
+              <CostCalculatorWidget />
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* Bottom CTA band */}
       <section id="calculator-bottom-cta" className="border-t border-border bg-surface py-20">
