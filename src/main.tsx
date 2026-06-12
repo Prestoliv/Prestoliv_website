@@ -5,10 +5,11 @@ import "./index.css";
 import { SpecterProvider } from '@rcti/noir/react'
 
 createRoot(document.getElementById("root")!).render(
-  <SpecterProvider token={import.meta.env.VITE_SPECTER_TOKEN} apiUrl="http://localhost:4000">
+  <SpecterProvider token={import.meta.env.VITE_SPECTER_TOKEN} apiUrl="https://nior-5nxt.onrender.com">
     <HelmetProvider>
         <App />
       </HelmetProvider>
   </SpecterProvider>
 );
 //sdsds
+// sdsdsd
