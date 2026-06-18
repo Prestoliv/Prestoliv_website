@@ -12,13 +12,14 @@ type Post = {
   content: string | null;
   excerpt: string | null;
   cover_image: string | null;
+  meta_title: string | null;
   published_at: string | null;
 };
 
 const fetchPost = async (slug: string): Promise<Post | null> => {
   const { data, error } = await supabase
     .from("posts")
-    .select("id, title, slug, content, excerpt, cover_image, published_at")
+    .select("id, title, slug, content, excerpt, cover_image, meta_title, published_at")
     .eq("slug", slug)
     .maybeSingle();
 
@@ -35,6 +36,43 @@ const formatDate = (value: string | null) => {
   });
 };
 
+// Turns simple, easy-to-write text into formatted HTML.
+// Supported in the "content" field:
+//   blank line           -> new paragraph
+//   ## Heading           -> section heading
+//   **bold text**        -> bold
+//   *italic text*        -> italic
+//   [link text](https://example.com)  -> external link (opens new tab)
+//   [link text](/services)            -> link to another page on your site
+const renderContent = (raw: string): string => {
+  const escapeHtml = (s: string) =>
+    s
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+
+  const inline = (s: string) =>
+    escapeHtml(s)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+      .replace(
+        /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+      )
+      .replace(/\[([^\]]+)\]\((\/[^\s)]*)\)/g, '<a href="$2">$1</a>');
+
+  return raw
+    .split(/\n\s*\n/)
+    .map((block) => {
+      const t = block.trim();
+      if (!t) return "";
+      if (t.startsWith("## ")) return `<h2>${inline(t.slice(3))}</h2>`;
+      if (t.startsWith("# ")) return `<h2>${inline(t.slice(2))}</h2>`;
+      return `<p>${inline(t).replace(/\n/g, "<br/>")}</p>`;
+    })
+    .join("");
+};
+
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
 
@@ -47,7 +85,7 @@ const BlogPost = () => {
   return (
     <>
       <PageMeta
-        title={post ? `${post.title} | Prestoliv Blog` : "Blog | Prestoliv"}
+        title={post?.meta_title ?? (post ? `${post.title} | Prestoliv Blog` : "Blog | Prestoliv")}
         description={post?.excerpt ?? "Insights on home construction in Hyderabad from Prestoliv."}
         ogUrl={`https://www.prestoliv.com/blog/${slug ?? ""}`}
       />
@@ -62,9 +100,7 @@ const BlogPost = () => {
             ← Back to blog
           </Link>
 
-          {isLoading && (
-            <p className="mt-10 text-muted-foreground">Loading…</p>
-          )}
+          {isLoading && <p className="mt-10 text-muted-foreground">Loading…</p>}
 
           {isError && (
             <p className="mt-10 text-muted-foreground">
@@ -104,9 +140,10 @@ const BlogPost = () => {
                 </div>
               )}
 
-              <div className="mt-10 whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
-                {post.content}
-              </div>
+              <div
+                className="mt-10 text-lg leading-relaxed text-muted-foreground [&_p]:mb-6 [&_h2]:mt-12 [&_h2]:mb-4 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-foreground [&_a]:text-brand [&_a]:underline [&_a]:underline-offset-4 [&_strong]:text-foreground [&_strong]:font-semibold [&_em]:italic"
+                dangerouslySetInnerHTML={{ __html: renderContent(post.content ?? "") }}
+              />
             </>
           )}
         </article>
